@@ -17,13 +17,14 @@ public:
     virtual void clearScreen();
     virtual void display();
     virtual void blit(QString chipset,QPoint position, QRect rect);
+    virtual void quit();
 
 protected:
     SDL_Rect QRectToSDLRect(QRect &);
     SDL_Rect QPointToSDLRect(QPoint &r);
+    FPSmanager manager;
 
 private:
-    FPSmanager manager;
     SDLSurfaceFactory factory;
     SDL_Surface *screen;
 };

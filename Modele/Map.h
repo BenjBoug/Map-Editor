@@ -12,6 +12,7 @@
 #include <QVariant>
 #include <QFile>
 #include <QDebug>
+#include "Ennemi.h"
 
 namespace Model
 {
@@ -48,7 +49,6 @@ class Map : public IMap
 
         friend QDataStream & operator << (QDataStream & out, const Map * Valeur);
         friend QDataStream & operator >> (QDataStream & in, Map * Valeur);
-
 
     QString _name;
     QVector<BlocMap*> _map;

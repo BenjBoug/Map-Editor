@@ -6,7 +6,8 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "OpenGLTextureFactory.h"
-#include "SDL/SDL_framerate.h"
+#include <SDL/SDL_framerate.h>
+
 using namespace Model;
 class GuiOpenGL : public IGui
 {
@@ -17,6 +18,7 @@ public:
     virtual void clearScreen();
     virtual void display();
     virtual void blit(QString chipset,QPoint position, QRect rect);
+    virtual void quit();
 
 private:
     OpenGLTextureFactory factory;

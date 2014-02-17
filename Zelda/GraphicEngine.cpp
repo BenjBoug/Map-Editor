@@ -3,7 +3,7 @@
 GraphicEngine::GraphicEngine(const GameEngine *gameEngine)
 {
     this->gameEngine = gameEngine;
-    gui = new GuiOpenGL();
+    gui = new GuiSDL();
 }
 
 void GraphicEngine::init()

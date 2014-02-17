@@ -4,26 +4,32 @@ CONFIG += console
 SOURCES += main.cpp \
     GraphicEngine.cpp \
     Game.cpp \
-    ImageFactory.cpp \
     GameEngine.cpp \
-    GuiSDL.cpp \
     GuiOpenGL.cpp \
     SDLSurfaceFactory.cpp \
     sdlglutils.cpp \
-    OpenGLTextureFactory.cpp
+    OpenGLTextureFactory.cpp \
+    GuiSFML.cpp \
+    SFMLSpriteFactory.cpp \
+    SDL2TextureFactory.cpp \
+    Input.cpp \
+    GuiSDL.cpp
 
-LIBS += -lSDL -lSDL_gfx -lGL -lGLU -lSDL_image
+LIBS += -lSDL -lSDL_gfx -lGL -lGLU -lSDL_image -lsfml-graphics -lsfml-window -lsfml-system
 
 HEADERS += \
     GraphicEngine.h \
     Game.h \
-    ImageFactory.h \
     GameEngine.h \
-    GuiSDL.h \
     GuiOpenGL.h \
     SDLSurfaceFactory.h \
     sdlglutils.h \
-    OpenGLTextureFactory.h
+    OpenGLTextureFactory.h \
+    GuiSFML.h \
+    SFMLSpriteFactory.h \
+    SDL2TextureFactory.h \
+    Input.h \
+    GuiSDL.h
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Modele/release/ -lZelda_Model

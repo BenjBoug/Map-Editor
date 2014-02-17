@@ -17,9 +17,7 @@ GLuint loadTexture(const char * filename,bool useMipMap)
     SDL_Surface * gl_fliped_surface = NULL;
     Uint32 rmask, gmask, bmask, amask;
 
-    picture_surface = SDL_LoadBMP(filename);
-    SDL_SetColorKey(picture_surface, SDL_SRCCOLORKEY, SDL_MapRGB(picture_surface->format, 255, 103, 139));
-
+    picture_surface = IMG_Load(filename);
 
     if (picture_surface == NULL)
         return 0;
@@ -47,12 +45,9 @@ GLuint loadTexture(const char * filename,bool useMipMap)
     format.Amask = amask;
 
     gl_surface = SDL_ConvertSurface(picture_surface,&format,SDL_SWSURFACE);
-    SDL_SetColorKey(gl_surface, SDL_SRCCOLORKEY, SDL_MapRGB(gl_surface->format, 255, 103, 139));
 
 
     gl_fliped_surface = flipSurface(gl_surface);
-    SDL_SetColorKey(gl_fliped_surface, SDL_SRCCOLORKEY, SDL_MapRGB(gl_fliped_surface->format, 255, 103, 139));
-
     glGenTextures(1, &glID);
 
     glBindTexture(GL_TEXTURE_2D, glID);

@@ -14,7 +14,7 @@ void GuiSDL::init()
     SDL_Init(SDL_INIT_VIDEO);
     SDL_WM_SetCaption("The legend of Zelda", NULL);
     SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
-    screen = SDL_SetVideoMode(LARGEUR_FENETRE, HAUTEUR_FENETRE, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    screen = SDL_SetVideoMode(SCREEN_WIDTH, SCREEN_HEIGHT, 16, SDL_HWSURFACE | SDL_DOUBLEBUF);
     SDL_initFramerate(&manager);
     SDL_setFramerate(&manager,30);
 }
@@ -35,6 +35,11 @@ void GuiSDL::blit(QString chipset, QPoint position, QRect rect)
     SDL_Rect sdl_position = QPointToSDLRect(position);
     SDL_Rect sdl_rect = QRectToSDLRect(rect);
     SDL_BlitSurface(factory.build(chipset), &sdl_rect, screen, &sdl_position);
+}
+
+void GuiSDL::quit()
+{
+    SDL_Quit();
 }
 
 SDL_Rect GuiSDL::QRectToSDLRect(QRect & r)

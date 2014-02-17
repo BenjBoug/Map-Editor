@@ -19,6 +19,7 @@ public:
     virtual bool onKeyLeftPress();
     virtual bool onKeyRightPress();
     virtual void manage(const IGame *);
+    virtual bool onQuit();
 
 private:
     bool m_key[SDLK_LAST];

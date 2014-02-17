@@ -3,6 +3,7 @@
 
 #include "IEvent.h"
 #include "Character.h"
+#include <QDebug>
 namespace Model
 {
 class Ennemi : public IEvent, public IDisplayable
@@ -13,11 +14,13 @@ public:
     virtual void onKeySpace(IGame*);
     virtual void onKeyX(IGame*);
     virtual void onEvent(IGame* h);
-    virtual void manage(const IGame *);
+    virtual void manage(const IGame *game);
+    virtual void display(IGui* gui,ICamera* cam);
 
 private:
     Character * character;
 };
 }
+Q_DECLARE_METATYPE(Model::Ennemi)
 
 #endif // ENNEMI_H

@@ -6,8 +6,8 @@ Camera::Camera(IGame *game)
     this->game = game;
     coord.setLeft(0);
     coord.setTop(0);
-    coord.setWidth(LARGEUR_FENETRE);
-    coord.setHeight(HAUTEUR_FENETRE);
+    coord.setWidth(SCREEN_WIDTH);
+    coord.setHeight(SCREEN_HEIGHT);
 }
 
 Camera::~Camera()
@@ -23,9 +23,9 @@ bool Camera::overflowMap()
         res=true;
     if (coord.y() <= -100)
         res=true;
-    if (coord.y()+coord.height() > game->getActualMap()->getDim().height()*TAILLE_BLOC)
+    if (coord.y()+coord.height() > game->getActualMap()->getDim().height()*BLOCSIZE)
         res = true;
-    if (coord.x()+coord.width() > game->getActualMap()->getDim().width()*TAILLE_BLOC)
+    if (coord.x()+coord.width() > game->getActualMap()->getDim().width()*BLOCSIZE)
         res = true;
 
     return res;
@@ -38,11 +38,11 @@ void Camera::replaceCamera()
     if (coord.y() < 0)
         coord.moveTop(0);
 
-    if (coord.y()+coord.height() > game->getActualMap()->getDim().height()*TAILLE_BLOC)
-        coord.moveTop((game->getActualMap()->getDim().height()*TAILLE_BLOC) - coord.height());
+    if (coord.y()+coord.height() > game->getActualMap()->getDim().height()*BLOCSIZE)
+        coord.moveTop((game->getActualMap()->getDim().height()*BLOCSIZE) - coord.height());
 
-    if (coord.x()+coord.width() > game->getActualMap()->getDim().width()*TAILLE_BLOC)
-        coord.moveLeft((game->getActualMap()->getDim().width()*TAILLE_BLOC) - coord.width());
+    if (coord.x()+coord.width() > game->getActualMap()->getDim().width()*BLOCSIZE)
+        coord.moveLeft((game->getActualMap()->getDim().width()*BLOCSIZE) - coord.width());
 
 }
 

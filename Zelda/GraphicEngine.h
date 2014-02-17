@@ -4,9 +4,7 @@
 #include "GameEngine.h"
 #include "GuiSDL.h"
 #include "GuiOpenGL.h"
-#include "ImageFactory.h"
-#include <Map.h>
-#include <SDL/SDL.h>
+#include "GuiSFML.h"
 
 class GraphicEngine : public IEngine
 {
@@ -18,7 +16,6 @@ public:
 
 private:
     const GameEngine * gameEngine;
-    ImageFactory factory;
     IGui * gui;
 };
 

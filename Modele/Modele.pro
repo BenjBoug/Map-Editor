@@ -20,8 +20,9 @@ SOURCES += \
     MapFactory.cpp \
     Heros.cpp \
     Ennemi.cpp \
-    Input.cpp \
-    IEvent.cpp
+    IEvent.cpp \
+    Animation.cpp \
+    Frame.cpp
 
 HEADERS += \
     Blocmap.h \
@@ -32,7 +33,6 @@ HEADERS += \
     Camera.h \
     MapFactory.h \
     Heros.h \
-    Input.h \
     IDisplayable.h \
     IEngine.h \
     IManager.h \
@@ -45,12 +45,15 @@ HEADERS += \
     IMap.h \
     ISerializable.h \
     IGui.h \
-unix:!symbian { \
-    IInput.h
+    IInput.h \
+    Animation.h \
+    Frame.h \
+    IAnimation.h
+unix:!symbian {
     maemo5 {
         target.path = /opt/usr/lib
     } else {
         target.path = /usr/lib
     }
     INSTALLS += target
-
+}

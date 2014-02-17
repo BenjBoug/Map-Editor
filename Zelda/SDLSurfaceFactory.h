@@ -4,6 +4,7 @@
 #include <QString>
 #include <QHash>
 #include "SDL/SDL.h"
+#include <QDebug>
 
 namespace Model
 {

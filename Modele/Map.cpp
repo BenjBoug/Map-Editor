@@ -63,17 +63,17 @@ void Map::display(IGui *gui, ICamera *cam)
 {
     QPoint position;
     QRect pos_objet;
-    pos_objet.setWidth(TAILLE_BLOC);
-    pos_objet.setHeight(TAILLE_BLOC);
+    pos_objet.setWidth(BLOCSIZE);
+    pos_objet.setHeight(BLOCSIZE);
 
     int x = cam->getCoordBox().x(), y=cam->getCoordBox().y();
 
-    int centrageX = (NB_BLOCS_LARGEUR - (cam->getCoordBox().width()/TAILLE_BLOC))/2;
-    int centrageY = (NB_BLOCS_HAUTEUR - (cam->getCoordBox().height()/TAILLE_BLOC))/2;
+    int centrageX = (NB_BLOCS_LARGEUR - (cam->getCoordBox().width()/BLOCSIZE))/2;
+    int centrageY = (NB_BLOCS_HAUTEUR - (cam->getCoordBox().height()/BLOCSIZE))/2;
 
 
-    for (int j = (y/TAILLE_BLOC); j < (cam->getCoordBox().height()/TAILLE_BLOC)+(y/TAILLE_BLOC)+1; j++)
-        for (int i = (x/TAILLE_BLOC); i < (cam->getCoordBox().width()/TAILLE_BLOC)+(x/TAILLE_BLOC)+1; i++)
+    for (int j = (y/BLOCSIZE); j < (cam->getCoordBox().height()/BLOCSIZE)+(y/BLOCSIZE)+1; j++)
+        for (int i = (x/BLOCSIZE); i < (cam->getCoordBox().width()/BLOCSIZE)+(x/BLOCSIZE)+1; i++)
         {
             try
             {
@@ -81,19 +81,19 @@ void Map::display(IGui *gui, ICamera *cam)
                 int couche2 = _map[convert2Dto1D(i,j)]->getCouche2();
                 if (couche1!=0)
                 {
-                    position.setX((i*TAILLE_BLOC-x)+(centrageX*TAILLE_BLOC));
-                    position.setY((j*TAILLE_BLOC-y)+(centrageY*TAILLE_BLOC));
-                    pos_objet.moveLeft((couche1%30)*TAILLE_BLOC);
-                    pos_objet.moveTop((couche1/30)*TAILLE_BLOC);
+                    position.setX((i*BLOCSIZE-x)+(centrageX*BLOCSIZE));
+                    position.setY((j*BLOCSIZE-y)+(centrageY*BLOCSIZE));
+                    pos_objet.moveLeft((couche1%30)*BLOCSIZE);
+                    pos_objet.moveTop((couche1/30)*BLOCSIZE);
                     gui->blit(_chipset,position,pos_objet);
                 }
 
                 if (couche2!=0)
                 {
-                    position.setX((i*TAILLE_BLOC-x)+(centrageX*TAILLE_BLOC));
-                    position.setY((j*TAILLE_BLOC-y)+(centrageY*TAILLE_BLOC));
-                    pos_objet.moveLeft((couche2%30)*TAILLE_BLOC);
-                    pos_objet.moveTop((couche2/30)*TAILLE_BLOC);
+                    position.setX((i*BLOCSIZE-x)+(centrageX*BLOCSIZE));
+                    position.setY((j*BLOCSIZE-y)+(centrageY*BLOCSIZE));
+                    pos_objet.moveLeft((couche2%30)*BLOCSIZE);
+                    pos_objet.moveTop((couche2/30)*BLOCSIZE);
                     gui->blit(_chipset,position,pos_objet);
                 }
             }
@@ -127,7 +127,7 @@ QString Map::getChipset() const
 
 QDataStream &Model::operator <<(QDataStream &out, const Map *v)
 {
-    out << v->_name << v->_chipset << v->dim;
+    out << v->_name << QString("Resources/images/chipset/map.bmp") << v->dim;
 
     QVector<BlocMap*>::const_iterator it = v->_map.begin();
     for (;it!=v->_map.end();it++)
@@ -135,15 +135,15 @@ QDataStream &Model::operator <<(QDataStream &out, const Map *v)
         out << *it;
     }
 
+    out << v->events;
+
     return out;
 }
 
 QDataStream &Model::operator >>(QDataStream &in, Map *v)
 {
     in >> v->_name;
-    qDebug() << "name:" << v->_name;
     in >> v->_chipset;
-    qDebug() << "chipset" << v->_chipset;
     in >> v->dim;
 
     for(int i=0;i<v->dim.width();i++)
@@ -155,5 +155,8 @@ QDataStream &Model::operator >>(QDataStream &in, Map *v)
             v->_map.push_back(tmp);
         }
     }
+
+    in >> v->events;
+
     return in;
 }

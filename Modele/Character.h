@@ -3,6 +3,7 @@
 
 #include "ICharacter.h"
 #include "IGame.h"
+#include <QVariant>
 namespace Model
 {
 class Character : public ICharacter
@@ -44,5 +45,5 @@ private:
     Direction direction;
 };
 }
-
+Q_DECLARE_METATYPE(Model::Character)
 #endif // CHARACTER_H

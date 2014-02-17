@@ -16,6 +16,7 @@ namespace Model
         virtual bool onKeyDownPress() = 0;
         virtual bool onKeyLeftPress() = 0;
         virtual bool onKeyRightPress() = 0;
+        virtual bool onQuit() = 0;
     };
 
 }

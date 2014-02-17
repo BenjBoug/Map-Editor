@@ -63,3 +63,8 @@ void Input::manage(const IGame *)
 
     }
 }
+
+bool Input::onQuit()
+{
+    return m_key[SDL_QUIT];
+}

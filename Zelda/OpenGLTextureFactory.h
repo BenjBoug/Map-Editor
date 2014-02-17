@@ -4,6 +4,7 @@
 #include <QHash>
 #include <QString>
 #include <GL/glu.h>
+#include <QDebug>
 #include "sdlglutils.h"
 
 class OpenGLTextureFactory

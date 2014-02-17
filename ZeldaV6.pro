@@ -1,7 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    Zelda
-
-SUBDIRS += \
+    Zelda \
+    MapEditor \
     Modele
