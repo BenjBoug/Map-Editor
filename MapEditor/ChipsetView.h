@@ -1,7 +1,6 @@
 #ifndef CHIPSETVIEW_H
 #define CHIPSETVIEW_H
 
-#include "QSFMLCanvas.hpp"
 #include <QVector>
 #include <QImage>
 #include <Constantes.h>
@@ -9,38 +8,40 @@
 #include <QRect>
 #include <QWidget>
 #include <QDebug>
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsRectItem>
+#include <QGraphicsSceneMouseEvent>
+#include <QPixmap>
 
-class ChipsetView : public QSFMLCanvas
+class ChipsetView : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit ChipsetView(QWidget *parent = 0);
-    explicit ChipsetView(QString chip, QWidget *parent = 0);
+    explicit ChipsetView();
+    explicit ChipsetView(QString chip);
 
-    void mousePressEvent( QMouseEvent * event );
-    void mouseMoveEvent ( QMouseEvent * event );
-    void mouseReleaseEvent ( QMouseEvent * event );
+    void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
 
 protected:
-    void drawSelection();
+    void init();
     
 signals:
+    void newSelection(QVector<QVector<int> >);
     
 public slots:
-    void loadChipset(QString &chip);
+    void loadChipset(QString chip);
 
 private:
-    void OnInit();
-    void OnUpdate();
-
-    sf::Image  chipset;
-    sf::Sprite sprite;
+    QPixmap chipset;
+    QGraphicsRectItem * itemRectSelected;
 
     QVector< QVector<int> > selectedTile;
 
-    QRect selection;
+    QRectF selection;
 
-    bool inSelect;
     
 };
 

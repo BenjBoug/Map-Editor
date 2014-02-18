@@ -3,6 +3,7 @@
 using namespace Model;
 Map::Map()
 {
+    dim = QSize(NB_BLOCS_LARGEUR,NB_BLOCS_HAUTEUR);
 }
 
 Map::Map(QString name)

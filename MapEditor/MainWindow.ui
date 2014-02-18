@@ -20,35 +20,19 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QScrollArea" name="scrollChipset">
+     <widget class="QGraphicsView" name="graphicsViewChipset">
       <property name="maximumSize">
        <size>
         <width>350</width>
         <height>16777215</height>
        </size>
       </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOn</enum>
+      <property name="dragMode">
+       <enum>QGraphicsView::RubberBandDrag</enum>
       </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOn</enum>
+      <property name="viewportUpdateMode">
+       <enum>QGraphicsView::SmartViewportUpdate</enum>
       </property>
-      <property name="widgetResizable">
-       <bool>false</bool>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>335</width>
-         <height>325</height>
-        </rect>
-       </property>
-      </widget>
      </widget>
     </item>
     <item>
@@ -62,30 +46,7 @@
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QScrollArea" name="scrollMap">
-          <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOn</enum>
-          </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOn</enum>
-          </property>
-          <property name="widgetResizable">
-           <bool>false</bool>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents_2">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>502</width>
-             <height>287</height>
-            </rect>
-           </property>
-          </widget>
-         </widget>
+         <widget class="QGraphicsView" name="graphicsViewMap"/>
         </item>
        </layout>
       </widget>
@@ -99,7 +60,7 @@
      <x>0</x>
      <y>0</y>
      <width>900</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -294,6 +255,9 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/couche1.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/couche1.png</iconset>
@@ -354,6 +318,9 @@
    <property name="checkable">
     <bool>true</bool>
    </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/minimiser-icone-8625-48.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/minimiser-icone-8625-48.png</iconset>
@@ -376,6 +343,9 @@
   </action>
   <action name="actionBrush">
    <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
     <bool>true</bool>
    </property>
    <property name="icon">

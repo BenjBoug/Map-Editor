@@ -1,18 +1,62 @@
 #include "ChipsetView.h"
 
-ChipsetView::ChipsetView(QWidget *parent):
-    QSFMLCanvas(parent)
+ChipsetView::ChipsetView():
+    QGraphicsScene()
 {
-    this->move(QPoint(0,0));
+    init();
 }
 
-ChipsetView::ChipsetView(QString chip, QWidget *parent) :
-    QSFMLCanvas(parent)
+ChipsetView::ChipsetView(QString chip) :
+    QGraphicsScene()
 {
-    this->move(QPoint(0,0));
     loadChipset(chip);
-    inSelect = false;
+    init();
+}
 
+void ChipsetView::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    selection.setLeft((int)mouseEvent->scenePos().x()/BLOCSIZE*BLOCSIZE);
+    selection.setTop((int)mouseEvent->scenePos().y()/BLOCSIZE*BLOCSIZE);
+    selection.setWidth(BLOCSIZE);
+    selection.setHeight(BLOCSIZE);
+    itemRectSelected->setRect(selection);
+}
+
+void ChipsetView::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    selection = selectionArea().boundingRect();
+    selection.setLeft((int)selection.left()/BLOCSIZE*BLOCSIZE);
+    selection.setTop((int)selection.top()/BLOCSIZE*BLOCSIZE);
+    selection.setWidth(((int)selection.width()/BLOCSIZE*BLOCSIZE)+BLOCSIZE);
+    selection.setHeight(((int)selection.height()/BLOCSIZE*BLOCSIZE)+BLOCSIZE);
+    itemRectSelected->setRect(selection);
+}
+
+void ChipsetView::mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent)
+{
+    if (this->selectionArea() != QPainterPath())
+    {
+        selection = selectionArea().boundingRect();
+        selection.setLeft((int)selection.left()/BLOCSIZE*BLOCSIZE);
+        selection.setTop((int)selection.top()/BLOCSIZE*BLOCSIZE);
+        selection.setWidth(((int)selection.width()/BLOCSIZE*BLOCSIZE)+BLOCSIZE);
+        selection.setHeight(((int)selection.height()/BLOCSIZE*BLOCSIZE)+BLOCSIZE);
+        QRectF rectScene = this->sceneRect();
+        if (!rectScene.contains(selection)) {
+            selection.setLeft(qMin(rectScene.right(), qMax(selection.left(), rectScene.left())));
+            selection.setTop(qMin(rectScene.bottom(), qMax(selection.top(), rectScene.top())));
+            selection.setRight(qMin(rectScene.right(), qMax(selection.right(), rectScene.left())));
+            selection.setBottom(qMin(rectScene.bottom(), qMax(selection.bottom(), rectScene.top())));
+        }
+        this->clearSelection();
+        this->setSelectionArea(QPainterPath(), QTransform());
+        itemRectSelected->setRect(selection);
+    }
+    QGraphicsScene::mouseReleaseEvent(mouseEvent);
+}
+
+void ChipsetView::init()
+{
     selectedTile.resize(1);
     selectedTile[0].resize(1);
     selectedTile[0][0] = 0;
@@ -20,80 +64,16 @@ ChipsetView::ChipsetView(QString chip, QWidget *parent) :
     selection.setY(0);
     selection.setWidth(BLOCSIZE);
     selection.setHeight(BLOCSIZE);
+
 }
 
-void ChipsetView::mousePressEvent(QMouseEvent *event)
+void ChipsetView::loadChipset(QString chip)
 {
-    if (event->button() == Qt::LeftButton)
-    {
-        if (!inSelect)
-        {
-            selection.setLeft((event->x()/BLOCSIZE)*BLOCSIZE);
-            selection.setTop((event->y()/BLOCSIZE)*BLOCSIZE);
-            selection.setWidth(BLOCSIZE);
-            selection.setHeight(BLOCSIZE);
-            for (int i=0; i<selectedTile.size(); i++)
-            {
-                selectedTile[i].clear();
-            }
-            selectedTile.clear();
-            inSelect = true;
-        }
-    }
+    chipset.load(chip);
+    QGraphicsPixmapItem * chipsetItem = this->addPixmap(chipset);
+    chipsetItem->setZValue(0);
+    setSceneRect(chipsetItem->sceneBoundingRect());
+    itemRectSelected = this->addRect(selection);
+    itemRectSelected->setZValue(100);
 }
 
-void ChipsetView::mouseMoveEvent(QMouseEvent *event)
-{
-    if (inSelect)
-    {
-        selection.setRight((event->x()/BLOCSIZE)*BLOCSIZE + BLOCSIZE);
-        selection.setBottom((event->y()/BLOCSIZE)*BLOCSIZE + BLOCSIZE);
-    }
-}
-
-void ChipsetView::mouseReleaseEvent(QMouseEvent * event)
-{
-    Q_UNUSED(event);
-    if (inSelect)
-    {
-
-        for (int i=0; i<selection.height()/BLOCSIZE; i++)
-        {
-            selectedTile.push_back( QVector<int>() );
-            for (int j=0; j<selection.width()/BLOCSIZE; j++)
-            {
-                selectedTile[i].push_back(((selection.x()/BLOCSIZE)+j) + ((selection.y()/BLOCSIZE)+i)*(chipset.GetWidth()/BLOCSIZE));
-            }
-        }
-    }
-
-    inSelect = false;
-}
-
-void ChipsetView::drawSelection()
-{
-    sf::Shape Rect = sf::Shape::Rectangle(selection.left(), selection.top(),selection.right(), selection.bottom(), sf::Color(0, 0, 0,0),2,sf::Color(0, 0, 0));
-    Draw(Rect);
-}
-
-void ChipsetView::loadChipset(QString & chip)
-{
-    chipset.LoadFromFile(chip.toStdString().c_str());
-    sprite.SetImage(chipset);
-    this->resize(chipset.GetWidth(),chipset.GetHeight());
-}
-
-void ChipsetView::OnInit()
-{
-}
-
-void ChipsetView::OnUpdate()
-{
-    // Clear screen
-    Clear(sf::Color(0, 0, 180));
-    // Draw
-    Draw(sprite);
-    drawSelection();
-
-    SetFramerateLimit(40);
-}

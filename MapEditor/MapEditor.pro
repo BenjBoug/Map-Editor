@@ -15,12 +15,28 @@ LIBS +=  -lsfml-graphics -lsfml-window -lsfml-system
 
 SOURCES += main.cpp\
         MainWindow.cpp \
-    QSFMLCanvas.cpp \
-    ChipsetView.cpp
+    ChipsetView.cpp \
+    MapView.cpp \
+    BrushStrategy.cpp \
+    MapStrategy.cpp \
+    PaintPotStratgey.cpp \
+    DisplayLowerLayerStrategy.cpp \
+    DisplayHigherLayerStrategy.cpp \
+    DisplayVisuaLayerStrategy.cpp \
+    DisplayCollisionLayerStrategy.cpp
 
 HEADERS  += MainWindow.h \
-    QSFMLCanvas.hpp \
-    ChipsetView.h
+    ChipsetView.h \
+    MapView.h \
+    ICommand.h \
+    IStrategy.h \
+    BrushStrategy.h \
+    MapStrategy.h \
+    PaintPotStratgey.h \
+    DisplayLowerLayerStrategy.h \
+    DisplayHigherLayerStrategy.h \
+    DisplayVisuaLayerStrategy.h \
+    DisplayCollisionLayerStrategy.h
 
 FORMS    += MainWindow.ui
 
