@@ -18,6 +18,7 @@ void Game::init()
     {
         (*it)->init();
     }
+
 }
 
 void Game::run()

@@ -11,9 +11,9 @@ SOURCES += main.cpp \
     OpenGLTextureFactory.cpp \
     GuiSFML.cpp \
     SFMLSpriteFactory.cpp \
-    SDL2TextureFactory.cpp \
     Input.cpp \
-    GuiSDL.cpp
+    GuiSDL.cpp \
+    GuiQT.cpp
 
 LIBS += -lSDL -lSDL_gfx -lGL -lGLU -lSDL_image -lsfml-graphics -lsfml-window -lsfml-system
 
@@ -27,9 +27,9 @@ HEADERS += \
     OpenGLTextureFactory.h \
     GuiSFML.h \
     SFMLSpriteFactory.h \
-    SDL2TextureFactory.h \
     Input.h \
-    GuiSDL.h
+    GuiSDL.h \
+    GuiQT.h
 
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Modele/release/ -lZelda_Model

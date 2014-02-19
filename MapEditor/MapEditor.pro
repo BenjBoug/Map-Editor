@@ -18,12 +18,14 @@ SOURCES += main.cpp\
     ChipsetView.cpp \
     MapView.cpp \
     BrushStrategy.cpp \
-    MapStrategy.cpp \
     PaintPotStratgey.cpp \
     DisplayLowerLayerStrategy.cpp \
     DisplayHigherLayerStrategy.cpp \
     DisplayVisuaLayerStrategy.cpp \
-    DisplayCollisionLayerStrategy.cpp
+    DisplayCollisionLayerStrategy.cpp \
+    GridLayerStratgey.cpp \
+    LayerStrategy.cpp \
+    PaintStrategy.cpp
 
 HEADERS  += MainWindow.h \
     ChipsetView.h \
@@ -31,12 +33,14 @@ HEADERS  += MainWindow.h \
     ICommand.h \
     IStrategy.h \
     BrushStrategy.h \
-    MapStrategy.h \
     PaintPotStratgey.h \
     DisplayLowerLayerStrategy.h \
     DisplayHigherLayerStrategy.h \
     DisplayVisuaLayerStrategy.h \
-    DisplayCollisionLayerStrategy.h
+    DisplayCollisionLayerStrategy.h \
+    GridLayerStratgey.h \
+    LayerStrategy.h \
+    PaintStrategy.h
 
 FORMS    += MainWindow.ui
 

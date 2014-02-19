@@ -6,6 +6,16 @@ Map::Map()
     dim = QSize(NB_BLOCS_LARGEUR,NB_BLOCS_HAUTEUR);
 }
 
+Map::Map(const Map &m)
+{
+    _name=m._name;
+    _map=m._map;
+    events=m.events;
+    dim=m.dim;
+    _chipset=m._chipset;
+
+}
+
 Map::Map(QString name)
 {
     _name = name;
@@ -106,12 +116,12 @@ void Map::display(IGui *gui, ICamera *cam)
 
 }
 
-const BlocMap *Map::getBloc(QPoint& coord) const
+BlocMap *Map::getBloc(QPoint& coord) const
 {
     return _map[convert2Dto1D(coord.x(),coord.y())];
 }
 
-const BlocMap * Map::getBloc(int x,int y) const
+BlocMap * Map::getBloc(int x,int y) const
 {
     return _map[convert2Dto1D(x,y)];
 }
@@ -152,6 +162,7 @@ QDataStream &Model::operator >>(QDataStream &in, Map *v)
         for(int j=0;j<v->dim.height();j++)
         {
             BlocMap * tmp = new BlocMap();
+            v->connect(tmp,SIGNAL(blocModified()),v,SIGNAL(mapChanged()));
             in >> tmp;
             v->_map.push_back(tmp);
         }

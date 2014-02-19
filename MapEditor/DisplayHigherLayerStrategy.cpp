@@ -1,8 +1,8 @@
 #include "DisplayHigherLayerStrategy.h"
 
 DisplayHigherLayerStrategy::DisplayHigherLayerStrategy(MapView *mapView)
+    : LayerStrategy(mapView)
 {
-    this->mapView=mapView;
 }
 
 void DisplayHigherLayerStrategy::execute()
@@ -15,14 +15,6 @@ void DisplayHigherLayerStrategy::execute()
     {
         for(int j=0;j<map->getDim().height();j++)
         {
-
-            QPixmap background = chipset.copy(0,0,BLOCSIZE,BLOCSIZE);
-            if (background.width() == BLOCSIZE && background.height() == BLOCSIZE)
-            {
-                QGraphicsPixmapItem * tileItem = mapView->addPixmap(background);
-                tileItem->setPos(i*BLOCSIZE,j*BLOCSIZE);
-                tileItem->setZValue(0);
-            }
 
             int couche1 = map->getBloc(i,j)->getCouche1();
             if (couche1!=0 && couche1 < valueMax)
@@ -45,4 +37,9 @@ void DisplayHigherLayerStrategy::execute()
         }
     }
 
+}
+
+void DisplayHigherLayerStrategy::setBloc(int i, int j, int bloc)
+{
+    mapView->getMap()->getBloc(i,j)->setCouche2(bloc);
 }

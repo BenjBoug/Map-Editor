@@ -92,6 +92,8 @@
     </property>
     <addaction name="actionZoom_1_1"/>
     <addaction name="actionZoom_1_2"/>
+    <addaction name="separator"/>
+    <addaction name="actionShow_Grid"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -149,6 +151,7 @@
    <addaction name="actionCollision_layer"/>
    <addaction name="separator"/>
    <addaction name="actionVisualization"/>
+   <addaction name="actionShow_Grid"/>
    <addaction name="separator"/>
    <addaction name="actionZoom_1_1"/>
    <addaction name="actionZoom_1_2"/>
@@ -398,6 +401,18 @@
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionShow_Grid">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/grid.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/grid.png</iconset>
+   </property>
+   <property name="text">
+    <string>Show Grid</string>
    </property>
   </action>
  </widget>

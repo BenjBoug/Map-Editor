@@ -3,15 +3,15 @@
 
 #include "MapView.h"
 
-class DisplayHigherLayerStrategy : public IStrategy
+class DisplayHigherLayerStrategy : public LayerStrategy
 {
 public:
     DisplayHigherLayerStrategy(MapView * mapView);
 
     virtual void execute();
+    virtual void setBloc(int i, int j, int bloc);
 
 private:
-    MapView * mapView;
 };
 
 #endif // DISPLAYHIGHERLAYERSTRATEGY_H

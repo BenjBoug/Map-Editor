@@ -3,6 +3,7 @@
 
 #include"Constantes.h"
 #include <QRect>
+#include <QObject>
 namespace Model
 {
 class Object

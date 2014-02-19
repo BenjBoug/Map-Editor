@@ -4,15 +4,15 @@
 #include "MapView.h"
 #include <QFont>
 
-class DisplayCollisionLayerStrategy : public IStrategy
+class DisplayCollisionLayerStrategy : public LayerStrategy
 {
 public:
     DisplayCollisionLayerStrategy(MapView * mapView);
 
     virtual void execute();
+    virtual void setBloc(int i, int j, int bloc);
 
 private:
-    MapView * mapView;
 };
 
 #endif // DISPLAYCOLLISIONLAYERSTRATEGY_H

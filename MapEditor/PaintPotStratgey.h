@@ -1,9 +1,10 @@
 #ifndef PAINTPOTSTRATGEY_H
 #define PAINTPOTSTRATGEY_H
 
-#include "MapStrategy.h"
+#include "PaintStrategy.h"
+#include <QDebug>
 
-class PaintPotStratgey : public MapStrategy
+class PaintPotStratgey : public PaintStrategy
 {
 public:
     PaintPotStratgey(MapView * mapView, ChipsetView * chipsetView);

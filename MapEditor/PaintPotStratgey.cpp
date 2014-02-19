@@ -1,7 +1,7 @@
 #include "PaintPotStratgey.h"
 
 PaintPotStratgey::PaintPotStratgey(MapView * mapView, ChipsetView * chipsetView)
-    : MapStrategy(mapView,chipsetView)
+    : PaintStrategy(mapView,chipsetView)
 {
 }
 

@@ -19,10 +19,12 @@ namespace Model
 /**
  * @brief The Map class, the model of data for a map
  */
-class Map : public IMap
+class Map : public QObject, public IMap
 {
+    Q_OBJECT
     public:
         Map();
+        Map(const Map&);
         Map(QString name);
         ~Map();
 
@@ -35,8 +37,8 @@ class Map : public IMap
 
         QString getChipset() const;
 
-        const BlocMap * getBloc(QPoint&) const;
-        const BlocMap * getBloc(int,int) const;
+        BlocMap * getBloc(QPoint&) const;
+        BlocMap * getBloc(int,int) const;
 
         int convert2Dto1D(int i,int j) const;
 
@@ -50,6 +52,9 @@ class Map : public IMap
         friend QDataStream & operator << (QDataStream & out, const Map * Valeur);
         friend QDataStream & operator >> (QDataStream & in, Map * Valeur);
 
+signals:
+        void mapChanged();
+protected:
     QString _name;
     QVector<BlocMap*> _map;
     QVector<IEvent*> events;

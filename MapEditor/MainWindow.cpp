@@ -15,6 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     map = NULL;
 
+    ui->graphicsViewMap->setBackgroundBrush(QBrush(QColor(107, 189, 107)));
+
     mapView->setPaintStrategy(new BrushStrategy(mapView,chipsetView));
     mapView->setDisplayStrategy(new DisplayLowerLayerStrategy(mapView));
 
@@ -26,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionHigh_layer,SIGNAL(triggered()),this,SLOT(higherLayer()));
     connect(ui->actionCollision_layer,SIGNAL(triggered()),this,SLOT(collisionLayer()));
     connect(ui->actionVisualization,SIGNAL(triggered()),this,SLOT(visuaLayer()));
+    connect(ui->actionShow_Grid,SIGNAL(triggered(bool)),this,SLOT(gridLayer(bool)));
 }
 
 MainWindow::~MainWindow()
@@ -106,5 +109,18 @@ void MainWindow::visuaLayer()
     ui->actionLawer_layer->setChecked(false);
     ui->actionCollision_layer->setChecked(false);
     mapView->setDisplayStrategy(new DisplayVisuaLayerStrategy(mapView));
+    mapView->displayMap();
+}
+
+void MainWindow::gridLayer(bool enable)
+{
+    if(enable)
+    {
+        mapView->setGridStrategy(new GridLayerStratgey(mapView));
+    }
+    else
+    {
+        mapView->setGridStrategy(NULL);
+    }
     mapView->displayMap();
 }

@@ -6,31 +6,34 @@
 #include <QDataStream>
 #include <QVariant>
 #include <QDebug>
+#include <QObject>
 /**
  * @brief The BlocMap class, the model of data for a bloc in the map
  */
 
 namespace Model
 {
-    class BlocMap : public Object
+    class BlocMap : public QObject, public Object
     {
+        Q_OBJECT
         public:
             BlocMap();
+            BlocMap(const BlocMap&);
             BlocMap(int,int,int);
              ~BlocMap();
             virtual bool collision(Object*);
             int getCouche1() const;
+            void setCouche1(int c);
             int getCouche2() const;
+            void setCouche2(int c);
             int getCollision() const;
-            void setCollision(bool s) {c_collision=s;}
-
-            void debug() const
-            {
-                qDebug() << couche1 << couche2 << c_collision;
-            }
+            void setCollision(bool c);
 
             friend QDataStream & operator << (QDataStream & out, const BlocMap * Valeur);
             friend QDataStream & operator >> (QDataStream & in, BlocMap * Valeur);
+
+        signals:
+            void blocModified();
         protected:
         int couche1;
         int couche2;

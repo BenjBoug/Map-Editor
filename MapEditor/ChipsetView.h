@@ -25,6 +25,8 @@ public:
     void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
 
+    QVector< QVector<int> > getSelectedTile();
+
 protected:
     void init();
     
@@ -35,6 +37,9 @@ public slots:
     void loadChipset(QString chip);
 
 private:
+
+    void setSelectedTile();
+
     QPixmap chipset;
     QGraphicsRectItem * itemRectSelected;
 

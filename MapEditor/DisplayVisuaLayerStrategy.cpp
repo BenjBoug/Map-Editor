@@ -1,8 +1,8 @@
 #include "DisplayVisuaLayerStrategy.h"
 
 DisplayVisuaLayerStrategy::DisplayVisuaLayerStrategy(MapView *mapView)
+    : LayerStrategy(mapView)
 {
-    this->mapView=mapView;
 }
 
 void DisplayVisuaLayerStrategy::execute()
@@ -15,15 +15,6 @@ void DisplayVisuaLayerStrategy::execute()
     {
         for(int j=0;j<map->getDim().height();j++)
         {
-
-            QPixmap background = chipset.copy(0,0,BLOCSIZE,BLOCSIZE);
-            if (background.width() == BLOCSIZE && background.height() == BLOCSIZE)
-            {
-                QGraphicsPixmapItem * tileItem = mapView->addPixmap(background);
-                tileItem->setPos(i*BLOCSIZE,j*BLOCSIZE);
-                tileItem->setZValue(0);
-            }
-
             int couche1 = map->getBloc(i,j)->getCouche1();
             if (couche1!=0 && couche1 < valueMax)
             {
@@ -43,15 +34,9 @@ void DisplayVisuaLayerStrategy::execute()
             }
         }
     }
+}
 
-    QPen pen;
-    pen.setColor(QColor(200,200,200));
-
-    for(int i=0;i<map->getDim().height();i++)
-        mapView->addLine(0,i*BLOCSIZE,map->getDim().width()*BLOCSIZE,i*BLOCSIZE,pen)->setZValue(500);
-
-
-    for(int i=0;i<map->getDim().width();i++)
-        mapView->addLine(i*BLOCSIZE,0,i*BLOCSIZE,map->getDim().height()*BLOCSIZE,pen)->setZValue(500);
+void DisplayVisuaLayerStrategy::setBloc(int i, int j, int bloc)
+{
 
 }

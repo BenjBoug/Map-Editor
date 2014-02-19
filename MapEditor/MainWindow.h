@@ -12,6 +12,7 @@
 #include "DisplayHigherLayerStrategy.h"
 #include "DisplayVisuaLayerStrategy.h"
 #include "DisplayCollisionLayerStrategy.h"
+#include "GridLayerStratgey.h"
 
 namespace Ui {
 class MainWindow;
@@ -34,6 +35,9 @@ public slots:
     void higherLayer();
     void collisionLayer();
     void visuaLayer();
+
+
+    void gridLayer(bool enable);
 
     
 private:

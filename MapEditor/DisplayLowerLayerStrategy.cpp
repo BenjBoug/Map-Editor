@@ -1,8 +1,8 @@
 #include "DisplayLowerLayerStrategy.h"
 
 DisplayLowerLayerStrategy::DisplayLowerLayerStrategy(MapView * mapView)
+    : LayerStrategy(mapView)
 {
-    this->mapView = mapView;
 }
 
 void DisplayLowerLayerStrategy::execute()
@@ -15,14 +15,6 @@ void DisplayLowerLayerStrategy::execute()
     {
         for(int j=0;j<map->getDim().height();j++)
         {
-
-            QPixmap background = chipset.copy(0,0,BLOCSIZE,BLOCSIZE);
-            if (background.width() == BLOCSIZE && background.height() == BLOCSIZE)
-            {
-                QGraphicsPixmapItem * tileItem = mapView->addPixmap(background);
-                tileItem->setPos(i*BLOCSIZE,j*BLOCSIZE);
-                tileItem->setZValue(0);
-            }
 
             int couche1 = map->getBloc(i,j)->getCouche1();
             if (couche1!=0 && couche1 < valueMax)
@@ -47,4 +39,10 @@ void DisplayLowerLayerStrategy::execute()
 
         }
     }
+}
+
+void DisplayLowerLayerStrategy::setBloc(int i, int j, int bloc)
+{
+    mapView->getMap()->getBloc(i,j)->setCouche1(bloc);
+    mapView->displayMap();
 }

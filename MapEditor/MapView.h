@@ -11,6 +11,8 @@
 #include <QBrush>
 #include <QBitmap>
 #include "IStrategy.h"
+#include "LayerStrategy.h"
+#include "PaintStrategy.h"
 
 class MapView : public QGraphicsScene
 {
@@ -25,17 +27,19 @@ public:
     void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
 
-    void setPaintStrategy(IStrategy * stra);
-    void setDisplayStrategy(IStrategy * stra);
+    void setPaintStrategy(PaintStrategy * stra);
+    void setDisplayStrategy(LayerStrategy * stra);
+    void setGridStrategy(IStrategy * stra);
 
     QPixmap getChipset();
     Model::Map* getMap();
-    void displayMap();
+    LayerStrategy* getLayerStrategy();
 
 signals:
     
 public slots:
 
+    void displayMap();
 
 
 private:
@@ -46,9 +50,11 @@ private:
 
     QPixmap chipset;
 
-    IStrategy * paintStrategy;
+    PaintStrategy * paintStrategy;
 
-    IStrategy * displayStrategy;
+    LayerStrategy * displayStrategy;
+
+    IStrategy * gridStrategy;
 
 
     
