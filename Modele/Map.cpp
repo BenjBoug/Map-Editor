@@ -4,6 +4,13 @@ using namespace Model;
 Map::Map()
 {
     dim = QSize(NB_BLOCS_LARGEUR,NB_BLOCS_HAUTEUR);
+    for(int i=0;i<dim.width();i++)
+    {
+        for(int j=0;j<dim.height();j++)
+        {
+            _map.push_back(new BlocMap());
+        }
+    }
 }
 
 Map::Map(const Map &m)

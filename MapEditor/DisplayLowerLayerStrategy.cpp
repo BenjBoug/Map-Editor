@@ -5,38 +5,17 @@ DisplayLowerLayerStrategy::DisplayLowerLayerStrategy(MapView * mapView)
 {
 }
 
-void DisplayLowerLayerStrategy::execute()
+void DisplayLowerLayerStrategy::display()
 {
-    mapView->clear();
-    QPixmap chipset = mapView->getChipset();
     Model::Map * map = mapView->getMap();
-    int valueMax = (chipset.width()/BLOCSIZE)*(chipset.height()/BLOCSIZE);
     for(int i=0;i<map->getDim().width();i++)
     {
         for(int j=0;j<map->getDim().height();j++)
         {
-
             int couche1 = map->getBloc(i,j)->getCouche1();
-            if (couche1!=0 && couche1 < valueMax)
-            {
-                QPixmap tile = chipset.copy((couche1%(chipset.width()/BLOCSIZE))*BLOCSIZE,(couche1/(chipset.width()/BLOCSIZE))*BLOCSIZE,BLOCSIZE,BLOCSIZE);
-                QGraphicsPixmapItem * tileItem = mapView->addPixmap(tile);
-                tileItem->setPos(i*BLOCSIZE,j*BLOCSIZE);
-                tileItem->setZValue(0);
-            }
-
-
+            blitBloc(i,j,couche1,LOW);
             int couche2 = map->getBloc(i,j)->getCouche2();
-            if (couche2!=0 && couche2 < valueMax)
-            {
-                QPixmap tile2 = chipset.copy((couche2%(chipset.width()/BLOCSIZE))*BLOCSIZE,(couche2/(chipset.width()/BLOCSIZE))*BLOCSIZE,BLOCSIZE,BLOCSIZE);
-
-                QGraphicsPixmapItem * tileItem = mapView->addPixmap(tile2);
-                tileItem->setOpacity(0.3);
-                tileItem->setPos(i*BLOCSIZE,j*BLOCSIZE);
-                tileItem->setZValue(100);
-            }
-
+            blitBloc(i,j,couche2,HIGH,0.3);
         }
     }
 }
@@ -44,5 +23,5 @@ void DisplayLowerLayerStrategy::execute()
 void DisplayLowerLayerStrategy::setBloc(int i, int j, int bloc)
 {
     mapView->getMap()->getBloc(i,j)->setCouche1(bloc);
-    mapView->displayMap();
+    this->eraseAndBlitBloc(i,j,bloc,LOW);
 }

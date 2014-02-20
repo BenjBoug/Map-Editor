@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     DisplayCollisionLayerStrategy.cpp \
     GridLayerStratgey.cpp \
     LayerStrategy.cpp \
-    PaintStrategy.cpp
+    PaintStrategy.cpp \
+    GroupeCheckBox.cpp
 
 HEADERS  += MainWindow.h \
     ChipsetView.h \
@@ -40,7 +41,8 @@ HEADERS  += MainWindow.h \
     DisplayCollisionLayerStrategy.h \
     GridLayerStratgey.h \
     LayerStrategy.h \
-    PaintStrategy.h
+    PaintStrategy.h \
+    GroupeCheckBox.h
 
 FORMS    += MainWindow.ui
 

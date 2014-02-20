@@ -12,9 +12,16 @@ class BrushStrategy : public PaintStrategy
 public:
     BrushStrategy(MapView * mapView, ChipsetView * chipsetView);
 
-    virtual void execute();
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
 
 private:
+
+    void blit(QPointF pos);
+    QRect blited;
+    bool inSelect;
+    QGraphicsRectItem * rectItem;
 };
 
 #endif // BRUSHSTRATEGY_H

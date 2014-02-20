@@ -1,3 +1,4 @@
+
 #ifndef MAPVIEW_H
 #define MAPVIEW_H
 
@@ -14,6 +15,8 @@
 #include "LayerStrategy.h"
 #include "PaintStrategy.h"
 
+enum ZIndex {LOW=0,HIGH=50,COLLIDE=100,GRID=200,CURSOR=500};
+
 class MapView : public QGraphicsScene
 {
     Q_OBJECT
@@ -27,6 +30,7 @@ public:
     void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
 
+
     void setPaintStrategy(PaintStrategy * stra);
     void setDisplayStrategy(LayerStrategy * stra);
     void setGridStrategy(IStrategy * stra);
@@ -35,14 +39,24 @@ public:
     Model::Map* getMap();
     LayerStrategy* getLayerStrategy();
 
+    void removeLayer(ZIndex index);
+
+    QList<QGraphicsItem *> getLayer(int zindex);
+    QList<QGraphicsItem*> getLayer(QList<QGraphicsItem*> list,int layer);
+
+
 signals:
     
 public slots:
 
     void displayMap();
+    void clearMap();
+
+    void loadChipset(QString f);
 
 
 private:
+
 
     int zoom;
 
@@ -55,6 +69,7 @@ private:
     LayerStrategy * displayStrategy;
 
     IStrategy * gridStrategy;
+
 
 
     

@@ -5,9 +5,9 @@ using namespace Model;
 
 BlocMap::BlocMap()
 {
-    couche1=-1;
-    couche2=-1;
-    c_collision=-1;
+    couche1=0;
+    couche2=0;
+    c_collision=0;
 }
 
 BlocMap::BlocMap(const BlocMap & b)

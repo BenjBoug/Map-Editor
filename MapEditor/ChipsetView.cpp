@@ -20,6 +20,7 @@ void ChipsetView::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
     selection.setWidth(BLOCSIZE);
     selection.setHeight(BLOCSIZE);
     itemRectSelected->setRect(selection);
+    setSelectedTile();
 }
 
 void ChipsetView::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -98,9 +99,8 @@ void ChipsetView::setSelectedTile()
         QVector<int> tmp;
         for(int j=0;j<(selection.bottom()/BLOCSIZE)-(selection.top()/BLOCSIZE);j++)
         {
-            int bloc = ((selection.left()/BLOCSIZE)+j) + ((selection.top()/BLOCSIZE)+i)*(chipset.width()/BLOCSIZE);
+            int bloc = ((selection.left()/BLOCSIZE)+i) + ((selection.top()/BLOCSIZE)+j)*(chipset.width()/BLOCSIZE);
             tmp.push_back(bloc);
-            qDebug() << bloc;
         }
         selectedTile.push_back(tmp);
     }

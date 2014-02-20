@@ -5,6 +5,7 @@
 #include "MapFactory.h"
 #include "Camera.h"
 #include "Heros.h"
+#include <QDir>
 #include "Input.h"
 
 using namespace Model;

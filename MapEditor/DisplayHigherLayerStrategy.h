@@ -8,7 +8,7 @@ class DisplayHigherLayerStrategy : public LayerStrategy
 public:
     DisplayHigherLayerStrategy(MapView * mapView);
 
-    virtual void execute();
+    virtual void display();
     virtual void setBloc(int i, int j, int bloc);
 
 private:

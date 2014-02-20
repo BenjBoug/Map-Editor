@@ -6,6 +6,7 @@ MapView::MapView():
     zoom = 1;
     this->map = new Model::Map();
     gridStrategy = NULL;
+    //this->setSceneRect(10,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 }
 
 MapView::MapView(Model::Map * m) :
@@ -19,26 +20,34 @@ MapView::MapView(Model::Map * m) :
 void MapView::setMap(Model::Map *map)
 {
     this->map = map;
-    chipset.load(map->getChipset());
-    QBitmap mask = chipset.createMaskFromColor(QColor(255, 103, 139));
-    chipset.setMask(mask);
-    //connect(map,SIGNAL(mapChanged()),this,SLOT(displayMap()));
+    loadChipset(map->getChipset());
     displayMap();
 }
 
+void MapView::loadChipset(QString f)
+{
+    chipset.load(f);
+    QBitmap mask = chipset.createMaskFromColor(QColor(255, 103, 139));
+    chipset.setMask(mask);
+}
+
+
 void MapView::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    paintStrategy->execute();
+    if (this->sceneRect().contains(mouseEvent->scenePos()))
+        paintStrategy->mousePressEvent(mouseEvent);
 }
 
 void MapView::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    paintStrategy->execute();
+    if (this->sceneRect().contains(mouseEvent->scenePos()))
+        paintStrategy->mouseMoveEvent(mouseEvent);
 }
 
 void MapView::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-
+    if (this->sceneRect().contains(mouseEvent->scenePos()))
+        paintStrategy->mouseReleaseEvent(mouseEvent);
 }
 
 void MapView::setPaintStrategy(PaintStrategy *stra)
@@ -54,6 +63,10 @@ void MapView::setDisplayStrategy(LayerStrategy *stra)
 void MapView::setGridStrategy(IStrategy *stra)
 {
     gridStrategy = stra;
+    if (stra==NULL)
+    {
+        removeLayer(GRID);
+    }
 }
 
 QPixmap MapView::getChipset()
@@ -71,10 +84,60 @@ LayerStrategy *MapView::getLayerStrategy()
     return displayStrategy;
 }
 
+void MapView::removeLayer(ZIndex index)
+{
+    QList<QGraphicsItem *>::iterator it;
+    QList<QGraphicsItem *> layer = getLayer(index);
+
+    for(it=layer.begin();it!=layer.end();it++)
+    {
+        this->removeItem(*it);
+    }
+}
+
+QList<QGraphicsItem *> MapView::getLayer(QList<QGraphicsItem *> list, int layer)
+{
+    QList<QGraphicsItem *> res;
+    QList<QGraphicsItem *>::iterator it;
+
+    for(it=list.begin();it!=list.end();it++)
+    {
+        if ((*it)->zValue()==layer)
+        {
+            res.push_back(*it);
+        }
+    }
+
+    return res;
+}
+
 void MapView::displayMap()
 {
-    displayStrategy->execute();
+    clearMap();
+    displayStrategy->display();
     if (gridStrategy != NULL)
         gridStrategy->execute();
 }
 
+void MapView::clearMap()
+{
+    removeLayer(LOW);
+    removeLayer(HIGH);
+    removeLayer(COLLIDE);
+}
+
+QList<QGraphicsItem *> MapView::getLayer(int zindex)
+{
+    QList<QGraphicsItem *>itemsRes =  this->items();
+    QList<QGraphicsItem *>::iterator it = itemsRes.begin();
+
+    for(;it!=itemsRes.end();)
+    {
+        if ((*it)->zValue() != zindex)
+            it = itemsRes.erase(it);
+        else
+            it++;
+    }
+
+    return itemsRes;
+}

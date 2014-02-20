@@ -21,14 +21,29 @@ MainWindow::MainWindow(QWidget *parent) :
     mapView->setDisplayStrategy(new DisplayLowerLayerStrategy(mapView));
 
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openMap()));
+
+    groupZoom.addAction(ui->actionZoom_1_1);
+    groupZoom.addAction(ui->actionZoom_1_2);
     connect(ui->actionZoom_1_1,SIGNAL(triggered()),this,SLOT(minimizeMap()));
     connect(ui->actionZoom_1_2,SIGNAL(triggered()),this,SLOT(maximizeMap()));
 
+    groupLayers.addAction(ui->actionLawer_layer);
+    groupLayers.addAction(ui->actionHigh_layer);
+    groupLayers.addAction(ui->actionCollision_layer);
+    groupLayers.addAction(ui->actionVisualization);
     connect(ui->actionLawer_layer,SIGNAL(triggered()),this,SLOT(lowerLayer()));
     connect(ui->actionHigh_layer,SIGNAL(triggered()),this,SLOT(higherLayer()));
     connect(ui->actionCollision_layer,SIGNAL(triggered()),this,SLOT(collisionLayer()));
     connect(ui->actionVisualization,SIGNAL(triggered()),this,SLOT(visuaLayer()));
     connect(ui->actionShow_Grid,SIGNAL(triggered(bool)),this,SLOT(gridLayer(bool)));
+
+    connect(ui->actionChange_chipset,SIGNAL(triggered()),this,SLOT(changeChipset()));
+
+    groupTools.addAction(ui->actionBrush);
+    groupTools.addAction(ui->actionCircle);
+    groupTools.addAction(ui->actionRectangle);
+    groupTools.addAction(ui->actionPipette);
+    groupTools.addAction(ui->actionPaint_pot);
 }
 
 MainWindow::~MainWindow()
@@ -65,7 +80,6 @@ void MainWindow::maximizeMap()
     QTransform matrix;
     matrix.scale(0.5,0.5);
     ui->graphicsViewMap->setTransform(matrix);
-    ui->actionZoom_1_1->setChecked(false);
 }
 
 void MainWindow::minimizeMap()
@@ -73,43 +87,42 @@ void MainWindow::minimizeMap()
     QTransform matrix;
     matrix.scale(1,1);
     ui->graphicsViewMap->setTransform(matrix);
-    ui->actionZoom_1_2->setChecked(false);
 }
 
 void MainWindow::lowerLayer()
 {
-    ui->actionHigh_layer->setChecked(false);
-    ui->actionVisualization->setChecked(false);
-    ui->actionCollision_layer->setChecked(false);
     mapView->setDisplayStrategy(new DisplayLowerLayerStrategy(mapView));
     mapView->displayMap();
 }
 
 void MainWindow::higherLayer()
 {
-    ui->actionLawer_layer->setChecked(false);
-    ui->actionVisualization->setChecked(false);
-    ui->actionCollision_layer->setChecked(false);
     mapView->setDisplayStrategy(new DisplayHigherLayerStrategy(mapView));
     mapView->displayMap();
 }
 
 void MainWindow::collisionLayer()
 {
-    ui->actionLawer_layer->setChecked(false);
-    ui->actionHigh_layer->setChecked(false);
-    ui->actionVisualization->setChecked(false);
     mapView->setDisplayStrategy(new DisplayCollisionLayerStrategy(mapView));
     mapView->displayMap();
 }
 
 void MainWindow::visuaLayer()
 {
-    ui->actionHigh_layer->setChecked(false);
-    ui->actionLawer_layer->setChecked(false);
-    ui->actionCollision_layer->setChecked(false);
     mapView->setDisplayStrategy(new DisplayVisuaLayerStrategy(mapView));
     mapView->displayMap();
+}
+
+void MainWindow::changeChipset()
+{
+    QString fichier = QFileDialog::getOpenFileName(this, "Load a chipset", QString(), "Chipset (*.bmp)");
+    if (fichier != "")
+    {
+        map->setNameChipset(fichier);
+        chipsetView->loadChipset(fichier);
+        mapView->loadChipset(fichier);
+        mapView->displayMap();
+    }
 }
 
 void MainWindow::gridLayer(bool enable)

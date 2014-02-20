@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/editer-editeur-papier-crayon-ecrivez-icone-6803-128.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/editer-editeur-papier-crayon-ecrivez-icone-6803-128.png</iconset>
+    <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/editer-editeur-papier-crayon-ecrivez-icone-6803-128.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/editer-editeur-papier-crayon-ecrivez-icone-6803-128.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -46,7 +46,11 @@
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QGraphicsView" name="graphicsViewMap"/>
+         <widget class="QGraphicsView" name="graphicsViewMap">
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -102,6 +106,8 @@
     <addaction name="actionBrush"/>
     <addaction name="actionPaint_pot"/>
     <addaction name="actionPipette"/>
+    <addaction name="actionRectangle"/>
+    <addaction name="actionCircle"/>
    </widget>
    <widget class="QMenu" name="menuEvents">
     <property name="title">
@@ -159,12 +165,14 @@
    <addaction name="actionBrush"/>
    <addaction name="actionPaint_pot"/>
    <addaction name="actionPipette"/>
+   <addaction name="actionRectangle"/>
+   <addaction name="actionCircle"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew">
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/fichier-une-page-nouvelle--icone-4740-48.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/fichier-une-page-nouvelle--icone-4740-48.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/fichier-une-page-nouvelle--icone-4740-48.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/fichier-une-page-nouvelle--icone-4740-48.png</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -176,7 +184,7 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/dossier-icone-4159-48.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/dossier-icone-4159-48.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/dossier-icone-4159-48.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/dossier-icone-4159-48.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
@@ -191,7 +199,7 @@
   <action name="actionSave">
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/disque-sauvegardez-icone-4699-48.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/disque-sauvegardez-icone-4699-48.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/disque-sauvegardez-icone-4699-48.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/disque-sauvegardez-icone-4699-48.png</iconset>
    </property>
    <property name="text">
     <string>Save</string>
@@ -206,7 +214,7 @@
   <action name="actionSave_as">
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/que-sauf-icone-5284-48.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/que-sauf-icone-5284-48.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/que-sauf-icone-5284-48.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/que-sauf-icone-5284-48.png</iconset>
    </property>
    <property name="text">
     <string>Save as ...</string>
@@ -218,7 +226,7 @@
   <action name="actionClose">
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/porte-sortie-icone-7442-48.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/porte-sortie-icone-7442-48.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/porte-sortie-icone-7442-48.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/porte-sortie-icone-7442-48.png</iconset>
    </property>
    <property name="text">
     <string>Close</string>
@@ -233,7 +241,7 @@
   <action name="actionUndo">
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/defaire-icone-8681-48.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/defaire-icone-8681-48.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/defaire-icone-8681-48.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/defaire-icone-8681-48.png</iconset>
    </property>
    <property name="text">
     <string>Undo</string>
@@ -245,7 +253,7 @@
   <action name="actionRedo">
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/redo-icone-7712-48.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/redo-icone-7712-48.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/redo-icone-7712-48.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/redo-icone-7712-48.png</iconset>
    </property>
    <property name="text">
     <string>Redo</string>
@@ -263,7 +271,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/couche1.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/couche1.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/couche1.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/couche1.png</iconset>
    </property>
    <property name="text">
     <string>Low layer</string>
@@ -278,7 +286,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/couche2.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/couche2.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/couche2.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/couche2.png</iconset>
    </property>
    <property name="text">
     <string>High layer</string>
@@ -293,7 +301,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/coucheCollision.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/coucheCollision.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/coucheCollision.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/coucheCollision.png</iconset>
    </property>
    <property name="text">
     <string>Collision layer</string>
@@ -308,7 +316,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/couches-carte-icone-7284-128.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/couches-carte-icone-7284-128.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/couches-carte-icone-7284-128.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/couches-carte-icone-7284-128.png</iconset>
    </property>
    <property name="text">
     <string>Visualization</string>
@@ -326,7 +334,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/minimiser-icone-8625-48.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/minimiser-icone-8625-48.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/minimiser-icone-8625-48.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/minimiser-icone-8625-48.png</iconset>
    </property>
    <property name="text">
     <string>Zoom 1:1</string>
@@ -338,7 +346,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/maximiser-icone-5962-48.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/maximiser-icone-5962-48.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/maximiser-icone-5962-48.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/maximiser-icone-5962-48.png</iconset>
    </property>
    <property name="text">
     <string>Zoom 1:2</string>
@@ -353,7 +361,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/pinceau-icone-4100-128.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/pinceau-icone-4100-128.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/pinceau-icone-4100-128.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/pinceau-icone-4100-128.png</iconset>
    </property>
    <property name="text">
     <string>Brush</string>
@@ -365,7 +373,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/paintroller-icone-5978-128.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/paintroller-icone-5978-128.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/paintroller-icone-5978-128.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/paintroller-icone-5978-128.png</iconset>
    </property>
    <property name="text">
     <string>Paint pot</string>
@@ -377,7 +385,7 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/couleur-couleur-cueilleur-icone-6523-48.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/couleur-couleur-cueilleur-icone-6523-48.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/couleur-couleur-cueilleur-icone-6523-48.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/couleur-couleur-cueilleur-icone-6523-48.png</iconset>
    </property>
    <property name="text">
     <string>Pipette</string>
@@ -409,10 +417,34 @@
    </property>
    <property name="icon">
     <iconset>
-     <normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/grid.png</normaloff>../../ZeldaV6-build-Desktop_Qt_5_0_1_GCC_32bit-Debug/Resources/images/mapEditor/grid.png</iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/grid.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/grid.png</iconset>
    </property>
    <property name="text">
     <string>Show Grid</string>
+   </property>
+  </action>
+  <action name="actionRectangle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/rectangle.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/rectangle.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rectangle</string>
+   </property>
+  </action>
+  <action name="actionCircle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/circle.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/circle.png</iconset>
+   </property>
+   <property name="text">
+    <string>Circle</string>
    </property>
   </action>
  </widget>

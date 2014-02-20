@@ -6,7 +6,7 @@ GameEngine::GameEngine()
 
 void GameEngine::init()
 {
-    QString nameMap = "Resources/map/map.k2x";
+    QString nameMap = QDir::currentPath()+"/../Resources/map/map.k2x";
     actualMap = mapFactory.build(nameMap);
     cam = new Camera(this);
     heros = new Heros();

@@ -13,6 +13,7 @@
 #include "DisplayVisuaLayerStrategy.h"
 #include "DisplayCollisionLayerStrategy.h"
 #include "GridLayerStratgey.h"
+#include "GroupeCheckBox.h"
 
 namespace Ui {
 class MainWindow;
@@ -36,11 +37,14 @@ public slots:
     void collisionLayer();
     void visuaLayer();
 
+    void changeChipset();
+
 
     void gridLayer(bool enable);
 
     
 private:
+    GroupeCheckBox groupZoom,groupLayers,groupTools;
     Ui::MainWindow *ui;
     Model::Map *map;
     MapView * mapView;

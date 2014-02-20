@@ -9,7 +9,9 @@ class PaintPotStratgey : public PaintStrategy
 public:
     PaintPotStratgey(MapView * mapView, ChipsetView * chipsetView);
 
-    virtual void execute();
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
 };
 
 #endif // PAINTPOTSTRATGEY_H

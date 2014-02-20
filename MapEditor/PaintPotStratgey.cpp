@@ -5,7 +5,17 @@ PaintPotStratgey::PaintPotStratgey(MapView * mapView, ChipsetView * chipsetView)
 {
 }
 
-void PaintPotStratgey::execute()
+void PaintPotStratgey::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    qDebug() << "paint pot";
+
+}
+
+void PaintPotStratgey::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+
+}
+
+void PaintPotStratgey::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+
 }
