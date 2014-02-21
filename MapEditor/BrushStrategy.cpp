@@ -4,14 +4,22 @@ BrushStrategy::BrushStrategy(MapView *mapView, ChipsetView *chipsetView)
     : PaintStrategy(mapView,chipsetView)
 {
     inSelect = false;
+    inSelectRight = false;
     rectItem = mapView->addRect(0,0,50,50);
     rectItem->setZValue(CURSOR);
 }
 
 void BrushStrategy::mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent)
 {
-    blit(mouseEvent->scenePos());
-    inSelect = true;
+    if (mouseEvent->button() == Qt::LeftButton)
+    {
+        blit(mouseEvent->scenePos());
+        inSelect = true;
+    }
+    else if (mouseEvent->button() == Qt::RightButton)
+    {
+        inSelectRight = true;
+    }
 }
 
 void BrushStrategy::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
@@ -41,12 +49,17 @@ void BrushStrategy::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
         {
             blit(mouseEvent->scenePos());
         }
+
     }
+
 }
 
 void BrushStrategy::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    if (mouseEvent->button() == Qt::LeftButton)
+    {
     inSelect = false;
+    }
 }
 
 void BrushStrategy::blit(QPointF pos)

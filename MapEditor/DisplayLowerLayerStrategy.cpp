@@ -22,6 +22,5 @@ void DisplayLowerLayerStrategy::display()
 
 void DisplayLowerLayerStrategy::setBloc(int i, int j, int bloc)
 {
-    mapView->getMap()->getBloc(i,j)->setCouche1(bloc);
     this->eraseAndBlitBloc(i,j,bloc,LOW);
 }

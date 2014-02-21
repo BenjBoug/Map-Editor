@@ -31,6 +31,24 @@ void MapView::loadChipset(QString f)
     chipset.setMask(mask);
 }
 
+void MapView::undo()
+{
+    ICommand * cmdUndid = stackUndoCommand.pop();
+    cmdUndid->undo();
+    stackRedoCommand.push(cmdUndid);
+    emit redoEmpty(!stackRedoCommand.isEmpty());
+    emit undoEmpty(!stackUndoCommand.isEmpty());
+}
+
+void MapView::redo()
+{
+    ICommand * cmdRedid = stackRedoCommand.pop();
+    cmdRedid->redo();
+    stackUndoCommand.push(cmdUndid);
+    emit redoEmpty(!stackRedoCommand.isEmpty());
+    emit undoEmpty(!stackUndoCommand.isEmpty());
+}
+
 
 void MapView::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
@@ -109,6 +127,12 @@ QList<QGraphicsItem *> MapView::getLayer(QList<QGraphicsItem *> list, int layer)
     }
 
     return res;
+}
+
+void MapView::executeCmd(ICommand *cmd)
+{
+    cmd->execute();
+    stackUndoCommand.push(cmd);
 }
 
 void MapView::displayMap()

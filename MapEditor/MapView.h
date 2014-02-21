@@ -14,6 +14,8 @@
 #include "IStrategy.h"
 #include "LayerStrategy.h"
 #include "PaintStrategy.h"
+#include "ICommand.h"
+#include <QStack>
 
 enum ZIndex {LOW=0,HIGH=50,COLLIDE=100,GRID=200,CURSOR=500};
 
@@ -44,8 +46,14 @@ public:
     QList<QGraphicsItem *> getLayer(int zindex);
     QList<QGraphicsItem*> getLayer(QList<QGraphicsItem*> list,int layer);
 
+    void executeCmd(ICommand* cmd);
+
 
 signals:
+    void undoEmpty();
+    void undoNotEmpty();
+    void redoEmpty();
+    void redoNotEmpty();
     
 public slots:
 
@@ -54,9 +62,14 @@ public slots:
 
     void loadChipset(QString f);
 
+    void undo();
+    void redo();
+
 
 private:
 
+    QStack<ICommand*> stackUndoCommand;
+    QStack<ICommand*> stackRedoCommand;
 
     int zoom;
 

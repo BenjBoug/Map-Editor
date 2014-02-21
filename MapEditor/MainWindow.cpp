@@ -37,7 +37,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionVisualization,SIGNAL(triggered()),this,SLOT(visuaLayer()));
     connect(ui->actionShow_Grid,SIGNAL(triggered(bool)),this,SLOT(gridLayer(bool)));
 
+    connect(ui->actionSave,SIGNAL(triggered()),this,SLOT(save()));
+
     connect(ui->actionChange_chipset,SIGNAL(triggered()),this,SLOT(changeChipset()));
+
+    connect(mapView,SIGNAL(redoEmpty(bool)),ui->actionRedo,SLOT(setChecked(bool)));
+    connect(mapView,SIGNAL(undoEmpty(bool)),ui->actionUndo,SLOT(setChecked(bool)));
 
     groupTools.addAction(ui->actionBrush);
     groupTools.addAction(ui->actionCircle);
@@ -70,6 +75,7 @@ void MainWindow::openMap()
         QString title = "Zelda Map Editor - " + file;
         setWindowTitle(title);
         mapView->setMap(map);
+        qDebug() << map->getChipset();
         chipsetView->loadChipset(map->getChipset());
 
     }
@@ -123,6 +129,15 @@ void MainWindow::changeChipset()
         mapView->loadChipset(fichier);
         mapView->displayMap();
     }
+}
+
+void MainWindow::save()
+{
+    QFile file(map->getNameMap());
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
+    out << map;
+    file.close();
 }
 
 void MainWindow::gridLayer(bool enable)

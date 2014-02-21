@@ -26,7 +26,9 @@ SOURCES += main.cpp\
     GridLayerStratgey.cpp \
     LayerStrategy.cpp \
     PaintStrategy.cpp \
-    GroupeCheckBox.cpp
+    GroupeCheckBox.cpp \
+    BlitCommand.cpp \
+    EraseCommand.cpp
 
 HEADERS  += MainWindow.h \
     ChipsetView.h \
@@ -42,7 +44,9 @@ HEADERS  += MainWindow.h \
     GridLayerStratgey.h \
     LayerStrategy.h \
     PaintStrategy.h \
-    GroupeCheckBox.h
+    GroupeCheckBox.h \
+    BlitCommand.h \
+    EraseCommand.h
 
 FORMS    += MainWindow.ui
 

@@ -23,6 +23,5 @@ void DisplayHigherLayerStrategy::display()
 
 void DisplayHigherLayerStrategy::setBloc(int i, int j, int bloc)
 {
-    mapView->getMap()->getBloc(i,j)->setCouche2(bloc);
     this->eraseAndBlitBloc(i,j,bloc,HIGH);
 }

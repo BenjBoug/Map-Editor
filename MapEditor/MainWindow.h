@@ -39,6 +39,7 @@ public slots:
 
     void changeChipset();
 
+    void save();
 
     void gridLayer(bool enable);
 

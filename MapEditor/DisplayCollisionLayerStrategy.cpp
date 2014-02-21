@@ -30,5 +30,5 @@ void DisplayCollisionLayerStrategy::display()
 
 void DisplayCollisionLayerStrategy::setBloc(int i, int j, int bloc)
 {
-    mapView->getMap()->getBloc(i,j)->setCollision(bloc);
+
 }

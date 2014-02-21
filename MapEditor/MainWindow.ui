@@ -239,6 +239,9 @@
    </property>
   </action>
   <action name="actionUndo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/defaire-icone-8681-48.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/defaire-icone-8681-48.png</iconset>
@@ -251,6 +254,9 @@
    </property>
   </action>
   <action name="actionRedo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset>
      <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/redo-icone-7712-48.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/redo-icone-7712-48.png</iconset>

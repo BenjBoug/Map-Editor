@@ -145,7 +145,7 @@ QString Map::getChipset() const
 
 QDataStream &Model::operator <<(QDataStream &out, const Map *v)
 {
-    out << v->_name << QString("Resources/images/chipset/map.bmp") << v->dim;
+    out << v->_name << v->_chipset << v->dim;
 
     QVector<BlocMap*>::const_iterator it = v->_map.begin();
     for (;it!=v->_map.end();it++)
