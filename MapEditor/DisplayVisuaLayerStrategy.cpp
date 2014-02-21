@@ -20,8 +20,7 @@ void DisplayVisuaLayerStrategy::display()
     }
 }
 
-
-void DisplayVisuaLayerStrategy::setBloc(int i, int j, int bloc)
+int DisplayVisuaLayerStrategy::getLayer()
 {
-
+    return 999;
 }

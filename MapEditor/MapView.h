@@ -17,7 +17,7 @@
 #include "ICommand.h"
 #include <QStack>
 
-enum ZIndex {LOW=0,HIGH=50,COLLIDE=100,GRID=200,CURSOR=500};
+enum ZIndex {LOW=0,HIGH=50,COLLIDE=100,GRID=200,EVENT=300,CURSOR=500};
 
 class MapView : public QGraphicsScene
 {

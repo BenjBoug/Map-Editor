@@ -10,7 +10,7 @@ public:
     DisplayCollisionLayerStrategy(MapView * mapView);
 
     virtual void display();
-    virtual void setBloc(int i, int j, int bloc);
+    virtual int getLayer();
 
 private:
 };

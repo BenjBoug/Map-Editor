@@ -41,8 +41,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionChange_chipset,SIGNAL(triggered()),this,SLOT(changeChipset()));
 
-    connect(mapView,SIGNAL(redoEmpty(bool)),ui->actionRedo,SLOT(setChecked(bool)));
-    connect(mapView,SIGNAL(undoEmpty(bool)),ui->actionUndo,SLOT(setChecked(bool)));
+    connect(mapView,SIGNAL(redoEmpty(bool)),ui->actionRedo,SLOT(setEnabled(bool)));
+    connect(mapView,SIGNAL(undoEmpty(bool)),ui->actionUndo,SLOT(setEnabled(bool)));
+    connect(ui->actionRedo,SIGNAL(triggered()),mapView,SLOT(redo()));
+    connect(ui->actionUndo,SIGNAL(triggered()),mapView,SLOT(undo()));
 
     groupTools.addAction(ui->actionBrush);
     groupTools.addAction(ui->actionCircle);

@@ -18,7 +18,7 @@ void BrushStrategy::mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent)
     }
     else if (mouseEvent->button() == Qt::RightButton)
     {
-        mapView->getLayerStrategy()->eraseBloc();
+        //mapView->getLayerStrategy()->eraseBloc();
         inSelectRight = true;
     }
 }
@@ -72,7 +72,7 @@ void BrushStrategy::blit(QPointF pos)
     {
         for(int j=0;j<selectedTile[i].size();j++)
         {
-            mapView->getLayerStrategy()->setBloc(i+xMouse,j+yMouse,selectedTile[i][j]);
+            mapView->executeCmd(new EraseAndBlitCommand(mapView,i+xMouse,j+yMouse,selectedTile[i][j],mapView->getLayerStrategy()->getLayer()));
         }
     }
     blited.setX(xMouse);

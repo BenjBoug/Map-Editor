@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     PaintStrategy.cpp \
     GroupeCheckBox.cpp \
     BlitCommand.cpp \
-    EraseCommand.cpp
+    EraseCommand.cpp \
+    EraseAndBlitCommand.cpp
 
 HEADERS  += MainWindow.h \
     ChipsetView.h \
@@ -46,7 +47,8 @@ HEADERS  += MainWindow.h \
     PaintStrategy.h \
     GroupeCheckBox.h \
     BlitCommand.h \
-    EraseCommand.h
+    EraseCommand.h \
+    EraseAndBlitCommand.h
 
 FORMS    += MainWindow.ui
 

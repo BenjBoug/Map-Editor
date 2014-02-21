@@ -20,7 +20,7 @@ void DisplayLowerLayerStrategy::display()
     }
 }
 
-void DisplayLowerLayerStrategy::setBloc(int i, int j, int bloc)
+int DisplayLowerLayerStrategy::getLayer()
 {
-    this->eraseAndBlitBloc(i,j,bloc,LOW);
+    return LOW;
 }

@@ -15,6 +15,7 @@ public:
 private:
     MapView * mapView;
     int i,j,layer;
+    int blocMemento;
 };
 
 #endif // ERASECOMMAND_H

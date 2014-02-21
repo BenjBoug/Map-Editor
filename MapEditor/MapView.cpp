@@ -44,7 +44,7 @@ void MapView::redo()
 {
     ICommand * cmdRedid = stackRedoCommand.pop();
     cmdRedid->redo();
-    stackUndoCommand.push(cmdUndid);
+    stackUndoCommand.push(cmdRedid);
     emit redoEmpty(!stackRedoCommand.isEmpty());
     emit undoEmpty(!stackUndoCommand.isEmpty());
 }
@@ -133,6 +133,8 @@ void MapView::executeCmd(ICommand *cmd)
 {
     cmd->execute();
     stackUndoCommand.push(cmd);
+    emit redoEmpty(!stackRedoCommand.isEmpty());
+    emit undoEmpty(!stackUndoCommand.isEmpty());
 }
 
 void MapView::displayMap()

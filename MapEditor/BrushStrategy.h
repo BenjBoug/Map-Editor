@@ -6,6 +6,7 @@
 #include <QDebug>
 #include "MapView.h"
 #include "ChipsetView.h"
+#include "EraseAndBlitCommand.h"
 
 class BrushStrategy : public PaintStrategy
 {

@@ -21,7 +21,7 @@ void DisplayHigherLayerStrategy::display()
 
 }
 
-void DisplayHigherLayerStrategy::setBloc(int i, int j, int bloc)
+int DisplayHigherLayerStrategy::getLayer()
 {
-    this->eraseAndBlitBloc(i,j,bloc,HIGH);
+    return HIGH;
 }

@@ -28,7 +28,8 @@ void DisplayCollisionLayerStrategy::display()
     }
 }
 
-void DisplayCollisionLayerStrategy::setBloc(int i, int j, int bloc)
+int DisplayCollisionLayerStrategy::getLayer()
 {
-
+    return COLLIDE;
 }
+

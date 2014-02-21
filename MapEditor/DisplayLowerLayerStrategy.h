@@ -2,6 +2,8 @@
 #define DISPLAYLOWERLAYERSTRATEGY_H
 
 #include "MapView.h"
+#include "EraseCommand.h"
+#include "EraseAndBlitCommand.h"
 
 class DisplayLowerLayerStrategy : public LayerStrategy
 {
@@ -9,7 +11,7 @@ public:
     DisplayLowerLayerStrategy(MapView * mapView);
 
     virtual void display();
-    virtual void setBloc(int i, int j, int bloc);
+    virtual int getLayer();
 
 private:
 };

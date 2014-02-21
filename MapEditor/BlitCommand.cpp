@@ -14,9 +14,15 @@ BlitCommand::BlitCommand(MapView *mapView, int i, int j, int bloc, int layer, in
 void BlitCommand::execute()
 {
     if (layer==LOW)
+    {
+        blocMemento = mapView->getMap()->getBloc(i,j)->getCouche1();
         mapView->getMap()->getBloc(i,j)->setCouche1(bloc);
+    }
     else if (layer==HIGH)
+    {
+        blocMemento = mapView->getMap()->getBloc(i,j)->getCouche2();
         mapView->getMap()->getBloc(i,j)->setCouche2(bloc);
+    }
     QPixmap chipset = mapView->getChipset();
     int valueMax = (chipset.width()/BLOCSIZE)*(chipset.height()/BLOCSIZE);
     if (bloc!=0 && bloc < valueMax)
@@ -31,10 +37,12 @@ void BlitCommand::execute()
 
 void BlitCommand::undo()
 {
-
+    bloc = blocMemento;
+    execute();
 }
 
 void BlitCommand::redo()
 {
-
+    bloc = blocMemento;
+    execute();
 }
