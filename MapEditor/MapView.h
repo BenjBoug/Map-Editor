@@ -50,10 +50,8 @@ public:
 
 
 signals:
-    void undoEmpty();
-    void undoNotEmpty();
-    void redoEmpty();
-    void redoNotEmpty();
+    void undoEmpty(bool);
+    void redoEmpty(bool);
     
 public slots:
 

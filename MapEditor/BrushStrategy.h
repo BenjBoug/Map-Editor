@@ -20,7 +20,7 @@ private:
 
     void blit(QPointF pos);
     QRect blited;
-    bool inSelect;
+    bool inSelect, inSelectRight;
     QGraphicsRectItem * rectItem;
 };
 

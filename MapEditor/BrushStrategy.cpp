@@ -18,6 +18,7 @@ void BrushStrategy::mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent)
     }
     else if (mouseEvent->button() == Qt::RightButton)
     {
+        mapView->getLayerStrategy()->eraseBloc();
         inSelectRight = true;
     }
 }
