@@ -22,7 +22,7 @@ void BrushStrategy::mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent)
         blited.setY(mouseEvent->scenePos().y()/BLOCSIZE);
         blited.setWidth(1);
         blited.setHeight(1);
-        mapView->executeCmd(new EraseCommand(mapView,mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE,mapView->getLayerStrategy()->getLayer(),1));
+        mapView->executeCmd(new EraseCommand(mapView,mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE,mapView->getCurrentLayer()->getLayer()));
        inSelectRight = true;
     }
 }
@@ -57,7 +57,7 @@ void BrushStrategy::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
         newBlit.setWidth(BLOCSIZE);
         newBlit.setHeight(BLOCSIZE);
         if (!newBlit.intersects(blited))
-            mapView->executeCmd(new EraseCommand(mapView,mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE,mapView->getLayerStrategy()->getLayer(),1));
+            mapView->executeCmd(new EraseCommand(mapView,mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE,mapView->getCurrentLayer()->getLayer()));
     }
 
 }
@@ -86,7 +86,7 @@ void BrushStrategy::blit(QPointF pos)
     {
         for(int j=0;j<selectedTile[i].size();j++)
         {
-            mapView->executeCmd(new EraseAndBlitCommand(mapView,i+xMouse,j+yMouse,selectedTile[i][j],mapView->getLayerStrategy()->getLayer(),1));
+            mapView->executeCmd(new EraseAndBlitCommand(mapView,i+xMouse,j+yMouse,selectedTile[i][j],mapView->getCurrentLayer()->getLayer(),1));
         }
     }
     blited.setX(xMouse);

@@ -7,7 +7,7 @@ PipetteStrategy::PipetteStrategy(MapView * mapView, ChipsetView * chipsetView)
 
 void PipetteStrategy::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    chipsetView->selectTile(mapView->getMap()->getBloc(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE)->getLayer(mapView->getLayerStrategy()->getLayer()));
+    chipsetView->selectTile(mapView->getMap()->getBloc(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE)->getLayer(mapView->getCurrentLayer()->getLayer()));
 }
 
 

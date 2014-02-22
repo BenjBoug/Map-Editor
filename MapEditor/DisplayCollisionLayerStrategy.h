@@ -3,6 +3,7 @@
 
 #include "MapView.h"
 #include <QFont>
+#include "CollideCommand.h"
 
 class DisplayCollisionLayerStrategy : public LayerStrategy
 {
@@ -11,8 +12,13 @@ public:
 
     virtual void display();
     virtual int getLayer();
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
 
 private:
+
+    bool inSelectLeft,inSelectRight;
 };
 
 #endif // DISPLAYCOLLISIONLAYERSTRATEGY_H

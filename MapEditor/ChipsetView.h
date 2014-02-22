@@ -13,6 +13,7 @@
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QPixmap>
+#include <QGraphicsView>
 
 class ChipsetView : public QGraphicsScene
 {

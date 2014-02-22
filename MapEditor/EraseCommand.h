@@ -7,14 +7,13 @@
 class EraseCommand : public ICommand
 {
 public:
-    EraseCommand(MapView * mapView, int i, int j, int layer,float opacity = 1);
+    EraseCommand(MapView * mapView, int i, int j, int layer);
     virtual void execute();
     virtual void undo();
 
 private:
     MapView * mapView;
     int i,j,layer;
-    float opacityMemento;
     int blocMemento;
 };
 

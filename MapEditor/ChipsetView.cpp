@@ -75,10 +75,14 @@ void ChipsetView::selectTile(int t)
     selectedTile.resize(1);
     selectedTile[0].resize(1);
     selectedTile[0][0] = t;
-    selection.setX((t%chipset.width())*BLOCSIZE);
-    selection.setY((t/chipset.height())/BLOCSIZE);
+    selection.setX((t%(chipset.width()/BLOCSIZE))*BLOCSIZE);
+    selection.setY((t/(chipset.width()/BLOCSIZE))*BLOCSIZE);
     selection.setWidth(BLOCSIZE);
     selection.setHeight(BLOCSIZE);
+    QList<QGraphicsView*>::iterator it;
+    QList<QGraphicsView*> views = this->views();
+    for(it=views.begin();it!=views.end();it++)
+        (*it)->ensureVisible(selection);
     itemRectSelected->setRect(selection);
 }
 

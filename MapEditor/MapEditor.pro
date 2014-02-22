@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     EraseAndBlitCommand.cpp \
     QGraphicsTileItem.cpp \
     ICommand.cpp \
-    PipetteStrategy.cpp
+    PipetteStrategy.cpp \
+    CollideCommand.cpp
 
 HEADERS  += MainWindow.h \
     ChipsetView.h \
@@ -53,7 +54,8 @@ HEADERS  += MainWindow.h \
     EraseCommand.h \
     EraseAndBlitCommand.h \
     QGraphicsTileItem.h \
-    PipetteStrategy.h
+    PipetteStrategy.h \
+    CollideCommand.h
 
 FORMS    += MainWindow.ui
 

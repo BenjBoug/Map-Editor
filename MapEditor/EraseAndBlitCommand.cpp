@@ -3,7 +3,7 @@
 EraseAndBlitCommand::EraseAndBlitCommand(MapView *mapView, int i, int j, int bloc, int layer, float opacity)
 {
     this->mapView=mapView;
-    eraseCmd = new EraseCommand(mapView,i,j,layer,opacity);
+    eraseCmd = new EraseCommand(mapView,i,j,layer);
     blitCmd = new BlitCommand(mapView,i,j,bloc,layer,opacity);
     this->i=i;
     this->j=j;

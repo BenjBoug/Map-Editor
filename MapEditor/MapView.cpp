@@ -69,19 +69,19 @@ void MapView::redo()
 void MapView::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     if (this->sceneRect().contains(mouseEvent->scenePos()))
-        paintStrategy->mousePressEvent(mouseEvent);
+        displayStrategy->mousePressEvent(mouseEvent);
 }
 
 void MapView::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     if (this->sceneRect().contains(mouseEvent->scenePos()))
-        paintStrategy->mouseMoveEvent(mouseEvent);
+        displayStrategy->mouseMoveEvent(mouseEvent);
 }
 
 void MapView::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     if (this->sceneRect().contains(mouseEvent->scenePos()))
-        paintStrategy->mouseReleaseEvent(mouseEvent);
+        displayStrategy->mouseReleaseEvent(mouseEvent);
 }
 
 void MapView::setPaintStrategy(PaintStrategy *stra)
@@ -117,9 +117,14 @@ Model::Map *MapView::getMap()
     return map;
 }
 
-LayerStrategy *MapView::getLayerStrategy()
+LayerStrategy *MapView::getCurrentLayer()
 {
     return displayStrategy;
+}
+
+PaintStrategy *MapView::getCurrentPaint()
+{
+    return paintStrategy;
 }
 
 void MapView::removeLayer(ZIndex index)

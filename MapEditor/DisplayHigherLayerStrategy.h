@@ -10,6 +10,9 @@ public:
 
     virtual void display();
     virtual int getLayer();
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
 
 private:
 };

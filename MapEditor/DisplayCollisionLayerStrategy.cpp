@@ -3,6 +3,8 @@
 DisplayCollisionLayerStrategy::DisplayCollisionLayerStrategy(MapView * mapView)
     : LayerStrategy(mapView)
 {
+    inSelectLeft = false;
+    inSelectRight=false;
 }
 
 void DisplayCollisionLayerStrategy::display()
@@ -32,4 +34,41 @@ int DisplayCollisionLayerStrategy::getLayer()
 {
     return COLLIDE;
 }
+
+void DisplayCollisionLayerStrategy::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    int i=mouseEvent->scenePos().x()/BLOCSIZE;
+    int j=mouseEvent->scenePos().y()/BLOCSIZE;
+    if (mouseEvent->button()==Qt::LeftButton)
+    {
+        mapView->executeCmd(new CollideCommand(mapView,i,j,1));
+        inSelectLeft = true;
+    }
+    else if (mouseEvent->button()==Qt::RightButton)
+    {
+        mapView->executeCmd(new CollideCommand(mapView,i,j,0));
+        inSelectRight=true;
+    }
+}
+
+void DisplayCollisionLayerStrategy::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    int i=mouseEvent->scenePos().x()/BLOCSIZE;
+    int j=mouseEvent->scenePos().y()/BLOCSIZE;
+    if (inSelectLeft)
+    {
+        mapView->executeCmd(new CollideCommand(mapView,i,j,1));
+    }
+    else if (inSelectRight)
+    {
+        mapView->executeCmd(new CollideCommand(mapView,i,j,0));
+    }
+}
+
+void DisplayCollisionLayerStrategy::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    inSelectLeft = false;
+    inSelectRight=false;
+}
+
 

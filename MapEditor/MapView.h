@@ -38,7 +38,8 @@ public:
 
     QPixmap getChipset();
     Model::Map* getMap();
-    LayerStrategy* getLayerStrategy();
+    LayerStrategy* getCurrentLayer();
+    PaintStrategy *getCurrentPaint();
 
     void removeLayer(ZIndex index);
 

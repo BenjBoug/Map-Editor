@@ -1,12 +1,11 @@
 #include "EraseCommand.h"
 
-EraseCommand::EraseCommand(MapView *mapView, int i, int j, int layer, float opacity)
+EraseCommand::EraseCommand(MapView *mapView, int i, int j, int layer)
 {
     this->mapView = mapView;
     this->i=i;
     this->j=j;
     this->layer=layer;
-    this->opacityMemento=opacity;
 }
 
 void EraseCommand::execute()
@@ -18,5 +17,5 @@ void EraseCommand::execute()
 void EraseCommand::undo()
 {
     mapView->removeTile(i,j,layer);
-    mapView->blitTile(i,j,blocMemento,layer,opacityMemento);
+    mapView->blitTile(i,j,blocMemento,layer);
 }

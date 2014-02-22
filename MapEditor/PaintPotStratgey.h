@@ -16,6 +16,7 @@ public:
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
 
     void paintPot(int i,int j, int blocRef);
+    void erase(int i,int j,int blocRef);
 
 private:
 };
