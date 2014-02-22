@@ -3,8 +3,6 @@
 DisplayCollisionLayerStrategy::DisplayCollisionLayerStrategy(MapView * mapView)
     : LayerStrategy(mapView)
 {
-    inSelectLeft = false;
-    inSelectRight=false;
 }
 
 void DisplayCollisionLayerStrategy::display()
@@ -15,12 +13,11 @@ void DisplayCollisionLayerStrategy::display()
         for(int j=0;j<map->getDim().height();j++)
         {
 
-            int couche1 = map->getBloc(i,j)->getCouche1();
-            mapView->blitTile(i,j,couche1,LOW);
-            int couche2 = map->getBloc(i,j)->getCouche2();
-            mapView->blitTile(i,j,couche2,HIGH);
+            BlocMap * bloc = map->getBloc(i,j);
+            mapView->blitTile(i,j,bloc,LOW);
+            mapView->blitTile(i,j,bloc,HIGH);
 
-            int collide = map->getBloc(i,j)->getCollision();
+            int collide = map->getBloc(i,j)->getCollisionLayer();
             QFont font("Helvetica", 20, QFont::Bold);
             QGraphicsSimpleTextItem * collisionItem = mapView->addSimpleText(QString("%1").arg(collide),font);
             collisionItem->setBrush(Qt::lightGray);
@@ -35,40 +32,30 @@ int DisplayCollisionLayerStrategy::getLayer()
     return COLLIDE;
 }
 
-void DisplayCollisionLayerStrategy::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void DisplayCollisionLayerStrategy::leftButtonPressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     int i=mouseEvent->scenePos().x()/BLOCSIZE;
     int j=mouseEvent->scenePos().y()/BLOCSIZE;
-    if (mouseEvent->button()==Qt::LeftButton)
-    {
-        mapView->executeCmd(new CollideCommand(mapView,i,j,1));
-        inSelectLeft = true;
-    }
-    else if (mouseEvent->button()==Qt::RightButton)
-    {
-        mapView->executeCmd(new CollideCommand(mapView,i,j,0));
-        inSelectRight=true;
-    }
+    UndoSingleton::getInstance()->execute(new CollideCommand(mapView,i,j,1));
 }
 
-void DisplayCollisionLayerStrategy::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void DisplayCollisionLayerStrategy::rightButtonPressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     int i=mouseEvent->scenePos().x()/BLOCSIZE;
     int j=mouseEvent->scenePos().y()/BLOCSIZE;
-    if (inSelectLeft)
-    {
-        mapView->executeCmd(new CollideCommand(mapView,i,j,1));
-    }
-    else if (inSelectRight)
-    {
-        mapView->executeCmd(new CollideCommand(mapView,i,j,0));
-    }
+    UndoSingleton::getInstance()->execute(new CollideCommand(mapView,i,j,0));
 }
 
-void DisplayCollisionLayerStrategy::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void DisplayCollisionLayerStrategy::leftButtonMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    inSelectLeft = false;
-    inSelectRight=false;
+    int i=mouseEvent->scenePos().x()/BLOCSIZE;
+    int j=mouseEvent->scenePos().y()/BLOCSIZE;
+    UndoSingleton::getInstance()->execute(new CollideCommand(mapView,i,j,1));
 }
 
-
+void DisplayCollisionLayerStrategy::rightButtonMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    int i=mouseEvent->scenePos().x()/BLOCSIZE;
+    int j=mouseEvent->scenePos().y()/BLOCSIZE;
+    UndoSingleton::getInstance()->execute(new CollideCommand(mapView,i,j,0));
+}

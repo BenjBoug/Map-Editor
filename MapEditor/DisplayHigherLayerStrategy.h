@@ -2,7 +2,6 @@
 #define DISPLAYHIGHERLAYERSTRATEGY_H
 
 #include "MapView.h"
-#include "EraseAndBlitCommand.h"
 class DisplayHigherLayerStrategy : public LayerStrategy
 {
 public:

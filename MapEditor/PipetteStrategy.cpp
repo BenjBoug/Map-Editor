@@ -5,13 +5,13 @@ PipetteStrategy::PipetteStrategy(MapView * mapView, ChipsetView * chipsetView)
 {
 }
 
-void PipetteStrategy::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void PipetteStrategy::leftButtonPressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     chipsetView->selectTile(mapView->getMap()->getBloc(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE)->getLayer(mapView->getCurrentLayer()->getLayer()));
 }
 
-
-void PipetteStrategy::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void PipetteStrategy::leftButtonMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    chipsetView->selectTile(mapView->getMap()->getBloc(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE)->getLayer(mapView->getCurrentLayer()->getLayer()));
 
 }

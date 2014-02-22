@@ -1,30 +1,21 @@
 #include "BlitCommand.h"
 
-
-BlitCommand::BlitCommand(MapView *mapView, int i, int j, int bloc, int layer, float opacity)
+BlitCommand::BlitCommand(MapView *mapView, int i, int j, int bloc)
 {
-    this->mapView = mapView;
+    this->mapView=mapView;
     this->i=i;
     this->j=j;
     this->bloc=bloc;
-    this->layer=layer;
-    this->opacity=opacity;
+    this->layerMemento=mapView->getCurrentLayer()->getLayer();
 }
 
 void BlitCommand::execute()
 {
-    blocMemento=mapView->getMap()->getBloc(i,j)->getLayer(layer);
-    layerMemento=layer;
-    opacityMemento=opacity;
-    mapView->blitTile(i,j,bloc,layer,opacity);
+    blocMemento=mapView->getMap()->getBloc(i,j)->getLayer(layerMemento);
+    mapView->getMap()->getBloc(i,j)->setLayer(layerMemento,bloc);
 }
 
 void BlitCommand::undo()
 {
-    bloc = blocMemento;
-    layer = layerMemento;
-    opacity = opacityMemento;
-
-    mapView->removeTile(i,j,layer);
-    execute();
+    mapView->getMap()->getBloc(i,j)->setLayer(layerMemento,blocMemento);
 }

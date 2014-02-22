@@ -16,6 +16,8 @@
 #include "DisplayCollisionLayerStrategy.h"
 #include "GridLayerStratgey.h"
 #include "GroupeCheckBox.h"
+#include "ChangeChipsetCommand.h"
+#include "UndoSingleton.h"
 
 namespace Ui {
 class MainWindow;

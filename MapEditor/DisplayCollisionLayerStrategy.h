@@ -4,6 +4,7 @@
 #include "MapView.h"
 #include <QFont>
 #include "CollideCommand.h"
+#include "UndoSingleton.h"
 
 class DisplayCollisionLayerStrategy : public LayerStrategy
 {
@@ -12,13 +13,16 @@ public:
 
     virtual void display();
     virtual int getLayer();
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
+
+    virtual void leftButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void rightButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+
+    virtual void leftButtonMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void rightButtonMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+
 
 private:
 
-    bool inSelectLeft,inSelectRight;
 };
 
 #endif // DISPLAYCOLLISIONLAYERSTRATEGY_H

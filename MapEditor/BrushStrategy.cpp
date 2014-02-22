@@ -8,72 +8,48 @@ BrushStrategy::BrushStrategy(MapView *mapView, ChipsetView *chipsetView)
     idCmd = 0;
 }
 
-void BrushStrategy::mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent)
+void BrushStrategy::leftButtonPressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    if (mouseEvent->button() == Qt::LeftButton)
+    blit(mouseEvent->scenePos());
+}
+
+void BrushStrategy::rightButtonPressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    blited.setX(mouseEvent->scenePos().x()/BLOCSIZE);
+    blited.setY(mouseEvent->scenePos().y()/BLOCSIZE);
+    blited.setWidth(1);
+    blited.setHeight(1);
+    UndoSingleton::getInstance()->execute(new EraseCommand(mapView,mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE));
+}
+
+void BrushStrategy::leftButtonMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+{
+    QVector<QVector<int> > selectedTile = chipsetView->getSelectedTile();
+    QRect newBlit;
+    int xMouse = mouseEvent->scenePos().x() / BLOCSIZE;
+    int yMouse = mouseEvent->scenePos().y() / BLOCSIZE;
+    newBlit.setX(xMouse);
+    newBlit.setY(yMouse);
+    newBlit.setWidth(selectedTile.size());
+    newBlit.setHeight(selectedTile[0].size());
+    if (!newBlit.intersects(blited))
     {
         blit(mouseEvent->scenePos());
-        inSelect = true;
-    }
-    else if (mouseEvent->button() == Qt::RightButton)
-    {
-
-        blited.setX(mouseEvent->scenePos().x()/BLOCSIZE);
-        blited.setY(mouseEvent->scenePos().y()/BLOCSIZE);
-        blited.setWidth(1);
-        blited.setHeight(1);
-        mapView->executeCmd(new EraseCommand(mapView,mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE,mapView->getCurrentLayer()->getLayer()));
-       inSelectRight = true;
     }
 }
 
-void BrushStrategy::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void BrushStrategy::rightButtonMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    PaintStrategy::mouseMoveEvent(mouseEvent);
-    QVector<QVector<int> > selectedTile = chipsetView->getSelectedTile();
+    QRect newBlit;
+    int xMouse = mouseEvent->scenePos().x() / BLOCSIZE;
+    int yMouse = mouseEvent->scenePos().y() / BLOCSIZE;
+    newBlit.setX(xMouse);
+    newBlit.setY(yMouse);
+    newBlit.setWidth(BLOCSIZE);
+    newBlit.setHeight(BLOCSIZE);
+    if (!newBlit.intersects(blited))
+        UndoSingleton::getInstance()->execute(new EraseCommand(mapView,mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE));
 
-    if (inSelect)
-    {
-        QRect newBlit;
-        int xMouse = mouseEvent->scenePos().x() / BLOCSIZE;
-        int yMouse = mouseEvent->scenePos().y() / BLOCSIZE;
-        newBlit.setX(xMouse);
-        newBlit.setY(yMouse);
-        newBlit.setWidth(selectedTile.size());
-        newBlit.setHeight(selectedTile[0].size());
-        if (!newBlit.intersects(blited))
-        {
-            blit(mouseEvent->scenePos());
-        }
-
-    }
-    else if (inSelectRight)
-    {
-        QRect newBlit;
-        int xMouse = mouseEvent->scenePos().x() / BLOCSIZE;
-        int yMouse = mouseEvent->scenePos().y() / BLOCSIZE;
-        newBlit.setX(xMouse);
-        newBlit.setY(yMouse);
-        newBlit.setWidth(BLOCSIZE);
-        newBlit.setHeight(BLOCSIZE);
-        if (!newBlit.intersects(blited))
-            mapView->executeCmd(new EraseCommand(mapView,mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE,mapView->getCurrentLayer()->getLayer()));
-    }
-
-}
-
-void BrushStrategy::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-    if (mouseEvent->button() == Qt::LeftButton)
-    {
-        inSelect = false;
-    }
-
-    if (mouseEvent->button() == Qt::RightButton)
-    {
-        inSelectRight = false;
-    }
-    ICommand::end();
 }
 
 void BrushStrategy::blit(QPointF pos)
@@ -86,7 +62,7 @@ void BrushStrategy::blit(QPointF pos)
     {
         for(int j=0;j<selectedTile[i].size();j++)
         {
-            mapView->executeCmd(new EraseAndBlitCommand(mapView,i+xMouse,j+yMouse,selectedTile[i][j],mapView->getCurrentLayer()->getLayer(),1));
+            UndoSingleton::getInstance()->execute(new BlitCommand(mapView,i+xMouse,j+yMouse,selectedTile[i][j]));
         }
     }
     blited.setX(xMouse);

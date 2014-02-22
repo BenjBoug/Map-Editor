@@ -1,24 +1,22 @@
 #ifndef BLITCOMMAND_H
 #define BLITCOMMAND_H
 
-#include "MapView.h"
 #include "ICommand.h"
+#include "MapView.h"
 
 class BlitCommand : public ICommand
 {
 public:
-    BlitCommand(MapView * mapView, int i, int j, int bloc, int layer, float opacity=1);
+    BlitCommand(MapView * mapView, int i, int j, int bloc);
     virtual void execute();
     virtual void undo();
 
 
 private:
     MapView * mapView;
-    int i,j,bloc,layer,opacity;
-
-    int blocMemento;
+    int i,j,bloc;
     int layerMemento;
-    float opacityMemento;
+    int blocMemento;
 };
 
 #endif // BLITCOMMAND_H

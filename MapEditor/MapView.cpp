@@ -3,7 +3,6 @@
 MapView::MapView():
     QGraphicsScene()
 {
-    zoom = 1;
     this->map = new Model::Map();
     gridStrategy = NULL;
     //this->setSceneRect(10,0,SCREEN_WIDTH,SCREEN_HEIGHT);
@@ -12,7 +11,6 @@ MapView::MapView():
 MapView::MapView(Model::Map * m) :
     QGraphicsScene()
 {
-    zoom = 1;
     gridStrategy = NULL;
     setMap(m);
 }
@@ -29,40 +27,6 @@ void MapView::loadChipset(QString f)
     chipset.load(f);
     QBitmap mask = chipset.createMaskFromColor(QColor(255, 103, 139));
     chipset.setMask(mask);
-}
-
-void MapView::undo()
-{
-    ICommand * cmdUndid = stackUndoCommand.pop();
-    cmdUndid->undo();
-    stackRedoCommand.push(cmdUndid);
-    int id=cmdUndid->getId();
-    while (!stackUndoCommand.isEmpty() && stackUndoCommand.top()->getId()==id)
-    {
-        cmdUndid = stackUndoCommand.pop();
-        cmdUndid->undo();
-        stackRedoCommand.push(cmdUndid);
-    }
-
-    emit redoEmpty(!stackRedoCommand.isEmpty());
-    emit undoEmpty(!stackUndoCommand.isEmpty());
-}
-
-void MapView::redo()
-{
-    ICommand * cmdRedid = stackRedoCommand.pop();
-    cmdRedid->execute();
-    stackUndoCommand.push(cmdRedid);
-    int id=cmdRedid->getId();
-    while (!stackRedoCommand.isEmpty() && stackRedoCommand.top()->getId()==id)
-    {
-        cmdRedid = stackRedoCommand.pop();
-        cmdRedid->execute();
-        stackUndoCommand.push(cmdRedid);
-    }
-
-    emit redoEmpty(!stackRedoCommand.isEmpty());
-    emit undoEmpty(!stackUndoCommand.isEmpty());
 }
 
 
@@ -84,6 +48,12 @@ void MapView::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
         displayStrategy->mouseReleaseEvent(mouseEvent);
 }
 
+void MapView::contextMenuEvent(QGraphicsSceneContextMenuEvent *contextMenuEvent)
+{
+    if (this->sceneRect().contains(contextMenuEvent->scenePos()))
+        displayStrategy->contextMenuEvent(contextMenuEvent);
+}
+
 void MapView::setPaintStrategy(PaintStrategy *stra)
 {
     paintStrategy=stra;
@@ -92,10 +62,6 @@ void MapView::setPaintStrategy(PaintStrategy *stra)
 void MapView::setDisplayStrategy(LayerStrategy *stra)
 {
     displayStrategy = stra;
-    stackRedoCommand.clear();
-    stackUndoCommand.clear();
-    emit redoEmpty(!stackRedoCommand.isEmpty());
-    emit undoEmpty(!stackUndoCommand.isEmpty());
 }
 
 void MapView::setGridStrategy(IStrategy *stra)
@@ -154,26 +120,12 @@ QList<QGraphicsItem *> MapView::getLayer(QList<QGraphicsItem *> list, int layer)
     return res;
 }
 
-void MapView::executeCmd(ICommand *cmd)
+void MapView::blitTile(int i, int j, BlocMap *bloc, int layer, float opacity)
 {
-    cmd->execute();
-    stackUndoCommand.push(cmd);
-    emit redoEmpty(!stackRedoCommand.isEmpty());
-    emit undoEmpty(!stackUndoCommand.isEmpty());
-}
-
-void MapView::blitTile(int i, int j, int bloc, int layer, float opacity)
-{
-    map->getBloc(i,j)->setLayer(layer,bloc);
-    int valueMax = (chipset.width()/BLOCSIZE)*(chipset.height()/BLOCSIZE);
-    if (bloc!=0 && bloc < valueMax)
-    {
-        QPixmap tile = chipset.copy((bloc%(chipset.width()/BLOCSIZE))*BLOCSIZE,(bloc/(chipset.width()/BLOCSIZE))*BLOCSIZE,BLOCSIZE,BLOCSIZE);
-        QGraphicsPixmapItem * tileItem = this->addPixmap(tile);
-        tileItem->setPos(i*BLOCSIZE,j*BLOCSIZE);
-        tileItem->setZValue(layer);
-        tileItem->setOpacity(opacity);
-    }
+    QGraphicsTileItem * tileItem = new QGraphicsTileItem(bloc,chipset,layer);
+    tileItem->setPos(i*BLOCSIZE,j*BLOCSIZE);
+    tileItem->setOpacity(opacity);
+    this->addItem(tileItem);
 }
 
 void MapView::removeTile(int i, int j, int layer)
@@ -186,7 +138,7 @@ void MapView::removeTile(int i, int j, int layer)
         this->removeItem(*it);
     }
 
-    map->getBloc(i,j)->setLayer(layer,0);
+    //map->getBloc(i,j)->setLayer(layer,0);
 }
 
 void MapView::displayMap()
@@ -195,6 +147,7 @@ void MapView::displayMap()
     displayStrategy->display();
     if (gridStrategy != NULL)
         gridStrategy->execute();
+    this->setSceneRect(0,0,map->getDim().width()*BLOCSIZE,map->getDim().height()*BLOCSIZE);
 }
 
 void MapView::clearMap()

@@ -50,10 +50,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionChange_chipset,SIGNAL(triggered()),this,SLOT(changeChipset()));
 
-    connect(mapView,SIGNAL(redoEmpty(bool)),ui->actionRedo,SLOT(setEnabled(bool)));
-    connect(mapView,SIGNAL(undoEmpty(bool)),ui->actionUndo,SLOT(setEnabled(bool)));
-    connect(ui->actionRedo,SIGNAL(triggered()),mapView,SLOT(redo()));
-    connect(ui->actionUndo,SIGNAL(triggered()),mapView,SLOT(undo()));
+    connect(UndoSingleton::getInstance(),SIGNAL(redoEmpty(bool)),ui->actionRedo,SLOT(setEnabled(bool)));
+    connect(UndoSingleton::getInstance(),SIGNAL(undoEmpty(bool)),ui->actionUndo,SLOT(setEnabled(bool)));
+    connect(ui->actionRedo,SIGNAL(triggered()),UndoSingleton::getInstance(),SLOT(redo()));
+    connect(ui->actionUndo,SIGNAL(triggered()),UndoSingleton::getInstance(),SLOT(undo()));
 
     connect(ui->actionBrush,SIGNAL(triggered()),this,SLOT(brushTool()));
     connect(ui->actionPaint_pot,SIGNAL(triggered()),this,SLOT(painPotTool()));
@@ -140,10 +140,7 @@ void MainWindow::changeChipset()
     QString fichier = QFileDialog::getOpenFileName(this, "Load a chipset", QString(), "Chipset (*.bmp)");
     if (fichier != "")
     {
-        map->setNameChipset(fichier);
-        chipsetView->loadChipset(fichier);
-        mapView->loadChipset(fichier);
-        mapView->displayMap();
+        UndoSingleton::getInstance()->execute(new ChangeChipsetCommand(mapView,chipsetView,fichier));
     }
 }
 

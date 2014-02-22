@@ -10,11 +10,6 @@ PaintStrategy::PaintStrategy(MapView *mapView, ChipsetView *chipsetView)
     rectItem->setZValue(CURSOR);
 }
 
-void PaintStrategy::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-
-}
-
 void PaintStrategy::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     QVector<QVector<int> > selectedTile = chipsetView->getSelectedTile();
@@ -29,9 +24,6 @@ void PaintStrategy::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
     {
         rectItem = mapView->addRect(0,0,0,0);
     }
-}
 
-void PaintStrategy::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-
+    IMouseMove::mouseMoveEvent(mouseEvent);
 }

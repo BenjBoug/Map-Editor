@@ -28,18 +28,19 @@ namespace Model
             int getLayer(int layer);
             void setLayer(int layer, int bl);
 
-            int getCouche1() const;
-            void setCouche1(int c);
-            int getCouche2() const;
-            void setCouche2(int c);
-            int getCollision() const;
-            void setCollision(bool c);
+            int getLowLayer() const;
+            void setLowLayer(int c);
+            int getHighLayer() const;
+            void setHighLayer(int c);
+            int getCollisionLayer() const;
+            void setCollisionLayer(bool c);
 
             friend QDataStream & operator << (QDataStream & out, const BlocMap * Valeur);
             friend QDataStream & operator >> (QDataStream & in, BlocMap * Valeur);
 
         signals:
             void blocModified();
+            void blocLayerModified(int layer);
         protected:
         int couche1;
         int couche2;

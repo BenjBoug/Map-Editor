@@ -12,9 +12,9 @@ BlocMap::BlocMap()
 
 BlocMap::BlocMap(const BlocMap & b)
 {
-    couche1=b.getCouche1();
-    couche2=b.getCouche2();
-    c_collision=b.getCollision();
+    couche1=b.getLowLayer();
+    couche2=b.getHighLayer();
+    c_collision=b.getCollisionLayer();
 }
 BlocMap::BlocMap(int _1, int _2, int _c)
 {
@@ -28,35 +28,38 @@ BlocMap::~BlocMap()
     //dtor
 }
 
-int BlocMap::getCouche1() const
+int BlocMap::getLowLayer() const
 {
     return couche1;
 }
 
-void BlocMap::setCouche1(int c)
+void BlocMap::setLowLayer(int c)
 {
     couche1=c;
+    emit blocLayerModified(LOW);
     emit blocModified();
 }
-int BlocMap::getCouche2() const
+int BlocMap::getHighLayer() const
 {
     return couche2;
 }
 
-void BlocMap::setCouche2(int c)
+void BlocMap::setHighLayer(int c)
 {
     couche2=c;
+    emit blocLayerModified(HIGH);
     emit blocModified();
 }
 
-int BlocMap::getCollision() const
+int BlocMap::getCollisionLayer() const
 {
     return c_collision;
 }
 
-void BlocMap::setCollision(bool c)
+void BlocMap::setCollisionLayer(bool c)
 {
     c_collision=c;
+    emit blocLayerModified(COLLIDE);
     emit blocModified();
 }
 
@@ -111,5 +114,7 @@ void BlocMap::setLayer(int layer, int bl)
             c_collision = bl;
             break;
     }
+    emit blocModified();
+    emit blocLayerModified(layer);
 }
 

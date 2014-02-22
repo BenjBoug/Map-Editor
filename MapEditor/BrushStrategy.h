@@ -6,16 +6,21 @@
 #include <QDebug>
 #include "MapView.h"
 #include "ChipsetView.h"
-#include "EraseAndBlitCommand.h"
+#include "EraseCommand.h"
+#include "BlitCommand.h"
+#include "UndoSingleton.h"
 
 class BrushStrategy : public PaintStrategy
 {
 public:
     BrushStrategy(MapView * mapView, ChipsetView * chipsetView);
 
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    void leftButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    void rightButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+
+    void leftButtonMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    void rightButtonMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+
 
 private:
 

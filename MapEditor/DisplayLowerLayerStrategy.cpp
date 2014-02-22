@@ -12,10 +12,9 @@ void DisplayLowerLayerStrategy::display()
     {
         for(int j=0;j<map->getDim().height();j++)
         {
-            int couche1 = map->getBloc(i,j)->getCouche1();
-            mapView->blitTile(i,j,couche1,LOW);
-            int couche2 = map->getBloc(i,j)->getCouche2();
-            mapView->blitTile(i,j,couche2,HIGH,0.3);
+            BlocMap * bloc = map->getBloc(i,j);
+            mapView->blitTile(i,j,bloc,LOW);
+            mapView->blitTile(i,j,bloc,HIGH,0.3);
         }
     }
 }
@@ -24,7 +23,6 @@ int DisplayLowerLayerStrategy::getLayer()
 {
     return LOW;
 }
-
 
 void DisplayLowerLayerStrategy::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {

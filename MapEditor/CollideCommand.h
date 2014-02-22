@@ -17,7 +17,6 @@ private:
     MapView * mapView;
     int i,j,collide;
     int collideMemento;
-    EraseCommand * erase;
 
 };
 

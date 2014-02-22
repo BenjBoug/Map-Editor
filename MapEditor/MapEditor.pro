@@ -11,8 +11,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = MapEditor
 TEMPLATE = app
 
-LIBS +=  -lsfml-graphics -lsfml-window -lsfml-system
-
 SOURCES += main.cpp\
         MainWindow.cpp \
     ChipsetView.cpp \
@@ -29,11 +27,15 @@ SOURCES += main.cpp\
     GroupeCheckBox.cpp \
     BlitCommand.cpp \
     EraseCommand.cpp \
-    EraseAndBlitCommand.cpp \
     QGraphicsTileItem.cpp \
     ICommand.cpp \
     PipetteStrategy.cpp \
-    CollideCommand.cpp
+    CollideCommand.cpp \
+    IMouseMove.cpp \
+    UndoSingleton.cpp \
+    ClearMapCommand.cpp \
+    ChangeDimensionCommand.cpp \
+    ChangeChipsetCommand.cpp
 
 HEADERS  += MainWindow.h \
     ChipsetView.h \
@@ -52,10 +54,14 @@ HEADERS  += MainWindow.h \
     GroupeCheckBox.h \
     BlitCommand.h \
     EraseCommand.h \
-    EraseAndBlitCommand.h \
     QGraphicsTileItem.h \
     PipetteStrategy.h \
-    CollideCommand.h
+    CollideCommand.h \
+    IMouseMove.h \
+    UndoSingleton.h \
+    ClearMapCommand.h \
+    ChangeDimensionCommand.h \
+    ChangeChipsetCommand.h
 
 FORMS    += MainWindow.ui
 

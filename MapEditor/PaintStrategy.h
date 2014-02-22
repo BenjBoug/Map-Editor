@@ -3,17 +3,17 @@
 
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsRectItem>
+#include "IMouseMove.h"
 class MapView;
 class ChipsetView;
 
-class PaintStrategy
+class PaintStrategy : public IMouseMove
 {
 public:
     PaintStrategy(MapView * mapView,ChipsetView * chipsetView);
 
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
+
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
 
 protected:
     MapView * mapView;

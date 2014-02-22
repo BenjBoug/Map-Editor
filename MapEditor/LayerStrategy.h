@@ -1,19 +1,18 @@
 #ifndef LAYERSTRATEGY_H
 #define LAYERSTRATEGY_H
 
-class MapView;
 #include <QPixmap>
 #include <QGraphicsSceneMouseEvent>
+#include "ICommand.h"
+#include "IMouseMove.h"
+class MapView;
 
-class LayerStrategy
+class LayerStrategy : public IMouseMove
 {
 public:
     LayerStrategy(MapView * mapView);
     virtual void display() =0;
     virtual int getLayer() = 0;
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
 
 protected:
     MapView * mapView;

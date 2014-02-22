@@ -95,8 +95,8 @@ void Map::display(IGui *gui, ICamera *cam)
         {
             try
             {
-                int couche1 = _map[convert2Dto1D(i,j)]->getCouche1();
-                int couche2 = _map[convert2Dto1D(i,j)]->getCouche2();
+                int couche1 = _map[convert2Dto1D(i,j)]->getLowLayer();
+                int couche2 = _map[convert2Dto1D(i,j)]->getHighLayer();
                 if (couche1!=0)
                 {
                     position.setX((i*BLOCSIZE-x)+(centrageX*BLOCSIZE));

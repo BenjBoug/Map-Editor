@@ -3,7 +3,6 @@
 
 #include "MapView.h"
 #include "EraseCommand.h"
-#include "EraseAndBlitCommand.h"
 
 class DisplayLowerLayerStrategy : public LayerStrategy
 {
