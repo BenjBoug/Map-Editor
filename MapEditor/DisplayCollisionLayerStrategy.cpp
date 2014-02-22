@@ -14,9 +14,9 @@ void DisplayCollisionLayerStrategy::display()
         {
 
             int couche1 = map->getBloc(i,j)->getCouche1();
-            blitBloc(i,j,couche1,LOW);
+            mapView->blitTile(i,j,couche1,LOW);
             int couche2 = map->getBloc(i,j)->getCouche2();
-            blitBloc(i,j,couche2,HIGH);
+            mapView->blitTile(i,j,couche2,HIGH);
 
             int collide = map->getBloc(i,j)->getCollision();
             QFont font("Helvetica", 20, QFont::Bold);

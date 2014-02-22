@@ -11,6 +11,8 @@
  * @brief The BlocMap class, the model of data for a bloc in the map
  */
 
+enum ZIndex {LOW=0,HIGH=50,COLLIDE=100,GRID=200,EVENT=300,CURSOR=500};
+
 namespace Model
 {
     class BlocMap : public QObject, public Object
@@ -22,6 +24,10 @@ namespace Model
             BlocMap(int,int,int);
              ~BlocMap();
             virtual bool collision(Object*);
+
+            int getLayer(int layer);
+            void setLayer(int layer, int bl);
+
             int getCouche1() const;
             void setCouche1(int c);
             int getCouche2() const;

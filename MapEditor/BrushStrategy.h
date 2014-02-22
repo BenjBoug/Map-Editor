@@ -22,7 +22,7 @@ private:
     void blit(QPointF pos);
     QRect blited;
     bool inSelect, inSelectRight;
-    QGraphicsRectItem * rectItem;
+    int idCmd;
 };
 
 #endif // BRUSHSTRATEGY_H

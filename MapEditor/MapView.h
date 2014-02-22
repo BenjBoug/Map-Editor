@@ -17,7 +17,6 @@
 #include "ICommand.h"
 #include <QStack>
 
-enum ZIndex {LOW=0,HIGH=50,COLLIDE=100,GRID=200,EVENT=300,CURSOR=500};
 
 class MapView : public QGraphicsScene
 {
@@ -47,6 +46,9 @@ public:
     QList<QGraphicsItem*> getLayer(QList<QGraphicsItem*> list,int layer);
 
     void executeCmd(ICommand* cmd);
+
+    void blitTile(int i, int j, int bloc, int layer, float opacity=1);
+    void removeTile(int i,int j,int layer);
 
 
 signals:

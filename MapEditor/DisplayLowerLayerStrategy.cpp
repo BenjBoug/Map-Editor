@@ -13,9 +13,9 @@ void DisplayLowerLayerStrategy::display()
         for(int j=0;j<map->getDim().height();j++)
         {
             int couche1 = map->getBloc(i,j)->getCouche1();
-            blitBloc(i,j,couche1,LOW);
+            mapView->blitTile(i,j,couche1,LOW);
             int couche2 = map->getBloc(i,j)->getCouche2();
-            blitBloc(i,j,couche2,HIGH,0.3);
+            mapView->blitTile(i,j,couche2,HIGH,0.3);
         }
     }
 }

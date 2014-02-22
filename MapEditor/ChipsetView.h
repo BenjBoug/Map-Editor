@@ -27,6 +27,8 @@ public:
 
     QVector< QVector<int> > getSelectedTile();
 
+    void selectTile(int t);
+
 protected:
     void init();
     

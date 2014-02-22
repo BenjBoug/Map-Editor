@@ -8,6 +8,8 @@
 #include <QDataStream>
 #include "MapView.h"
 #include "BrushStrategy.h"
+#include "PaintPotStratgey.h"
+#include "PipetteStrategy.h"
 #include "DisplayLowerLayerStrategy.h"
 #include "DisplayHigherLayerStrategy.h"
 #include "DisplayVisuaLayerStrategy.h"
@@ -39,6 +41,10 @@ public slots:
 
     void changeChipset();
 
+    void brushTool();
+    void painPotTool();
+    void pipetteTool();
+
     void save();
 
     void gridLayer(bool enable);
@@ -50,6 +56,15 @@ private:
     Model::Map *map;
     MapView * mapView;
     ChipsetView * chipsetView;
+    DisplayLowerLayerStrategy *lowLayerStrategy;
+    DisplayHigherLayerStrategy *highLayerStrategy;
+    DisplayVisuaLayerStrategy *visuaLayerStrategy;
+    DisplayCollisionLayerStrategy * collideLayerStrategy;
+    GridLayerStratgey * gridLayerStrategy;
+
+    BrushStrategy * brushStrategy;
+    PaintPotStrategy * paintPotStrategy;
+    PipetteStrategy * pipetteStrategy;
 };
 
 #endif // MAINWINDOW_H

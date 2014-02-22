@@ -15,6 +15,7 @@ ChipsetView::ChipsetView(QString chip) :
 
 void ChipsetView::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+    this->clearSelection();
     selection.setLeft((int)mouseEvent->scenePos().x()/BLOCSIZE*BLOCSIZE);
     selection.setTop((int)mouseEvent->scenePos().y()/BLOCSIZE*BLOCSIZE);
     selection.setWidth(BLOCSIZE);
@@ -67,6 +68,18 @@ void ChipsetView::mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent)
 QVector<QVector<int> > ChipsetView::getSelectedTile()
 {
     return selectedTile;
+}
+
+void ChipsetView::selectTile(int t)
+{
+    selectedTile.resize(1);
+    selectedTile[0].resize(1);
+    selectedTile[0][0] = t;
+    selection.setX((t%chipset.width())*BLOCSIZE);
+    selection.setY((t/chipset.height())/BLOCSIZE);
+    selection.setWidth(BLOCSIZE);
+    selection.setHeight(BLOCSIZE);
+    itemRectSelected->setRect(selection);
 }
 
 void ChipsetView::init()

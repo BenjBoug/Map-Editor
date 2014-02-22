@@ -2,6 +2,7 @@
 #define PAINTSTRATEGY_H
 
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsRectItem>
 class MapView;
 class ChipsetView;
 
@@ -17,6 +18,7 @@ public:
 protected:
     MapView * mapView;
     ChipsetView * chipsetView;
+    QGraphicsRectItem * rectItem;
 };
 
 #endif // PAINTSTRATEGY_H

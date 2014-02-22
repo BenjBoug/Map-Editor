@@ -79,3 +79,37 @@ bool BlocMap::collision(Object* )
     return (c_collision==1);
 }
 
+int BlocMap::getLayer(int layer)
+{
+    switch(layer)
+    {
+        case LOW:
+            return couche1;
+            break;
+        case HIGH:
+            return couche2;
+            break;
+        case COLLIDE:
+            return c_collision;
+            break;
+        default:
+            return -1;
+    }
+}
+
+void BlocMap::setLayer(int layer, int bl)
+{
+    switch(layer)
+    {
+        case LOW:
+            couche1 = bl;
+            break;
+        case HIGH:
+            couche2 = bl;
+            break;
+        case COLLIDE:
+            c_collision = bl;
+            break;
+    }
+}
+

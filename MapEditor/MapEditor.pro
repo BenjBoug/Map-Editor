@@ -29,7 +29,10 @@ SOURCES += main.cpp\
     GroupeCheckBox.cpp \
     BlitCommand.cpp \
     EraseCommand.cpp \
-    EraseAndBlitCommand.cpp
+    EraseAndBlitCommand.cpp \
+    QGraphicsTileItem.cpp \
+    ICommand.cpp \
+    PipetteStrategy.cpp
 
 HEADERS  += MainWindow.h \
     ChipsetView.h \
@@ -48,7 +51,9 @@ HEADERS  += MainWindow.h \
     GroupeCheckBox.h \
     BlitCommand.h \
     EraseCommand.h \
-    EraseAndBlitCommand.h
+    EraseAndBlitCommand.h \
+    QGraphicsTileItem.h \
+    PipetteStrategy.h
 
 FORMS    += MainWindow.ui
 

@@ -7,10 +7,9 @@
 class BlitCommand : public ICommand
 {
 public:
-    BlitCommand(MapView * mapView, int i,int j, int bloc, int layer, int opacity=1);
+    BlitCommand(MapView * mapView, int i, int j, int bloc, int layer, float opacity=1);
     virtual void execute();
     virtual void undo();
-    virtual void redo();
 
 
 private:
@@ -18,6 +17,8 @@ private:
     int i,j,bloc,layer,opacity;
 
     int blocMemento;
+    int layerMemento;
+    float opacityMemento;
 };
 
 #endif // BLITCOMMAND_H

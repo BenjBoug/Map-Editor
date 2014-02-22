@@ -13,12 +13,21 @@ MainWindow::MainWindow(QWidget *parent) :
     mapView = new MapView();
     ui->graphicsViewMap->setScene(mapView);
 
+    lowLayerStrategy = new DisplayLowerLayerStrategy(mapView);
+    highLayerStrategy = new DisplayHigherLayerStrategy(mapView);
+    collideLayerStrategy = new DisplayCollisionLayerStrategy(mapView);
+    visuaLayerStrategy = new DisplayVisuaLayerStrategy(mapView);
+    gridLayerStrategy = new GridLayerStratgey(mapView);
+
     map = NULL;
 
     ui->graphicsViewMap->setBackgroundBrush(QBrush(QColor(107, 189, 107)));
 
-    mapView->setPaintStrategy(new BrushStrategy(mapView,chipsetView));
-    mapView->setDisplayStrategy(new DisplayLowerLayerStrategy(mapView));
+    brushStrategy = new BrushStrategy(mapView,chipsetView);
+    paintPotStrategy = new PaintPotStrategy(mapView,chipsetView);
+    pipetteStrategy = new PipetteStrategy(mapView,chipsetView);
+    mapView->setPaintStrategy(brushStrategy);
+    mapView->setDisplayStrategy(lowLayerStrategy);
 
     connect(ui->actionOpen,SIGNAL(triggered()),this,SLOT(openMap()));
 
@@ -45,6 +54,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mapView,SIGNAL(undoEmpty(bool)),ui->actionUndo,SLOT(setEnabled(bool)));
     connect(ui->actionRedo,SIGNAL(triggered()),mapView,SLOT(redo()));
     connect(ui->actionUndo,SIGNAL(triggered()),mapView,SLOT(undo()));
+
+    connect(ui->actionBrush,SIGNAL(triggered()),this,SLOT(brushTool()));
+    connect(ui->actionPaint_pot,SIGNAL(triggered()),this,SLOT(painPotTool()));
+
+    connect(ui->actionPipette,SIGNAL(triggered()),this,SLOT(pipetteTool()));
 
     groupTools.addAction(ui->actionBrush);
     groupTools.addAction(ui->actionCircle);
@@ -99,25 +113,25 @@ void MainWindow::minimizeMap()
 
 void MainWindow::lowerLayer()
 {
-    mapView->setDisplayStrategy(new DisplayLowerLayerStrategy(mapView));
+    mapView->setDisplayStrategy(lowLayerStrategy);
     mapView->displayMap();
 }
 
 void MainWindow::higherLayer()
 {
-    mapView->setDisplayStrategy(new DisplayHigherLayerStrategy(mapView));
+    mapView->setDisplayStrategy(highLayerStrategy);
     mapView->displayMap();
 }
 
 void MainWindow::collisionLayer()
 {
-    mapView->setDisplayStrategy(new DisplayCollisionLayerStrategy(mapView));
+    mapView->setDisplayStrategy(collideLayerStrategy);
     mapView->displayMap();
 }
 
 void MainWindow::visuaLayer()
 {
-    mapView->setDisplayStrategy(new DisplayVisuaLayerStrategy(mapView));
+    mapView->setDisplayStrategy(visuaLayerStrategy);
     mapView->displayMap();
 }
 
@@ -131,6 +145,21 @@ void MainWindow::changeChipset()
         mapView->loadChipset(fichier);
         mapView->displayMap();
     }
+}
+
+void MainWindow::brushTool()
+{
+    mapView->setPaintStrategy(brushStrategy);
+}
+
+void MainWindow::painPotTool()
+{
+    mapView->setPaintStrategy(paintPotStrategy);
+}
+
+void MainWindow::pipetteTool()
+{
+    mapView->setPaintStrategy(pipetteStrategy);
 }
 
 void MainWindow::save()

@@ -36,6 +36,14 @@ void MapView::undo()
     ICommand * cmdUndid = stackUndoCommand.pop();
     cmdUndid->undo();
     stackRedoCommand.push(cmdUndid);
+    int id=cmdUndid->getId();
+    while (!stackUndoCommand.isEmpty() && stackUndoCommand.top()->getId()==id)
+    {
+        cmdUndid = stackUndoCommand.pop();
+        cmdUndid->undo();
+        stackRedoCommand.push(cmdUndid);
+    }
+
     emit redoEmpty(!stackRedoCommand.isEmpty());
     emit undoEmpty(!stackUndoCommand.isEmpty());
 }
@@ -43,8 +51,16 @@ void MapView::undo()
 void MapView::redo()
 {
     ICommand * cmdRedid = stackRedoCommand.pop();
-    cmdRedid->redo();
+    cmdRedid->execute();
     stackUndoCommand.push(cmdRedid);
+    int id=cmdRedid->getId();
+    while (!stackRedoCommand.isEmpty() && stackRedoCommand.top()->getId()==id)
+    {
+        cmdRedid = stackRedoCommand.pop();
+        cmdRedid->execute();
+        stackUndoCommand.push(cmdRedid);
+    }
+
     emit redoEmpty(!stackRedoCommand.isEmpty());
     emit undoEmpty(!stackUndoCommand.isEmpty());
 }
@@ -76,6 +92,10 @@ void MapView::setPaintStrategy(PaintStrategy *stra)
 void MapView::setDisplayStrategy(LayerStrategy *stra)
 {
     displayStrategy = stra;
+    stackRedoCommand.clear();
+    stackUndoCommand.clear();
+    emit redoEmpty(!stackRedoCommand.isEmpty());
+    emit undoEmpty(!stackUndoCommand.isEmpty());
 }
 
 void MapView::setGridStrategy(IStrategy *stra)
@@ -135,6 +155,33 @@ void MapView::executeCmd(ICommand *cmd)
     stackUndoCommand.push(cmd);
     emit redoEmpty(!stackRedoCommand.isEmpty());
     emit undoEmpty(!stackUndoCommand.isEmpty());
+}
+
+void MapView::blitTile(int i, int j, int bloc, int layer, float opacity)
+{
+    map->getBloc(i,j)->setLayer(layer,bloc);
+    int valueMax = (chipset.width()/BLOCSIZE)*(chipset.height()/BLOCSIZE);
+    if (bloc!=0 && bloc < valueMax)
+    {
+        QPixmap tile = chipset.copy((bloc%(chipset.width()/BLOCSIZE))*BLOCSIZE,(bloc/(chipset.width()/BLOCSIZE))*BLOCSIZE,BLOCSIZE,BLOCSIZE);
+        QGraphicsPixmapItem * tileItem = this->addPixmap(tile);
+        tileItem->setPos(i*BLOCSIZE,j*BLOCSIZE);
+        tileItem->setZValue(layer);
+        tileItem->setOpacity(opacity);
+    }
+}
+
+void MapView::removeTile(int i, int j, int layer)
+{
+    QList<QGraphicsItem *> item = this->items(QRect((i*BLOCSIZE),(j*BLOCSIZE),BLOCSIZE,BLOCSIZE));
+    item = this->getLayer(item,layer);
+    QList<QGraphicsItem *>::iterator it;
+    for(it=item.begin();it!=item.end();it++)
+    {
+        this->removeItem(*it);
+    }
+
+    map->getBloc(i,j)->setLayer(layer,0);
 }
 
 void MapView::displayMap()
