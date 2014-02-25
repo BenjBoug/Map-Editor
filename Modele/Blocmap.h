@@ -42,9 +42,9 @@ namespace Model
             void blocModified();
             void blocLayerModified(int layer);
         protected:
-        int couche1;
-        int couche2;
-        int c_collision;
+        int lowLayer;
+        int highLayer;
+        int collisionLayer;
     };
     QDataStream & operator << (QDataStream & out, const BlocMap * Valeur);
     QDataStream & operator >> (QDataStream & in, BlocMap * Valeur);

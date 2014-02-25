@@ -5,22 +5,22 @@ using namespace Model;
 
 BlocMap::BlocMap()
 {
-    couche1=0;
-    couche2=0;
-    c_collision=0;
+    lowLayer=0;
+    highLayer=0;
+    collisionLayer=0;
 }
 
 BlocMap::BlocMap(const BlocMap & b)
 {
-    couche1=b.getLowLayer();
-    couche2=b.getHighLayer();
-    c_collision=b.getCollisionLayer();
+    lowLayer=b.getLowLayer();
+    highLayer=b.getHighLayer();
+    collisionLayer=b.getCollisionLayer();
 }
 BlocMap::BlocMap(int _1, int _2, int _c)
 {
-    couche1=_1;
-    couche2=_2;
-    c_collision=_c;
+    lowLayer=_1;
+    highLayer=_2;
+    collisionLayer=_c;
 }
 
 BlocMap::~BlocMap()
@@ -30,56 +30,56 @@ BlocMap::~BlocMap()
 
 int BlocMap::getLowLayer() const
 {
-    return couche1;
+    return lowLayer;
 }
 
 void BlocMap::setLowLayer(int c)
 {
-    couche1=c;
+    lowLayer=c;
     emit blocLayerModified(LOW);
     emit blocModified();
 }
 int BlocMap::getHighLayer() const
 {
-    return couche2;
+    return highLayer;
 }
 
 void BlocMap::setHighLayer(int c)
 {
-    couche2=c;
+    highLayer=c;
     emit blocLayerModified(HIGH);
     emit blocModified();
 }
 
 int BlocMap::getCollisionLayer() const
 {
-    return c_collision;
+    return collisionLayer;
 }
 
 void BlocMap::setCollisionLayer(bool c)
 {
-    c_collision=c;
+    collisionLayer=c;
     emit blocLayerModified(COLLIDE);
     emit blocModified();
 }
 
 QDataStream & Model::operator<<(QDataStream &out, const BlocMap * v)
 {
-    out << v->couche1 << v->couche2 << v->c_collision;
+    out << v->lowLayer << v->highLayer << v->collisionLayer;
     return out;
 }
 
 QDataStream & Model::operator>>(QDataStream &in, BlocMap * v)
 {
-    in >> v->couche1;
-    in >> v->couche2;
-    in >> v->c_collision;
+    in >> v->lowLayer;
+    in >> v->highLayer;
+    in >> v->collisionLayer;
     return in;
 }
 
 bool BlocMap::collision(Object* )
 {
-    return (c_collision==1);
+    return (collisionLayer==1);
 }
 
 int BlocMap::getLayer(int layer)
@@ -87,13 +87,13 @@ int BlocMap::getLayer(int layer)
     switch(layer)
     {
         case LOW:
-            return couche1;
+            return lowLayer;
             break;
         case HIGH:
-            return couche2;
+            return highLayer;
             break;
         case COLLIDE:
-            return c_collision;
+            return collisionLayer;
             break;
         default:
             return -1;
@@ -105,13 +105,13 @@ void BlocMap::setLayer(int layer, int bl)
     switch(layer)
     {
         case LOW:
-            couche1 = bl;
+            lowLayer = bl;
             break;
         case HIGH:
-            couche2 = bl;
+            highLayer = bl;
             break;
         case COLLIDE:
-            c_collision = bl;
+            collisionLayer = bl;
             break;
     }
     emit blocModified();

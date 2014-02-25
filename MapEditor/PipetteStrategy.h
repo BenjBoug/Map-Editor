@@ -9,8 +9,8 @@ class PipetteStrategy : public PaintStrategy
 public:
     PipetteStrategy(MapView * mapView, ChipsetView * chipsetView);
 
-    virtual void leftButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void leftButtonMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void leftButtonPressEvent(int i,int j);
+    virtual void leftButtonMoveEvent(int i,int j);
 };
 
 #endif // PIPETTESTRATEGY_H

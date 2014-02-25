@@ -22,44 +22,47 @@ namespace Model
 class Map : public QObject, public IMap
 {
     Q_OBJECT
-    public:
-        Map();
-        Map(const Map&);
-        Map(QString name);
-        ~Map();
+public:
+    Map();
+    Map(const Map&);
+    Map(QString file);
+    ~Map();
 
-        void load();
+    Map &operator=(const Map&);
 
-        void setNameMap(QString &);
-        void setNameChipset(QString &);
-        QString getNameMap();
+    void setName(QString &);
+    QString getName();
+
+    void setChipset(QString &);
+    QString getChipset() const;
+
+    BlocMap * getBloc(QPoint&) const;
+    BlocMap * getBloc(int,int) const;
 
 
-        QString getChipset() const;
+    QSize getSize() const;
+    void setSize(QSize &d);
+    void setSize(int,int);
 
-        BlocMap * getBloc(QPoint&) const;
-        BlocMap * getBloc(int,int) const;
+    void manage(const IGame *game);
+    virtual void display(IGui* gui,ICamera*cam);
 
-        int convert2Dto1D(int i,int j) const;
-
-        QSize getDim() const;
-        void setDim(QSize &d);
-        void setDim(int,int);
-
-        void manage(const IGame *game);
-        virtual void display(IGui* gui,ICamera*cam);
-
-        friend QDataStream & operator << (QDataStream & out, const Map * Valeur);
-        friend QDataStream & operator >> (QDataStream & in, Map * Valeur);
+    friend QDataStream & operator << (QDataStream & out, const Map * Valeur);
+    friend QDataStream & operator >> (QDataStream & in, Map * Valeur);
 
 signals:
-        void mapChanged();
+    void mapChanged();
+    void nameChanged();
+    void chipsetChanged();
+    void sizeChanged();
 protected:
-    QString _name;
-    QVector<BlocMap*> _map;
+    int convert2Dto1D(int i,int j) const;
+
+    QString name;
+    QVector<BlocMap*> map;
     QVector<IEvent*> events;
-    QSize dim;
-    QString _chipset;
+    QSize size;
+    QString chipset;
 };
 
 QDataStream & operator << (QDataStream & out, const Map * Valeur);

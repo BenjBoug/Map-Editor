@@ -3,9 +3,7 @@
 MapView::MapView():
     QGraphicsScene()
 {
-    this->map = new Model::Map();
     gridStrategy = NULL;
-    //this->setSceneRect(10,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 }
 
 MapView::MapView(Model::Map * m) :
@@ -141,13 +139,18 @@ void MapView::removeTile(int i, int j, int layer)
     //map->getBloc(i,j)->setLayer(layer,0);
 }
 
+void MapView::setCursorRect(QRect rect)
+{
+    cursorRect->setRect(rect);
+}
+
 void MapView::displayMap()
 {
     clearMap();
     displayStrategy->display();
     if (gridStrategy != NULL)
         gridStrategy->execute();
-    this->setSceneRect(0,0,map->getDim().width()*BLOCSIZE,map->getDim().height()*BLOCSIZE);
+    this->setSceneRect(0,0,map->getSize().width()*BLOCSIZE,map->getSize().height()*BLOCSIZE);
 }
 
 void MapView::clearMap()

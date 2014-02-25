@@ -11,11 +11,9 @@ class BlocMap;
 class IMap : public IDisplayable, public IManager
 {
 public:
-    virtual QSize getDim() const =0;
+    virtual QSize getSize() const =0;
     virtual const BlocMap * getBloc(QPoint&) const =0;
     virtual QString getChipset() const =0;
-    virtual void load() =0;
-
 
 };
 }

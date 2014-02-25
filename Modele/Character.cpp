@@ -35,17 +35,49 @@ void Character::goDown()
 
 void Character::manage(const IGame * game)
 {
-    if (game->getInput()->onKeyUpPress())
-        goUp();
-    if (game->getInput()->onKeyDownPress())
-        goDown();
 
-    if (game->getInput()->onKeyLeftPress())
-        goLeft();
-    if (game->getInput()->onKeyRightPress())
-        goRight();
 }
 
 void Character::display(IGui *, ICamera *)
 {
 }
+int Character::getSpeed() const
+{
+    return speed;
+}
+
+void Character::setSpeed(int value)
+{
+    speed = value;
+}
+int Character::getHpMax() const
+{
+    return hpMax;
+}
+
+void Character::setHpMax(int value)
+{
+    hpMax = value;
+}
+int Character::getHp() const
+{
+    return hp;
+}
+
+void Character::setHp(int value)
+{
+    hp = value;
+}
+Direction Character::getDirection() const
+{
+    return direction;
+}
+
+void Character::setDirection(const Direction &value)
+{
+    direction = value;
+}
+
+
+
+

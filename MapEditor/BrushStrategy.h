@@ -15,16 +15,16 @@ class BrushStrategy : public PaintStrategy
 public:
     BrushStrategy(MapView * mapView, ChipsetView * chipsetView);
 
-    void leftButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    void rightButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    void leftButtonPressEvent(int i, int j);
+    void rightButtonPressEvent(int i, int j);
 
-    void leftButtonMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    void rightButtonMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    void leftButtonMoveEvent(int i, int j);
+    void rightButtonMoveEvent(int i, int j);
 
 
 private:
 
-    void blit(QPointF pos);
+    void blit(int x,int y);
     QRect blited;
     bool inSelect, inSelectRight;
     int idCmd;

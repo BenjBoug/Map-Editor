@@ -95,7 +95,9 @@ void ChipsetView::init()
     selection.setY(0);
     selection.setWidth(BLOCSIZE);
     selection.setHeight(BLOCSIZE);
-
+    QRectF rect = this->sceneRect();
+    rect.setWidth(350);
+    this->setSceneRect(rect);
 }
 
 void ChipsetView::loadChipset(QString chip)
@@ -106,6 +108,7 @@ void ChipsetView::loadChipset(QString chip)
     setSceneRect(chipsetItem->sceneBoundingRect());
     itemRectSelected = this->addRect(selection);
     itemRectSelected->setZValue(100);
+    init();
 }
 
 void ChipsetView::setSelectedTile()

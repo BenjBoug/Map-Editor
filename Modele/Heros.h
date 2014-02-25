@@ -10,6 +10,11 @@ class Heros : public Character
 public:
     Heros();
 
+    virtual void manage(const IGame *game);
+
+    int getRubis() const;
+    void setRubis(int value);
+
 private:
     int rubis;
 };

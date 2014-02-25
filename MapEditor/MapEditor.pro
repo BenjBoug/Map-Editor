@@ -35,7 +35,11 @@ SOURCES += main.cpp\
     UndoSingleton.cpp \
     ClearMapCommand.cpp \
     ChangeDimensionCommand.cpp \
-    ChangeChipsetCommand.cpp
+    ChangeChipsetCommand.cpp \
+    DialogChangeName.cpp \
+    ChangeNameCommand.cpp \
+    MapTabWidget.cpp \
+    MdiChild.cpp
 
 HEADERS  += MainWindow.h \
     ChipsetView.h \
@@ -61,9 +65,15 @@ HEADERS  += MainWindow.h \
     UndoSingleton.h \
     ClearMapCommand.h \
     ChangeDimensionCommand.h \
-    ChangeChipsetCommand.h
+    ChangeChipsetCommand.h \
+    DialogChangeName.h \
+    ChangeNameCommand.h \
+    MapTabWidget.h \
+    MdiChild.h
 
-FORMS    += MainWindow.ui
+FORMS    += MainWindow.ui \
+    DialogChangeName.ui \
+    MapTabWidget.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Modele/release/ -lZelda_Model
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Modele/debug/ -lZelda_Model
@@ -75,3 +85,6 @@ DEPENDPATH += $$PWD/../Modele
 win32:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Modele/release/Zelda_Model.lib
 else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Modele/debug/Zelda_Model.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Modele/libZelda_Model.a
+
+RESOURCES += \
+    icons.qrc

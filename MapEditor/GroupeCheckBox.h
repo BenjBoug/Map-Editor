@@ -14,7 +14,7 @@ public:
 
     void addAction(QAction * act);
 
-public slots:
+private slots:
     void disableOther(QObject *i);
 
 private:

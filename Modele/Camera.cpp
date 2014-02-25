@@ -23,9 +23,9 @@ bool Camera::overflowMap()
         res=true;
     if (coord.y() <= -100)
         res=true;
-    if (coord.y()+coord.height() > game->getActualMap()->getDim().height()*BLOCSIZE)
+    if (coord.y()+coord.height() > game->getActualMap()->getSize().height()*BLOCSIZE)
         res = true;
-    if (coord.x()+coord.width() > game->getActualMap()->getDim().width()*BLOCSIZE)
+    if (coord.x()+coord.width() > game->getActualMap()->getSize().width()*BLOCSIZE)
         res = true;
 
     return res;
@@ -38,11 +38,11 @@ void Camera::replaceCamera()
     if (coord.y() < 0)
         coord.moveTop(0);
 
-    if (coord.y()+coord.height() > game->getActualMap()->getDim().height()*BLOCSIZE)
-        coord.moveTop((game->getActualMap()->getDim().height()*BLOCSIZE) - coord.height());
+    if (coord.y()+coord.height() > game->getActualMap()->getSize().height()*BLOCSIZE)
+        coord.moveTop((game->getActualMap()->getSize().height()*BLOCSIZE) - coord.height());
 
-    if (coord.x()+coord.width() > game->getActualMap()->getDim().width()*BLOCSIZE)
-        coord.moveLeft((game->getActualMap()->getDim().width()*BLOCSIZE) - coord.width());
+    if (coord.x()+coord.width() > game->getActualMap()->getSize().width()*BLOCSIZE)
+        coord.moveLeft((game->getActualMap()->getSize().width()*BLOCSIZE) - coord.width());
 
 }
 

@@ -35,11 +35,11 @@ void PaintPotStrategy::paintPot(int i, int j, int blocRef)
 
         if (i-selectedTile.size()>=0)
             paintPot(i-selectedTile.size(),j,blocRef);
-        if (i+selectedTile.size()<mapView->getMap()->getDim().width())
+        if (i+selectedTile.size()<mapView->getMap()->getSize().width())
             paintPot(i+selectedTile.size(),j,blocRef);
         if (j-selectedTile[0].size()>=0)
             paintPot(i,j-selectedTile[0].size(),blocRef);
-        if (j+selectedTile[0].size()<mapView->getMap()->getDim().height())
+        if (j+selectedTile[0].size()<mapView->getMap()->getSize().height())
             paintPot(i,j+selectedTile[0].size(),blocRef);
     }
 }
@@ -52,11 +52,11 @@ void PaintPotStrategy::erase(int i, int j, int blocRef)
 
         if (i-1>=0)
             erase(i-1,j,blocRef);
-        if (i+1<mapView->getMap()->getDim().width())
+        if (i+1<mapView->getMap()->getSize().width())
             erase(i+1,j,blocRef);
         if (j-1>=0)
             erase(i,j-1,blocRef);
-        if (j+1<mapView->getMap()->getDim().height())
+        if (j+1<mapView->getMap()->getSize().height())
             erase(i,j+1,blocRef);
     }
 }

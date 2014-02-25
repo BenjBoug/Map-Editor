@@ -19,24 +19,21 @@ public:
 
     virtual void manage(const IGame *game);
 
-    int getSpeed()
-    {
-        return speed;
-    }
 
     virtual void display(IGui*,ICamera*);
 
 
-    virtual int getHp()
-    {
-        return hp;
-    }
+    int getSpeed() const;
+    void setSpeed(int value);
 
-    virtual int getHpMax()
-    {
-        return hpMax;
-    }
+    int getHpMax() const;
+    void setHpMax(int value);
 
+    int getHp() const;
+    void setHp(int value);
+
+    Direction getDirection() const;
+    void setDirection(const Direction &value);
 
 private:
     int speed;

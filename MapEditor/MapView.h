@@ -45,6 +45,8 @@ public:
     void blitTile(int i,int j, Model::BlocMap * bloc,int layer, float opacity=1);
     void removeTile(int i,int j,int layer);
 
+    void setCursorRect(QRect rect);
+
     
 public slots:
     void displayMap();
@@ -57,6 +59,7 @@ private:
     PaintStrategy * paintStrategy;
     LayerStrategy * displayStrategy;
     IStrategy * gridStrategy;
+    QGraphicsRectItem * cursorRect;
 };
 
 #endif // MAPVIEW_H

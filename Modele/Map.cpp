@@ -3,78 +3,100 @@
 using namespace Model;
 Map::Map()
 {
-    dim = QSize(NB_BLOCS_LARGEUR,NB_BLOCS_HAUTEUR);
-    for(int i=0;i<dim.width();i++)
+    size = QSize(NB_BLOCS_LARGEUR,NB_BLOCS_HAUTEUR);
+    for(int i=0;i<size.width();i++)
     {
-        for(int j=0;j<dim.height();j++)
+        for(int j=0;j<size.height();j++)
         {
-            _map.push_back(new BlocMap());
+            map.push_back(new BlocMap());
         }
     }
+    name = "Untitled";
 }
 
 Map::Map(const Map &m)
 {
-    _name=m._name;
-    _map=m._map;
+    name=m.name;
+    QVector<BlocMap*>::const_iterator it;
+    for(it=m.map.begin();it=m.map.end();it++)
+    {
+        this->map.push_back(new BlocMap(**it));
+    }
     events=m.events;
-    dim=m.dim;
-    _chipset=m._chipset;
-
+    size=m.size;
+    chipset=m.chipset;
 }
 
-Map::Map(QString name)
+Map::Map(QString file)
 {
-    _name = name;
+    QFile fileMap(file);
+    fileMap.open(QIODevice::ReadOnly);
+    QDataStream stream(&fileMap);
+    stream >> this;
+    fileMap.close();
 }
 
 Map::~Map()
 {
 }
 
-void Map::load()
+Map &Map::operator=(const Map &m)
 {
-    QFile file(_name);
-    file.open(QIODevice::ReadOnly);
-    QDataStream in(&file);
-    in >> this;
-    file.close();
+    if (this!=&m)
+    {
+        name=m.name;
+        QVector<BlocMap*>::const_iterator it;
+        for(it=m.map.begin();it=m.map.end();it++)
+        {
+            BlocMap * tmp = new BlocMap();
+            this->map.push_back(tmp);
+        }
+        events=m.events;
+        size=m.size;
+        chipset=m.chipset;
+    }
+    return *this;
 }
 
-void Map::setNameMap(QString & n)
+
+void Map::setName(QString & n)
 {
-    _name = n;
+    name = n;
+    emit nameChanged();
 }
 
-void Map::setNameChipset(QString & n)
+void Map::setChipset(QString & n)
 {
-    _chipset = n;
+    chipset = n;
+    emit chipsetChanged();
 }
 
-QString Map::getNameMap()
+QString Map::getName()
 {
-    return _name;
+    return name;
 }
 
-QSize Map::getDim() const
+QSize Map::getSize() const
 {
-    return dim;
+    return size;
 }
-void Map::setDim(QSize& d)
+void Map::setSize(QSize& d)
 {
-    dim = d;
+    size = d;
+    emit sizeChanged();
 }
-void Map::setDim(int l,int h)
+void Map::setSize(int l,int h)
 {
-    dim.setHeight(h);
-    dim.setWidth(l);
+    size.setHeight(h);
+    size.setWidth(l);
+    emit sizeChanged();
 }
 
 void Map::manage(const IGame *game)
 {
-    /*QVector<IEvent*>::iterator it = events.begin();
+    QVector<IEvent*>::iterator it = events.begin();
     for(;it!=events.end();it++)
-        (*it)->manage(game);*/
+        (*it)->manage(game);
 }
 
 void Map::display(IGui *gui, ICamera *cam)
@@ -95,15 +117,15 @@ void Map::display(IGui *gui, ICamera *cam)
         {
             try
             {
-                int couche1 = _map[convert2Dto1D(i,j)]->getLowLayer();
-                int couche2 = _map[convert2Dto1D(i,j)]->getHighLayer();
+                int couche1 = map[convert2Dto1D(i,j)]->getLowLayer();
+                int couche2 = map[convert2Dto1D(i,j)]->getHighLayer();
                 if (couche1!=0)
                 {
                     position.setX((i*BLOCSIZE-x)+(centrageX*BLOCSIZE));
                     position.setY((j*BLOCSIZE-y)+(centrageY*BLOCSIZE));
                     pos_objet.moveLeft((couche1%30)*BLOCSIZE);
                     pos_objet.moveTop((couche1/30)*BLOCSIZE);
-                    gui->blit(_chipset,position,pos_objet);
+                    gui->blit(chipset,position,pos_objet);
                 }
 
                 if (couche2!=0)
@@ -112,7 +134,7 @@ void Map::display(IGui *gui, ICamera *cam)
                     position.setY((j*BLOCSIZE-y)+(centrageY*BLOCSIZE));
                     pos_objet.moveLeft((couche2%30)*BLOCSIZE);
                     pos_objet.moveTop((couche2/30)*BLOCSIZE);
-                    gui->blit(_chipset,position,pos_objet);
+                    gui->blit(chipset,position,pos_objet);
                 }
             }
             catch(std::exception const& e)
@@ -125,30 +147,31 @@ void Map::display(IGui *gui, ICamera *cam)
 
 BlocMap *Map::getBloc(QPoint& coord) const
 {
-    return _map[convert2Dto1D(coord.x(),coord.y())];
+    return map[convert2Dto1D(coord.x(),coord.y())];
 }
 
 BlocMap * Map::getBloc(int x,int y) const
 {
-    return _map[convert2Dto1D(x,y)];
+    return map[convert2Dto1D(x,y)];
 }
 
 int Map::convert2Dto1D(int i, int j) const
 {
-    return i*dim.height() + j;
+    return i*size.height() + j;
 }
+
 
 QString Map::getChipset() const
 {
-    return _chipset;
+    return chipset;
 }
 
 QDataStream &Model::operator <<(QDataStream &out, const Map *v)
 {
-    out << v->_name << v->_chipset << v->dim;
+    out << v->name << v->chipset << v->size;
 
-    QVector<BlocMap*>::const_iterator it = v->_map.begin();
-    for (;it!=v->_map.end();it++)
+    QVector<BlocMap*>::const_iterator it = v->map.begin();
+    for (;it!=v->map.end();it++)
     {
         out << *it;
     }
@@ -160,18 +183,18 @@ QDataStream &Model::operator <<(QDataStream &out, const Map *v)
 
 QDataStream &Model::operator >>(QDataStream &in, Map *v)
 {
-    in >> v->_name;
-    in >> v->_chipset;
-    in >> v->dim;
+    in >> v->name;
+    in >> v->chipset;
+    in >> v->size;
 
-    for(int i=0;i<v->dim.width();i++)
+    for(int i=0;i<v->size.width();i++)
     {
-        for(int j=0;j<v->dim.height();j++)
+        for(int j=0;j<v->size.height();j++)
         {
             BlocMap * tmp = new BlocMap();
             v->connect(tmp,SIGNAL(blocModified()),v,SIGNAL(mapChanged()));
             in >> tmp;
-            v->_map.push_back(tmp);
+            v->map.push_back(tmp);
         }
     }
 

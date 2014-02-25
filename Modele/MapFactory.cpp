@@ -5,19 +5,13 @@ MapFactory::MapFactory()
 {
 }
 
-Map *MapFactory::build(QString &name)
+Map *MapFactory::build(QString &file)
 {
-    if (!mapHash.contains(name))
+    if (!mapHash.contains(file))
     {
-        Map * map = new Map(name);
-        QFile file(name);
-        qDebug() << "DEBUG" << name << file.fileName() << file.exists();
-        file.open(QIODevice::ReadOnly);
-        QDataStream in(&file);
-        in >> map;
-        file.close();
-        mapHash[name] = map;
+        Map * map = new Map(file);
+        mapHash[file] = map;
     }
 
-    return mapHash[name];
+    return mapHash[file];
 }

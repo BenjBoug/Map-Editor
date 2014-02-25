@@ -9,9 +9,9 @@ namespace Model
 {
 class ICharacter : public Object, public IManager, public IMoveable, public IDisplayable
 {
-    virtual int getHp() = 0;
-    virtual int getHpMax() = 0;
-    virtual int getSpeed() = 0;
+    virtual int getHp() const = 0;
+    virtual int getHpMax() const = 0;
+    virtual int getSpeed() const = 0;
 
 };
 }

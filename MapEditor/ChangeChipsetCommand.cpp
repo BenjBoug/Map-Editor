@@ -10,7 +10,7 @@ ChangeChipsetCommand::ChangeChipsetCommand(MapView *mapView, ChipsetView *chipse
 void ChangeChipsetCommand::execute()
 {
     fileMemento = mapView->getMap()->getChipset();
-    mapView->getMap()->setNameChipset(file);
+    mapView->getMap()->setChipset(file);
     chipsetView->loadChipset(file);
     mapView->loadChipset(file);
     mapView->displayMap();
@@ -18,7 +18,7 @@ void ChangeChipsetCommand::execute()
 
 void ChangeChipsetCommand::undo()
 {
-    mapView->getMap()->setNameChipset(fileMemento);
+    mapView->getMap()->setChipset(fileMemento);
     chipsetView->loadChipset(fileMemento);
     mapView->loadChipset(fileMemento);
     mapView->displayMap();

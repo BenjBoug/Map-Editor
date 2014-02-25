@@ -11,21 +11,21 @@ void IMouseMove::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
     if (mouseEvent->button()==Qt::LeftButton)
     {
         inSelectLeft=true;
-        leftButtonPressEvent(mouseEvent);
+        leftButtonPressEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
     }
 
     if (mouseEvent->button()==Qt::RightButton)
     {
         inSelectRight=true;
-        rightButtonPressEvent(mouseEvent);
+        rightButtonPressEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
     }
 }
-void IMouseMove::leftButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent)
+void IMouseMove::leftButtonPressEvent(int i, int j)
 {
 
 }
 
-void IMouseMove::rightButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent)
+void IMouseMove::rightButtonPressEvent(int i, int j)
 {
 
 }
@@ -33,16 +33,16 @@ void IMouseMove::rightButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent)
 void IMouseMove::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     if (inSelectLeft)
-        leftButtonMoveEvent(mouseEvent);
+        leftButtonMoveEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
     if (inSelectRight)
-        rightButtonMoveEvent(mouseEvent);
+        rightButtonMoveEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
 }
-void IMouseMove::leftButtonMoveEvent(QGraphicsSceneMouseEvent * mouseEvent)
+void IMouseMove::leftButtonMoveEvent(int i, int j)
 {
 
 }
 
-void IMouseMove::rightButtonMoveEvent(QGraphicsSceneMouseEvent * mouseEvent)
+void IMouseMove::rightButtonMoveEvent(int i, int j)
 {
 
 }
@@ -52,21 +52,21 @@ void IMouseMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     if (mouseEvent->button()==Qt::LeftButton)
     {
         inSelectLeft=false;
-        leftButtonReleaseEvent(mouseEvent);
+        leftButtonReleaseEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
     }
     if (mouseEvent->button()==Qt::RightButton)
     {
         inSelectRight=false;
-        rightButtonReleaseEvent(mouseEvent);
+        rightButtonReleaseEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
     }
     ICommand::end();
 }
-void IMouseMove::leftButtonReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent)
+void IMouseMove::leftButtonReleaseEvent(int i, int j)
 {
 
 }
 
-void IMouseMove::rightButtonReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent)
+void IMouseMove::rightButtonReleaseEvent(int i, int j)
 {
 
 }

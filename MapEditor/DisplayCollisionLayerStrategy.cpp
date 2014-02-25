@@ -8,9 +8,9 @@ DisplayCollisionLayerStrategy::DisplayCollisionLayerStrategy(MapView * mapView)
 void DisplayCollisionLayerStrategy::display()
 {
     Model::Map * map = mapView->getMap();
-    for(int i=0;i<map->getDim().width();i++)
+    for(int i=0;i<map->getSize().width();i++)
     {
-        for(int j=0;j<map->getDim().height();j++)
+        for(int j=0;j<map->getSize().height();j++)
         {
 
             BlocMap * bloc = map->getBloc(i,j);
@@ -32,30 +32,22 @@ int DisplayCollisionLayerStrategy::getLayer()
     return COLLIDE;
 }
 
-void DisplayCollisionLayerStrategy::leftButtonPressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void DisplayCollisionLayerStrategy::leftButtonPressEvent(int i, int j)
 {
-    int i=mouseEvent->scenePos().x()/BLOCSIZE;
-    int j=mouseEvent->scenePos().y()/BLOCSIZE;
     UndoSingleton::getInstance()->execute(new CollideCommand(mapView,i,j,1));
 }
 
-void DisplayCollisionLayerStrategy::rightButtonPressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void DisplayCollisionLayerStrategy::rightButtonPressEvent(int i, int j)
 {
-    int i=mouseEvent->scenePos().x()/BLOCSIZE;
-    int j=mouseEvent->scenePos().y()/BLOCSIZE;
     UndoSingleton::getInstance()->execute(new CollideCommand(mapView,i,j,0));
 }
 
-void DisplayCollisionLayerStrategy::leftButtonMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void DisplayCollisionLayerStrategy::leftButtonMoveEvent(int i, int j)
 {
-    int i=mouseEvent->scenePos().x()/BLOCSIZE;
-    int j=mouseEvent->scenePos().y()/BLOCSIZE;
     UndoSingleton::getInstance()->execute(new CollideCommand(mapView,i,j,1));
 }
 
-void DisplayCollisionLayerStrategy::rightButtonMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void DisplayCollisionLayerStrategy::rightButtonMoveEvent(int i, int j)
 {
-    int i=mouseEvent->scenePos().x()/BLOCSIZE;
-    int j=mouseEvent->scenePos().y()/BLOCSIZE;
     UndoSingleton::getInstance()->execute(new CollideCommand(mapView,i,j,0));
 }

@@ -17,7 +17,10 @@
 #include "GridLayerStratgey.h"
 #include "GroupeCheckBox.h"
 #include "ChangeChipsetCommand.h"
+#include "ClearMapCommand.h"
 #include "UndoSingleton.h"
+#include "DialogChangeName.h"
+#include "MdiChild.h"
 
 namespace Ui {
 class MainWindow;
@@ -31,7 +34,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    MdiChild *createMdiChild();
+
 public slots:
+    void newMap();
     void openMap();
     void maximizeMap();
     void minimizeMap();
@@ -42,12 +48,15 @@ public slots:
     void visuaLayer();
 
     void changeChipset();
+    void clearMap();
 
     void brushTool();
-    void painPotTool();
+    void paintPotTool();
     void pipetteTool();
 
     void save();
+
+    void changeName();
 
     void gridLayer(bool enable);
 
@@ -55,8 +64,6 @@ public slots:
 private:
     GroupeCheckBox groupZoom,groupLayers,groupTools;
     Ui::MainWindow *ui;
-    Model::Map *map;
-    MapView * mapView;
     ChipsetView * chipsetView;
     DisplayLowerLayerStrategy *lowLayerStrategy;
     DisplayHigherLayerStrategy *highLayerStrategy;

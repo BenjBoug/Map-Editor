@@ -14,11 +14,11 @@ public:
     virtual void display();
     virtual int getLayer();
 
-    virtual void leftButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void rightButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void leftButtonPressEvent(int i, int j);
+    virtual void rightButtonPressEvent(int i, int j);
 
-    virtual void leftButtonMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void rightButtonMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    virtual void leftButtonMoveEvent(int i, int j);
+    virtual void rightButtonMoveEvent(int i, int j);
 
 
 private:

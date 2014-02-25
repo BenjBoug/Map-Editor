@@ -8,65 +8,59 @@ BrushStrategy::BrushStrategy(MapView *mapView, ChipsetView *chipsetView)
     idCmd = 0;
 }
 
-void BrushStrategy::leftButtonPressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void BrushStrategy::leftButtonPressEvent(int i, int j)
 {
-    blit(mouseEvent->scenePos());
+    blit(i,j);
 }
 
-void BrushStrategy::rightButtonPressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void BrushStrategy::rightButtonPressEvent(int i, int j)
 {
-    blited.setX(mouseEvent->scenePos().x()/BLOCSIZE);
-    blited.setY(mouseEvent->scenePos().y()/BLOCSIZE);
+    blited.setX(i);
+    blited.setY(j);
     blited.setWidth(1);
     blited.setHeight(1);
-    UndoSingleton::getInstance()->execute(new EraseCommand(mapView,mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE));
+    UndoSingleton::getInstance()->execute(new EraseCommand(mapView,i,j));
 }
 
-void BrushStrategy::leftButtonMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void BrushStrategy::leftButtonMoveEvent(int i, int j)
 {
     QVector<QVector<int> > selectedTile = chipsetView->getSelectedTile();
     QRect newBlit;
-    int xMouse = mouseEvent->scenePos().x() / BLOCSIZE;
-    int yMouse = mouseEvent->scenePos().y() / BLOCSIZE;
-    newBlit.setX(xMouse);
-    newBlit.setY(yMouse);
+    newBlit.setX(i);
+    newBlit.setY(j);
     newBlit.setWidth(selectedTile.size());
     newBlit.setHeight(selectedTile[0].size());
     if (!newBlit.intersects(blited))
     {
-        blit(mouseEvent->scenePos());
+        blit(i,j);
     }
 }
 
-void BrushStrategy::rightButtonMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void BrushStrategy::rightButtonMoveEvent(int i, int j)
 {
     QRect newBlit;
-    int xMouse = mouseEvent->scenePos().x() / BLOCSIZE;
-    int yMouse = mouseEvent->scenePos().y() / BLOCSIZE;
-    newBlit.setX(xMouse);
-    newBlit.setY(yMouse);
+    newBlit.setX(i);
+    newBlit.setY(j);
     newBlit.setWidth(BLOCSIZE);
     newBlit.setHeight(BLOCSIZE);
     if (!newBlit.intersects(blited))
-        UndoSingleton::getInstance()->execute(new EraseCommand(mapView,mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE));
+        UndoSingleton::getInstance()->execute(new EraseCommand(mapView,i,j));
 
 }
 
-void BrushStrategy::blit(QPointF pos)
+void BrushStrategy::blit(int x, int y)
 {
-    int xMouse = pos.x() / BLOCSIZE;
-    int yMouse = pos.y() / BLOCSIZE;
     QVector<QVector<int> > selectedTile = chipsetView->getSelectedTile();
 
     for(int i=0;i<selectedTile.size();i++)
     {
         for(int j=0;j<selectedTile[i].size();j++)
         {
-            UndoSingleton::getInstance()->execute(new BlitCommand(mapView,i+xMouse,j+yMouse,selectedTile[i][j]));
+            UndoSingleton::getInstance()->execute(new BlitCommand(mapView,i+x,j+y,selectedTile[i][j]));
         }
     }
-    blited.setX(xMouse);
-    blited.setY(yMouse);
+    blited.setX(x);
+    blited.setY(y);
     blited.setWidth(selectedTile.size());
     blited.setHeight(selectedTile[0].size());
 }
