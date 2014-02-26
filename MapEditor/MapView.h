@@ -42,6 +42,7 @@ public:
     void removeLayer(ZIndex index);
     QList<QGraphicsItem *> getLayer(int zindex);
     QList<QGraphicsItem*> getLayer(QList<QGraphicsItem*> list,int layer);
+    void blitTile(int i, int j, int bl, int layer, float opacity=1);
     void blitTile(int i,int j, Model::BlocMap * bloc,int layer, float opacity=1);
     void removeTile(int i,int j,int layer);
 
@@ -50,6 +51,7 @@ public:
     
 public slots:
     void displayMap();
+    void displayBackground();
     void clearMap();
     void loadChipset(QString f);
 

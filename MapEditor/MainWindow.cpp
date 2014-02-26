@@ -62,6 +62,8 @@ void MainWindow::newMap()
     MdiChild *child = createMdiChild();
     child->newMap();
     child->show();
+    changeChipset();
+    UndoSingleton::getInstance()->clearUndo();
 }
 
 MdiChild *MainWindow::createMdiChild()

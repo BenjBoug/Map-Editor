@@ -51,12 +51,13 @@ void BrushStrategy::rightButtonMoveEvent(int i, int j)
 void BrushStrategy::blit(int x, int y)
 {
     QVector<QVector<int> > selectedTile = chipsetView->getSelectedTile();
-
+    QSize size = mapView->getMap()->getSize();
     for(int i=0;i<selectedTile.size();i++)
     {
         for(int j=0;j<selectedTile[i].size();j++)
         {
-            UndoSingleton::getInstance()->execute(new BlitCommand(mapView,i+x,j+y,selectedTile[i][j]));
+            if (i+x<size.width() && j+y<size.height())
+                UndoSingleton::getInstance()->execute(new BlitCommand(mapView,i+x,j+y,selectedTile[i][j]));
         }
     }
     blited.setX(x);

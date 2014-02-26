@@ -20,6 +20,9 @@ public:
 
     void execute(ICommand *cmd);
 
+    void clearUndo();
+    void clearRedo();
+
 signals:
     void undoEmpty(bool);
     void redoEmpty(bool);

@@ -10,6 +10,18 @@ void UndoSingleton::execute(ICommand * cmd)
     emit undoEmpty(!stackUndoCommand.isEmpty());
 }
 
+void UndoSingleton::clearUndo()
+{
+    stackUndoCommand.clear();
+    emit undoEmpty(!stackUndoCommand.isEmpty());
+}
+
+void UndoSingleton::clearRedo()
+{
+    stackRedoCommand.clear();
+    emit redoEmpty(!stackRedoCommand.isEmpty());
+}
+
 void UndoSingleton::undo()
 {
     ICommand * cmdUndid = stackUndoCommand.pop();

@@ -19,15 +19,19 @@ Map::Map(const Map &m)
 {
     name=m.name;
     QVector<BlocMap*>::const_iterator it;
+    this->map.clear();
     for(it=m.map.begin();it=m.map.end();it++)
     {
-        this->map.push_back(new BlocMap(**it));
+        BlocMap * tmp = new BlocMap();
+        tmp->setLowLayer((*it)->getLowLayer());
+        tmp->setHighLayer((*it)->getHighLayer());
+        tmp->setCollisionLayer((*it)->getCollisionLayer());
+        this->map.push_back(tmp);
     }
     events=m.events;
     size=m.size;
     chipset=m.chipset;
 }
-
 
 Map::~Map()
 {
@@ -38,15 +42,19 @@ Map &Map::operator=(const Map &m)
     if (this!=&m)
     {
         name=m.name;
-        QVector<BlocMap*>::const_iterator it;
-        for(it=m.map.begin();it=m.map.end();it++)
+        chipset=m.chipset;
+        this->map.clear();
+        for(int i=0;i<m.getSize().width();i++)
         {
-            BlocMap * tmp = new BlocMap();
-            this->map.push_back(tmp);
+            for(int j=0;j<m.getSize().height();j++)
+            {
+                BlocMap * tmp = new BlocMap(*(m.getBloc(i,j)));
+                this->map.push_back(tmp);
+            }
         }
+
         events=m.events;
         size=m.size;
-        chipset=m.chipset;
     }
     return *this;
 }

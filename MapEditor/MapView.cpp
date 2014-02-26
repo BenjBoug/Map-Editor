@@ -4,12 +4,14 @@ MapView::MapView():
     QGraphicsScene()
 {
     gridStrategy = NULL;
+    displayStrategy = NULL;
 }
 
 MapView::MapView(Model::Map * m) :
     QGraphicsScene()
 {
     gridStrategy = NULL;
+    displayStrategy = NULL;
     setMap(m);
 }
 
@@ -17,6 +19,8 @@ void MapView::setMap(Model::Map *map)
 {
     this->map = map;
     loadChipset(map->getChipset());
+    this->setSceneRect(0,0,map->getSize().width()*BLOCSIZE,map->getSize().height()*BLOCSIZE);
+    qDebug() << this->sceneRect();
 }
 
 void MapView::loadChipset(QString f)
@@ -117,6 +121,15 @@ QList<QGraphicsItem *> MapView::getLayer(QList<QGraphicsItem *> list, int layer)
     return res;
 }
 
+void MapView::blitTile(int i, int j, int bl, int layer, float opacity)
+{
+    QPixmap tile = chipset.copy((bl%(chipset.width()/BLOCSIZE))*BLOCSIZE,(bl/(chipset.width()/BLOCSIZE))*BLOCSIZE,BLOCSIZE,BLOCSIZE);
+    QGraphicsItem * item = this->addPixmap(tile);
+    item->setZValue(layer);
+    item->setOpacity(opacity);
+    item->setPos(i*BLOCSIZE,j*BLOCSIZE);
+}
+
 void MapView::blitTile(int i, int j, BlocMap *bloc, int layer, float opacity)
 {
     QGraphicsTileItem * tileItem = new QGraphicsTileItem(bloc,chipset,layer);
@@ -146,10 +159,23 @@ void MapView::setCursorRect(QRect rect)
 void MapView::displayMap()
 {
     clearMap();
-    displayStrategy->display();
+    displayBackground();
+    if (displayStrategy != NULL)
+        displayStrategy->display();
     if (gridStrategy != NULL)
         gridStrategy->execute();
     this->setSceneRect(0,0,map->getSize().width()*BLOCSIZE,map->getSize().height()*BLOCSIZE);
+}
+
+void MapView::displayBackground()
+{
+    for(int i=0;i<map->getSize().width();i++)
+    {
+        for(int j=0;j<map->getSize().height();j++)
+        {
+            blitTile(i,j,0,BGRD);
+        }
+    }
 }
 
 void MapView::clearMap()

@@ -8,16 +8,14 @@ ClearMapCommand::ClearMapCommand(MapView *mapView)
 void ClearMapCommand::execute()
 {
     Model::Map *map = mapView->getMap();
-   mapMemento  = *map;
+    mapMemento  = *map;
     for(int i=0;i<map->getSize().width();i++)
     {
         for(int j=0;j<map->getSize().height();j++)
         {
-            qDebug() << "avant" << mapMemento.getBloc(i,j)->getLowLayer();
             map->getBloc(i,j)->setLowLayer(0);
             map->getBloc(i,j)->setHighLayer(0);
             map->getBloc(i,j)->setCollisionLayer(0);
-            qDebug() << "après" <<  mapMemento.getBloc(i,j)->getLowLayer();
         }
     }
 }

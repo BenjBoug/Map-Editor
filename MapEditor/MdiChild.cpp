@@ -4,8 +4,8 @@ MdiChild::MdiChild(ChipsetView *chipsetView, QWidget *parent) :
     QGraphicsView(parent)
 {
     this->chipsetView=chipsetView;
-    this->setBackgroundBrush(QBrush(QColor(107, 189, 107)));
     this->setMouseTracking(true);
+    this->setBackgroundBrush(Qt::lightGray);
     isUntitled = true;
 }
 

@@ -11,11 +11,11 @@ void GridLayerStratgey::execute()
     QPen pen;
     pen.setColor(QColor(200,200,200));
 
-    for(int i=0;i<map->getSize().height();i++)
+    for(int i=0;i<map->getSize().height()+1;i++)
         mapView->addLine(0,i*BLOCSIZE,map->getSize().width()*BLOCSIZE,i*BLOCSIZE,pen)->setZValue(GRID);
 
 
-    for(int i=0;i<map->getSize().width();i++)
+    for(int i=0;i<map->getSize().width()+1;i++)
         mapView->addLine(i*BLOCSIZE,0,i*BLOCSIZE,map->getSize().height()*BLOCSIZE,pen)->setZValue(GRID);
 
 }

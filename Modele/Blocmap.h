@@ -7,7 +7,7 @@
 #include <QVariant>
 #include <QDebug>
 #include <QObject>
-enum ZIndex {LOW=0,HIGH=50,COLLIDE=100,GRID=200,EVENT=300,CURSOR=500};
+enum ZIndex {BGRD=-50,LOW=0,HIGH=50,COLLIDE=100,GRID=200,EVENT=300,CURSOR=500};
 
 namespace Model
 {
