@@ -27,6 +27,7 @@ public:
     explicit MdiChild(ChipsetView * chipsetView,QWidget *parent = 0);
 
     QString currentFile() { return curFile; }
+    QString userFriendlyCurrentFile();
 
     bool saveMap(const QString &fileName);
 
@@ -55,6 +56,8 @@ public slots:
     void changeName();
 
     void gridLayer(bool enable);
+
+    void updateChipset();
 
 private:
     void initTool();

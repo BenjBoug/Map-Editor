@@ -132,6 +132,7 @@
     <addaction name="separator"/>
     <addaction name="actionNext"/>
     <addaction name="actionPrevious"/>
+    <addaction name="separator"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -904,6 +905,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>mdiArea</sender>
+   <signal>subWindowActivated(QMdiSubWindow*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateChipset()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>587</x>
+     <y>240</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mdiArea</sender>
+   <signal>subWindowActivated(QMdiSubWindow*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateMenus()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>587</x>
+     <y>240</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>menuWindow</sender>
+   <signal>aboutToShow()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateWindowMenu()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>86</x>
+     <y>94</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>clearMap()</slot>
@@ -925,5 +974,8 @@
   <slot>changeName()</slot>
   <slot>newMap()</slot>
   <slot>saveAs()</slot>
+  <slot>updateMenus()</slot>
+  <slot>updateChipset()</slot>
+  <slot>updateWindowMenu()</slot>
  </slots>
 </ui>

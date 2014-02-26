@@ -26,7 +26,6 @@ public:
     MdiChild *createMdiChild();
     MdiChild *activeMdiChild();
     QMdiSubWindow *findMdiChild(const QString &fileName);
-    void setActiveSubWindow(QWidget *window);
 
 public slots:
     void newMap();
@@ -53,6 +52,12 @@ public slots:
 
     void gridLayer(bool enable);
 
+    void updateMenus();
+    void updateChipset();
+    void updateWindowMenu();
+
+    void setActiveSubWindow(QWidget *window);
+
     
 private:
     void createGroupButtons();
@@ -60,6 +65,7 @@ private:
     GroupeCheckBox groupZoom,groupLayers,groupTools;
     Ui::MainWindow *ui;
     ChipsetView * chipsetView;
+    QSignalMapper * windowMapper;
 };
 
 #endif // MAINWINDOW_H

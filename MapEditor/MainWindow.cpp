@@ -18,6 +18,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->actionRedo,SIGNAL(triggered()),UndoSingleton::getInstance(),SLOT(redo()));
     connect(ui->actionUndo,SIGNAL(triggered()),UndoSingleton::getInstance(),SLOT(undo()));
+
+    windowMapper = new QSignalMapper(this);
+    connect(windowMapper, SIGNAL(mapped(QWidget*)),this, SLOT(setActiveSubWindow(QWidget*)));
+
+    updateMenus();
 }
 
 MainWindow::~MainWindow()
@@ -198,4 +203,69 @@ void MainWindow::createGroupButtons()
     groupTools.addAction(ui->actionRectangle);
     groupTools.addAction(ui->actionPipette);
     groupTools.addAction(ui->actionPaint_pot);
+}
+
+void MainWindow::updateMenus()
+{
+    bool hasMdiChild = (activeMdiChild() != 0);
+    ui->actionSave->setEnabled(hasMdiChild);
+    ui->actionSave_as->setEnabled(hasMdiChild);
+    ui->actionClose->setEnabled(hasMdiChild);
+    ui->actionClose_All->setEnabled(hasMdiChild);
+    ui->actionTile->setEnabled(hasMdiChild);
+    ui->actionCascade->setEnabled(hasMdiChild);
+    ui->actionNext->setEnabled(hasMdiChild);
+    ui->actionPrevious->setEnabled(hasMdiChild);
+    ui->actionLawer_layer->setEnabled(hasMdiChild);
+    ui->actionHigh_layer->setEnabled(hasMdiChild);
+    ui->actionCollision_layer->setEnabled(hasMdiChild);
+    ui->actionVisualization->setEnabled(hasMdiChild);
+    ui->actionBrush->setEnabled(hasMdiChild);
+    ui->actionPaint_pot->setEnabled(hasMdiChild);
+    ui->actionPipette->setEnabled(hasMdiChild);
+    ui->actionShow_Grid->setEnabled(hasMdiChild);
+    ui->actionZoom_1_1->setEnabled(hasMdiChild);
+    ui->actionZoom_1_2->setEnabled(hasMdiChild);
+}
+
+void MainWindow::updateChipset()
+{
+    if (activeMdiChild())
+        activeMdiChild()->updateChipset();
+}
+
+void MainWindow::updateWindowMenu()
+{
+    ui->menuWindow->clear();
+    ui->menuWindow->addAction(ui->actionClose);
+    ui->menuWindow->addAction(ui->actionClose_All);
+    ui->menuWindow->addSeparator();
+    ui->menuWindow->addAction(ui->actionTile);
+    ui->menuWindow->addAction(ui->actionCascade);
+    ui->menuWindow->addSeparator();
+    ui->menuWindow->addAction(ui->actionNext);
+    ui->menuWindow->addAction(ui->actionPrevious);
+    QAction * actionSeparator = ui->menuWindow->addSeparator();
+
+    QList<QMdiSubWindow *> windows = ui->mdiArea->subWindowList();
+    actionSeparator->setVisible(!windows.isEmpty());
+
+    for (int i = 0; i < windows.size(); ++i) {
+        MdiChild *child = qobject_cast<MdiChild *>(windows.at(i)->widget());
+
+        QString text;
+        if (i < 9) {
+            text = tr("&%1 %2").arg(i + 1)
+                               .arg(child->userFriendlyCurrentFile());
+        } else {
+            text = tr("%1 %2").arg(i + 1)
+                              .arg(child->userFriendlyCurrentFile());
+        }
+        QAction *action  = ui->menuWindow->addAction(text);
+        action->setCheckable(true);
+        action->setChecked(child == activeMdiChild());
+
+        connect(action, SIGNAL(triggered()), windowMapper, SLOT(map()));
+        windowMapper->setMapping(action, windows.at(i));
+    }
 }

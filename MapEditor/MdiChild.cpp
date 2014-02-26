@@ -50,6 +50,11 @@ bool MdiChild::openMap(QString fileName)
     return true;
 }
 
+QString MdiChild::userFriendlyCurrentFile()
+{
+    return strippedName(curFile);
+}
+
 void MdiChild::lowerLayer()
 {
     mapView->setDisplayStrategy(lowLayerStrategy);
@@ -122,6 +127,10 @@ void MdiChild::gridLayer(bool enable)
     mapView->displayMap();
 }
 
+void MdiChild::updateChipset()
+{
+    chipsetView->loadChipset(map->getChipset());
+}
 
 bool MdiChild::save()
 {
