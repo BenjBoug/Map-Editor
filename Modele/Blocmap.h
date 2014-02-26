@@ -7,14 +7,14 @@
 #include <QVariant>
 #include <QDebug>
 #include <QObject>
-/**
- * @brief The BlocMap class, the model of data for a bloc in the map
- */
-
 enum ZIndex {LOW=0,HIGH=50,COLLIDE=100,GRID=200,EVENT=300,CURSOR=500};
 
 namespace Model
 {
+/**
+ * @brief The BlocMap class, the model of data for a bloc in the map
+ */
+
     class BlocMap : public QObject, public Object
     {
         Q_OBJECT

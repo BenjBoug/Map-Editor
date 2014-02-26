@@ -7,16 +7,16 @@ PaintPotStrategy::PaintPotStrategy(MapView * mapView, ChipsetView * chipsetView)
     this->chipsetView=chipsetView;
 }
 
-void PaintPotStrategy::leftButtonPressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void PaintPotStrategy::leftButtonPressEvent(int i, int j)
 {
-    int blocRef = mapView->getMap()->getBloc(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE)->getLayer(mapView->getCurrentLayer()->getLayer());
-    paintPot(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE,blocRef);
+    int blocRef = mapView->getMap()->getBloc(i,j)->getLayer(mapView->getCurrentLayer()->getLayer());
+    paintPot(i,j,blocRef);
 }
 
-void PaintPotStrategy::rightButtonPressEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void PaintPotStrategy::rightButtonPressEvent(int i, int j)
 {
-    int blocRef = mapView->getMap()->getBloc(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE)->getLayer(mapView->getCurrentLayer()->getLayer());
-    erase(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE,blocRef);
+    int blocRef = mapView->getMap()->getBloc(i,j)->getLayer(mapView->getCurrentLayer()->getLayer());
+    erase(i,j,blocRef);
 }
 
 void PaintPotStrategy::paintPot(int i, int j, int blocRef)

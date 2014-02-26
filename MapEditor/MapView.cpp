@@ -17,7 +17,6 @@ void MapView::setMap(Model::Map *map)
 {
     this->map = map;
     loadChipset(map->getChipset());
-    displayMap();
 }
 
 void MapView::loadChipset(QString f)

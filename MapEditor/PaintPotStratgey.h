@@ -14,8 +14,8 @@ class PaintPotStrategy : public PaintStrategy
 public:
     PaintPotStrategy(MapView * mapView, ChipsetView * chipsetView);
 
-    void leftButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    void rightButtonPressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+    void leftButtonPressEvent(int i, int j);
+    void rightButtonPressEvent(int i, int j);
 
     void paintPot(int i,int j, int blocRef);
     void erase(int i,int j,int blocRef);

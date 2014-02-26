@@ -15,6 +15,8 @@ public:
     virtual const BlocMap * getBloc(QPoint&) const =0;
     virtual QString getChipset() const =0;
 
+    virtual bool load(QString filename) =0;
+
 };
 }
 

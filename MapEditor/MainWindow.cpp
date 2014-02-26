@@ -10,35 +10,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     chipsetView = new ChipsetView();
     ui->graphicsViewChipset->setScene(chipsetView);
-/*
-    lowLayerStrategy = new DisplayLowerLayerStrategy(mapView);
-    highLayerStrategy = new DisplayHigherLayerStrategy(mapView);
-    collideLayerStrategy = new DisplayCollisionLayerStrategy(mapView);
-    visuaLayerStrategy = new DisplayVisuaLayerStrategy(mapView);
-    gridLayerStrategy = new GridLayerStratgey(mapView);
 
-    ui->graphicsViewMap->setBackgroundBrush(QBrush(QColor(107, 189, 107)));
-
-    brushStrategy = new BrushStrategy(mapView,chipsetView);
-    paintPotStrategy = new PaintPotStrategy(mapView,chipsetView);
-    pipetteStrategy = new PipetteStrategy(mapView,chipsetView);
-    //mapView->setPaintStrategy(brushStrategy);
-    //mapView->setDisplayStrategy(lowLayerStrategy);
-    //mapView->setMap(map);
-*/
-    groupZoom.addAction(ui->actionZoom_1_1);
-    groupZoom.addAction(ui->actionZoom_1_2);
-
-    groupLayers.addAction(ui->actionLawer_layer);
-    groupLayers.addAction(ui->actionHigh_layer);
-    groupLayers.addAction(ui->actionCollision_layer);
-    groupLayers.addAction(ui->actionVisualization);
-
-    groupTools.addAction(ui->actionBrush);
-    groupTools.addAction(ui->actionCircle);
-    groupTools.addAction(ui->actionRectangle);
-    groupTools.addAction(ui->actionPipette);
-    groupTools.addAction(ui->actionPaint_pot);
+    createGroupButtons();
 
     connect(UndoSingleton::getInstance(),SIGNAL(redoEmpty(bool)),ui->actionRedo,SLOT(setEnabled(bool)));
     connect(UndoSingleton::getInstance(),SIGNAL(undoEmpty(bool)),ui->actionUndo,SLOT(setEnabled(bool)));
@@ -51,7 +24,32 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete chipsetView;
-    //delete mapView;
+}
+
+MdiChild *MainWindow::activeMdiChild()
+{
+    if (QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow())
+        return qobject_cast<MdiChild *>(activeSubWindow->widget());
+    return 0;
+}
+
+QMdiSubWindow *MainWindow::findMdiChild(const QString &fileName)
+{
+    QString canonicalFilePath = QFileInfo(fileName).canonicalFilePath();
+
+    foreach (QMdiSubWindow *window, ui->mdiArea->subWindowList()) {
+        MdiChild *mdiChild = qobject_cast<MdiChild *>(window->widget());
+        if (mdiChild->currentFile() == canonicalFilePath)
+            return window;
+    }
+    return 0;
+}
+
+void MainWindow::setActiveSubWindow(QWidget *window)
+{
+    if (!window)
+        return;
+    ui->mdiArea->setActiveSubWindow(qobject_cast<QMdiSubWindow *>(window));
 }
 
 void MainWindow::newMap()
@@ -71,119 +69,133 @@ void MainWindow::openMap()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "Open a map", QString(), "Map Zelda (*.k2x)");
     if (!fileName.isEmpty()) {
-        /*
+
         QMdiSubWindow *existing = findMdiChild(fileName);
         if (existing) {
-            mdiArea->setActiveSubWindow(existing);
+            ui->mdiArea->setActiveSubWindow(existing);
             return;
-        }*/
+        }
 
         MdiChild *child = createMdiChild();
-        child->openMap(fileName);
-        child->show();
-        /*
         if (child->openMap(fileName)) {
             statusBar()->showMessage(tr("File loaded"), 2000);
             child->show();
         } else {
             child->close();
-        }*/
+        }
     }
 }
 
 void MainWindow::maximizeMap()
 {
-    QTransform matrix;
-    matrix.scale(0.5,0.5);
-    //ui->graphicsViewMap->setTransform(matrix);
+    if (activeMdiChild())
+    {
+        QTransform matrix;
+        matrix.scale(0.5,0.5);
+        activeMdiChild()->setTransform(matrix);
+    }
 }
 
 void MainWindow::minimizeMap()
 {
-    QTransform matrix;
-    matrix.scale(1,1);
-    //ui->graphicsViewMap->setTransform(matrix);
+    if (activeMdiChild())
+    {
+        QTransform matrix;
+        matrix.scale(1,1);
+        activeMdiChild()->setTransform(matrix);
+    }
 }
 
 void MainWindow::lowerLayer()
-{/*
-    mapView->setDisplayStrategy(lowLayerStrategy);
-    mapView->displayMap();*/
+{
+    if (activeMdiChild())
+        activeMdiChild()->lowerLayer();
 }
 
 void MainWindow::higherLayer()
-{/*
-    mapView->setDisplayStrategy(highLayerStrategy);
-    mapView->displayMap();*/
+{
+    if (activeMdiChild())
+        activeMdiChild()->higherLayer();
 }
 
 void MainWindow::collisionLayer()
-{/*
-    mapView->setDisplayStrategy(collideLayerStrategy);
-    mapView->displayMap();*/
+{
+    if (activeMdiChild())
+        activeMdiChild()->collisionLayer();
 }
 
 void MainWindow::visuaLayer()
-{/*
-    mapView->setDisplayStrategy(visuaLayerStrategy);
-    mapView->displayMap();*/
+{
+    if (activeMdiChild())
+        activeMdiChild()->visuaLayer();
 }
 
 void MainWindow::changeChipset()
-{/*
-    QString fichier = QFileDialog::getOpenFileName(this, "Load a chipset", QString(), "Chipset (*.bmp)");
-    if (fichier != "")
-    {
-        UndoSingleton::getInstance()->execute(new ChangeChipsetCommand(mapView,chipsetView,fichier));
-    }*/
+{
+    if (activeMdiChild())
+        activeMdiChild()->changeChipset();
 }
 
 void MainWindow::clearMap()
 {
-    //UndoSingleton::getInstance()->execute(new ClearMapCommand(mapView));
+    if (activeMdiChild())
+        activeMdiChild()->clearMap();
 }
 
 void MainWindow::brushTool()
 {
-    //mapView->setPaintStrategy(brushStrategy);
+    if (activeMdiChild())
+        activeMdiChild()->brushTool();
 }
 
 void MainWindow::paintPotTool()
 {
-    //mapView->setPaintStrategy(paintPotStrategy);
+    if (activeMdiChild())
+        activeMdiChild()->paintPotTool();
 }
 
 void MainWindow::pipetteTool()
 {
-    //mapView->setPaintStrategy(pipetteStrategy);
+    if (activeMdiChild())
+        activeMdiChild()->pipetteTool();
 }
 
 void MainWindow::save()
 {
-    /*
-    QFile file(map->getName());
-    file.open(QIODevice::WriteOnly);
-    QDataStream out(&file);
-    out << map;
-    file.close();*/
+    if (activeMdiChild() && activeMdiChild()->save())
+        statusBar()->showMessage(tr("File saved"), 2000);
 }
 
+void MainWindow::saveAs()
+{
+    if (activeMdiChild() && activeMdiChild()->saveAs())
+        statusBar()->showMessage(tr("File saved"), 2000);
+}
 void MainWindow::changeName()
 {
-    /*
-    DialogChangeName * fen = new DialogChangeName(map,this);
-    fen->show();*/
+    if (activeMdiChild())
+        activeMdiChild()->changeName();
 }
 
 void MainWindow::gridLayer(bool enable)
-{/*
-    if(enable)
-    {
-        mapView->setGridStrategy(new GridLayerStratgey(mapView));
-    }
-    else
-    {
-        mapView->setGridStrategy(NULL);
-    }
-    mapView->displayMap();*/
+{
+    if (activeMdiChild())
+        activeMdiChild()->gridLayer(enable);
+}
+
+void MainWindow::createGroupButtons()
+{
+    groupZoom.addAction(ui->actionZoom_1_1);
+    groupZoom.addAction(ui->actionZoom_1_2);
+
+    groupLayers.addAction(ui->actionLawer_layer);
+    groupLayers.addAction(ui->actionHigh_layer);
+    groupLayers.addAction(ui->actionCollision_layer);
+    groupLayers.addAction(ui->actionVisualization);
+
+    groupTools.addAction(ui->actionBrush);
+    groupTools.addAction(ui->actionCircle);
+    groupTools.addAction(ui->actionRectangle);
+    groupTools.addAction(ui->actionPipette);
+    groupTools.addAction(ui->actionPaint_pot);
 }

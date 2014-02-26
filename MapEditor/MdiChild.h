@@ -12,6 +12,13 @@
 #include "DisplayVisuaLayerStrategy.h"
 #include "DisplayCollisionLayerStrategy.h"
 #include "GridLayerStratgey.h"
+#include "ChangeChipsetCommand.h"
+#include "ClearMapCommand.h"
+#include "DialogChangeName.h"
+#include <QMessageBox>
+#include <QFileInfo>
+#include <QFileDialog>
+#include <QApplication>
 
 class MdiChild : public QGraphicsView
 {
@@ -19,14 +26,44 @@ class MdiChild : public QGraphicsView
 public:
     explicit MdiChild(ChipsetView * chipsetView,QWidget *parent = 0);
 
+    QString currentFile() { return curFile; }
+
+    bool saveMap(const QString &fileName);
+
 signals:
 
 public slots:
 
     void newMap();
-    void openMap(QString filename);
+    bool openMap(QString fileName);
+
+    void lowerLayer();
+    void higherLayer();
+    void collisionLayer();
+    void visuaLayer();
+
+    void changeChipset();
+    void clearMap();
+
+    void brushTool();
+    void paintPotTool();
+    void pipetteTool();
+
+    bool save();
+    bool saveAs();
+
+    void changeName();
+
+    void gridLayer(bool enable);
 
 private:
+    void initTool();
+    void setCurrentFile(const QString &fileName);
+    QString strippedName(const QString &fullFileName);
+
+    QString curFile;
+    bool isUntitled;
+
     Model::Map * map;
     MapView * mapView;
     ChipsetView * chipsetView;

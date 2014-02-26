@@ -11,7 +11,7 @@ class MapFactory
 public:
     MapFactory();
 
-    Map* build(QString & file);
+    Map *build(QString & file);
 
 private:
     QHash<QString,Map*> mapHash;

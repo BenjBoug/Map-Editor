@@ -3,6 +3,7 @@
 using namespace Model;
 Map::Map()
 {
+
     size = QSize(NB_BLOCS_LARGEUR,NB_BLOCS_HAUTEUR);
     for(int i=0;i<size.width();i++)
     {
@@ -27,14 +28,6 @@ Map::Map(const Map &m)
     chipset=m.chipset;
 }
 
-Map::Map(QString file)
-{
-    QFile fileMap(file);
-    fileMap.open(QIODevice::ReadOnly);
-    QDataStream stream(&fileMap);
-    stream >> this;
-    fileMap.close();
-}
 
 Map::~Map()
 {
@@ -58,16 +51,28 @@ Map &Map::operator=(const Map &m)
     return *this;
 }
 
-
-void Map::setName(QString & n)
+bool Map::load(QString filename)
 {
-    name = n;
+    QFile fileMap(filename);
+    if (!fileMap.open(QFile::ReadOnly)) {
+        return false;
+    }
+    QDataStream stream(&fileMap);
+    stream >> this;
+    fileMap.close();
+    return true;
+}
+
+
+void Map::setName(QString & name)
+{
+    this->name = name;
     emit nameChanged();
 }
 
-void Map::setChipset(QString & n)
+void Map::setChipset(QString & chipset)
 {
-    chipset = n;
+    this->chipset = chipset;
     emit chipsetChanged();
 }
 
@@ -150,9 +155,9 @@ BlocMap *Map::getBloc(QPoint& coord) const
     return map[convert2Dto1D(coord.x(),coord.y())];
 }
 
-BlocMap * Map::getBloc(int x,int y) const
+BlocMap * Map::getBloc(int i,int j) const
 {
-    return map[convert2Dto1D(x,y)];
+    return map[convert2Dto1D(i,j)];
 }
 
 int Map::convert2Dto1D(int i, int j) const
@@ -183,6 +188,7 @@ QDataStream &Model::operator <<(QDataStream &out, const Map *v)
 
 QDataStream &Model::operator >>(QDataStream &in, Map *v)
 {
+    v->map.clear();
     in >> v->name;
     in >> v->chipset;
     in >> v->size;

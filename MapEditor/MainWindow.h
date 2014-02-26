@@ -6,21 +6,10 @@
 #include <Map.h>
 #include <QFileDialog>
 #include <QDataStream>
-#include "MapView.h"
-#include "BrushStrategy.h"
-#include "PaintPotStratgey.h"
-#include "PipetteStrategy.h"
-#include "DisplayLowerLayerStrategy.h"
-#include "DisplayHigherLayerStrategy.h"
-#include "DisplayVisuaLayerStrategy.h"
-#include "DisplayCollisionLayerStrategy.h"
-#include "GridLayerStratgey.h"
 #include "GroupeCheckBox.h"
-#include "ChangeChipsetCommand.h"
-#include "ClearMapCommand.h"
 #include "UndoSingleton.h"
-#include "DialogChangeName.h"
 #include "MdiChild.h"
+#include <QMdiSubWindow>
 
 namespace Ui {
 class MainWindow;
@@ -35,6 +24,9 @@ public:
     ~MainWindow();
 
     MdiChild *createMdiChild();
+    MdiChild *activeMdiChild();
+    QMdiSubWindow *findMdiChild(const QString &fileName);
+    void setActiveSubWindow(QWidget *window);
 
 public slots:
     void newMap();
@@ -55,6 +47,7 @@ public slots:
     void pipetteTool();
 
     void save();
+    void saveAs();
 
     void changeName();
 
@@ -62,18 +55,11 @@ public slots:
 
     
 private:
+    void createGroupButtons();
+
     GroupeCheckBox groupZoom,groupLayers,groupTools;
     Ui::MainWindow *ui;
     ChipsetView * chipsetView;
-    DisplayLowerLayerStrategy *lowLayerStrategy;
-    DisplayHigherLayerStrategy *highLayerStrategy;
-    DisplayVisuaLayerStrategy *visuaLayerStrategy;
-    DisplayCollisionLayerStrategy * collideLayerStrategy;
-    GridLayerStratgey * gridLayerStrategy;
-
-    BrushStrategy * brushStrategy;
-    PaintPotStrategy * paintPotStrategy;
-    PipetteStrategy * pipetteStrategy;
 };
 
 #endif // MAINWINDOW_H
