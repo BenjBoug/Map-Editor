@@ -40,7 +40,7 @@ void GuiOpenGL::display()
     SDL_framerateDelay(&manager);
 }
 
-void GuiOpenGL::blit(QString chipset, QPoint position, QRect rect)
+void GuiOpenGL::draw(QString chipset, QPoint position, QRect rect)
 {
 
     glBindTexture(GL_TEXTURE_2D, factory.build(QString("images/chipset/map.png")));

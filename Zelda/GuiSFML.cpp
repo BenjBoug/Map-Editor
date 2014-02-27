@@ -20,7 +20,7 @@ void GuiSFML::display()
     app->SetFramerateLimit(40);
 }
 
-void GuiSFML::blit(QString chipset, QPoint position, QRect rect)
+void GuiSFML::draw(QString chipset, QPoint position, QRect rect)
 {
     Image img = factory.build(chipset);
     mySprite.SetImage(img);

@@ -139,7 +139,7 @@ void Map::display(IGui *gui, ICamera *cam)
     for (int j = (y/BLOCSIZE); j < (cam->getCoordBox().height()/BLOCSIZE)+(y/BLOCSIZE)+1; j++)
         for (int i = (x/BLOCSIZE); i < (cam->getCoordBox().width()/BLOCSIZE)+(x/BLOCSIZE)+1; i++)
         {
-            try
+            if (i<size.width() && j<size.height())
             {
                 int couche1 = map[convert2Dto1D(i,j)]->getLowLayer();
                 int couche2 = map[convert2Dto1D(i,j)]->getHighLayer();
@@ -160,10 +160,6 @@ void Map::display(IGui *gui, ICamera *cam)
                     pos_objet.moveTop((couche2/30)*BLOCSIZE);
                     gui->blit(chipset,position,pos_objet);
                 }
-            }
-            catch(std::exception const& e)
-            {
-                std::cout << "ERREUR : "<< e.what() << std::endl;
             }
         }
 

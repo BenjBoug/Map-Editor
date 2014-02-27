@@ -68,5 +68,5 @@ void Animation::display(IGui * gui, ICamera * cam)
     positionS.setX(cam->getCollisionBox().x()-frameActuel->getDecalage().x());
     positionS.setY(cam->getCollisionBox().y()-frameActuel->getDecalage().y());
 
-    gui->blit(nomCharset,positionS,frameActuel->getCoordBox());
+    gui->draw(nomCharset,positionS,frameActuel->getCoordBox());
 }

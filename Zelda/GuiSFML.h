@@ -17,7 +17,7 @@ public:
     virtual void init();
     virtual void clearScreen();
     virtual void display();
-    virtual void blit(QString chipset,QPoint position, QRect rect);
+    virtual void draw(QString chipset,QPoint position, QRect rect);
     virtual void quit();
 
 private:

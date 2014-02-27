@@ -91,12 +91,14 @@ void MdiChild::changeChipset()
     if (fichier != "")
     {
         UndoSingleton::getInstance()->execute(new ChangeChipsetCommand(mapView,chipsetView,fichier));
+        ICommand::end();
     }
 }
 
 void MdiChild::clearMap()
 {
     UndoSingleton::getInstance()->execute(new ClearMapCommand(mapView));
+    ICommand::end();
 }
 
 void MdiChild::brushTool()

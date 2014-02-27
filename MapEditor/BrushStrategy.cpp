@@ -15,10 +15,6 @@ void BrushStrategy::leftButtonPressEvent(int i, int j)
 
 void BrushStrategy::rightButtonPressEvent(int i, int j)
 {
-    blited.setX(i);
-    blited.setY(j);
-    blited.setWidth(1);
-    blited.setHeight(1);
     UndoSingleton::getInstance()->execute(new EraseCommand(mapView,i,j));
 }
 

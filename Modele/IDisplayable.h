@@ -9,6 +9,9 @@ class IDisplayable
 {
 
 public:
+    /**
+     * @brief display Display the object at the specific IGui and with the specific ICamera
+     */
     virtual void display(IGui*,ICamera*) = 0;
 
 

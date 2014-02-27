@@ -7,7 +7,12 @@ namespace Model
 {
 class ICamera : public Object, public IManager
 {
-    virtual bool isInTheField(Object*) =0;
+    /**
+     * @brief isInTheField this method return true if the specific object is in the field of the camera
+     * @param o the object to test
+     * @return
+     */
+    virtual bool isInTheField(Object* o) =0;
 };
 }
 

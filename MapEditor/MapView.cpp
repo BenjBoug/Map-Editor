@@ -20,7 +20,7 @@ void MapView::setMap(Model::Map *map)
     this->map = map;
     loadChipset(map->getChipset());
     this->setSceneRect(0,0,map->getSize().width()*BLOCSIZE,map->getSize().height()*BLOCSIZE);
-    qDebug() << this->sceneRect();
+    displayBackground();
 }
 
 void MapView::loadChipset(QString f)
@@ -159,7 +159,6 @@ void MapView::setCursorRect(QRect rect)
 void MapView::displayMap()
 {
     clearMap();
-    displayBackground();
     if (displayStrategy != NULL)
         displayStrategy->display();
     if (gridStrategy != NULL)
@@ -169,6 +168,7 @@ void MapView::displayMap()
 
 void MapView::displayBackground()
 {
+    this->removeLayer(BGRD);
     for(int i=0;i<map->getSize().width();i++)
     {
         for(int j=0;j<map->getSize().height();j++)

@@ -13,7 +13,7 @@ void ChangeDimensionCommand::execute()
 
     sizeMemento = mapView->getMap()->getSize();
     mapView->getMap()->setSize(newSize);
-    mapView->removeLayer(BGRD);
+    mapView->displayBackground();
     mapView->displayMap();
 }
 
@@ -30,6 +30,6 @@ void ChangeDimensionCommand::undo()
             map->getBloc(i,j)->setCollisionLayer(mapMemento.getBloc(i,j)->getCollisionLayer());
         }
     }
-    mapView->removeLayer(BGRD);
+    mapView->displayBackground();
     mapView->displayMap();
 }

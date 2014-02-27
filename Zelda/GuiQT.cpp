@@ -19,7 +19,7 @@ void GuiQT::display()
 
 }
 
-void GuiQT::blit(QString chipset, QPoint position, QRect rect)
+void GuiQT::draw(QString chipset, QPoint position, QRect rect)
 {
 
 }

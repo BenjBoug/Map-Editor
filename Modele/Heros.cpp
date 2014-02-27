@@ -3,8 +3,8 @@
 using namespace Model;
 Heros::Heros()
 {
-    coord.setX(80*BLOCSIZE/2);
-    coord.setY(60*BLOCSIZE/2);
+    coord.setX(0*BLOCSIZE/2);
+    coord.setY(0*BLOCSIZE/2);
 }
 
 void Heros::manage(const IGame *game)

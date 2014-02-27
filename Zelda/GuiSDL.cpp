@@ -30,7 +30,7 @@ void GuiSDL::display()
     SDL_framerateDelay(&manager);
 }
 
-void GuiSDL::blit(QString chipset, QPoint position, QRect rect)
+void GuiSDL::draw(QString chipset, QPoint position, QRect rect)
 {
     SDL_Rect sdl_position = QPointToSDLRect(position);
     SDL_Rect sdl_rect = QRectToSDLRect(rect);
