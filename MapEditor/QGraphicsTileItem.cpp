@@ -6,7 +6,7 @@ QGraphicsTileItem::QGraphicsTileItem(BlocMap *bloc, QPixmap chipset, int layer)
     this->chipset=chipset;
     this->layer=layer;
     int bl = bloc->getLayer(layer);
-    QPixmap tile = chipset.copy((bl%(chipset.width()/BLOCSIZE))*BLOCSIZE,(bl/(chipset.width()/BLOCSIZE))*BLOCSIZE,BLOCSIZE,BLOCSIZE);
+    QPixmap tile  = chipset.copy((bl%(chipset.width()/BLOCSIZE))*BLOCSIZE,(bl/(chipset.width()/BLOCSIZE))*BLOCSIZE,BLOCSIZE,BLOCSIZE);
     setZValue(layer);
     tileItem = new QGraphicsPixmapItem(tile);
     connect(bloc,SIGNAL(blocLayerModified(int)),this,SLOT(blocHasChange(int)));

@@ -26,6 +26,7 @@ public:
     MdiChild *createMdiChild();
     MdiChild *activeMdiChild();
     QMdiSubWindow *findMdiChild(const QString &fileName);
+    void initCheckBoxMenu();
 
 public slots:
     void newMap();
@@ -48,18 +49,20 @@ public slots:
     void save();
     void saveAs();
 
-    void changeName();
+    void changeDimension();
 
     void gridLayer(bool enable);
 
     void updateMenus();
     void updateChipset();
     void updateWindowMenu();
-
+    void saveActionMdi();
+    void updateActionMdi();
     void setActiveSubWindow(QWidget *window);
 
     
 private:
+    QList<QAction*> getActionsCheckable();
     void createGroupButtons();
 
     GroupeCheckBox groupZoom,groupLayers,groupTools;

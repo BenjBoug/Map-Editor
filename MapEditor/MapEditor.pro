@@ -36,10 +36,9 @@ SOURCES += main.cpp\
     ClearMapCommand.cpp \
     ChangeDimensionCommand.cpp \
     ChangeChipsetCommand.cpp \
-    DialogChangeName.cpp \
-    ChangeNameCommand.cpp \
-    MapTabWidget.cpp \
-    MdiChild.cpp
+    MdiChild.cpp \
+    TileFactory.cpp \
+    DialogChangeDimension.cpp
 
 HEADERS  += MainWindow.h \
     ChipsetView.h \
@@ -66,14 +65,12 @@ HEADERS  += MainWindow.h \
     ClearMapCommand.h \
     ChangeDimensionCommand.h \
     ChangeChipsetCommand.h \
-    DialogChangeName.h \
-    ChangeNameCommand.h \
-    MapTabWidget.h \
-    MdiChild.h
+    MdiChild.h \
+    TileFactory.h \
+    DialogChangeDimension.h
 
 FORMS    += MainWindow.ui \
-    DialogChangeName.ui \
-    MapTabWidget.ui
+    DialogChangeDimension.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Modele/release/ -lZelda_Model
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Modele/debug/ -lZelda_Model

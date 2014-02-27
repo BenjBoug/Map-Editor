@@ -20,7 +20,7 @@ void GroupeCheckBox::disableOther(QObject* i)
     {
         (*it)->setChecked(false);
     }
-
     ((QAction*)i)->setChecked(true);
+    emit groupToggle();
 }
 

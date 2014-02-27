@@ -79,6 +79,12 @@ void MdiChild::visuaLayer()
     mapView->displayMap();
 }
 
+void MdiChild::changeDimension()
+{
+    DialogChangeDimension * fen = new DialogChangeDimension(mapView,this);
+    fen->show();
+}
+
 void MdiChild::changeChipset()
 {
     QString fichier = QFileDialog::getOpenFileName(this, "Load a chipset", QString(), "Chipset (*.bmp)");
@@ -107,13 +113,6 @@ void MdiChild::pipetteTool()
 {
     mapView->setPaintStrategy(pipetteStrategy);
 }
-
-void MdiChild::changeName()
-{
-    DialogChangeName * fen = new DialogChangeName(map,this);
-    fen->show();
-}
-
 void MdiChild::gridLayer(bool enable)
 {
     if(enable)

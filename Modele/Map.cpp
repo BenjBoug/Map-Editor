@@ -95,13 +95,24 @@ QSize Map::getSize() const
 }
 void Map::setSize(QSize& d)
 {
-    size = d;
-    emit sizeChanged();
+    setSize(d.width(),d.height());
 }
-void Map::setSize(int l,int h)
+void Map::setSize(int w,int h)
 {
+    QVector<BlocMap*> newMap;
+    for( int i=0;i<w;i++)
+    {
+        for(int j=0;j<h;j++)
+        {
+            if (i<size.width() && j<size.height())
+                newMap.push_back(map[convert2Dto1D(i,j)]);
+            else
+                newMap.push_back(new BlocMap());
+        }
+    }
+    map=newMap;
     size.setHeight(h);
-    size.setWidth(l);
+    size.setWidth(w);
     emit sizeChanged();
 }
 

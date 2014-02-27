@@ -50,11 +50,43 @@ QMdiSubWindow *MainWindow::findMdiChild(const QString &fileName)
     return 0;
 }
 
+void MainWindow::initCheckBoxMenu()
+{
+    ui->actionLawer_layer->setChecked(true);
+    ui->actionHigh_layer->setChecked(false);
+    ui->actionCollision_layer->setChecked(false);
+    ui->actionVisualization->setChecked(false);
+    ui->actionShow_Grid->setChecked(false);
+    ui->actionZoom_1_1->setChecked(true);
+    ui->actionZoom_1_2->setChecked(false);
+    ui->actionBrush->setChecked(true);
+    ui->actionPaint_pot->setChecked(false);
+    ui->actionPipette->setChecked(false);
+    saveActionMdi();
+}
+
 void MainWindow::setActiveSubWindow(QWidget *window)
 {
     if (!window)
         return;
     ui->mdiArea->setActiveSubWindow(qobject_cast<QMdiSubWindow *>(window));
+}
+
+QList<QAction*> MainWindow::getActionsCheckable()
+{
+    QList<QAction*> actions;
+    actions.push_back(ui->actionLawer_layer);
+    actions.push_back(ui->actionHigh_layer);
+    actions.push_back(ui->actionCollision_layer);
+    actions.push_back(ui->actionVisualization);
+    actions.push_back(ui->actionShow_Grid);
+    actions.push_back(ui->actionZoom_1_1);
+    actions.push_back(ui->actionZoom_1_2);
+    actions.push_back(ui->actionBrush);
+    actions.push_back(ui->actionPaint_pot);
+    actions.push_back(ui->actionPipette);
+
+    return actions;
 }
 
 void MainWindow::newMap()
@@ -64,6 +96,8 @@ void MainWindow::newMap()
     child->show();
     changeChipset();
     UndoSingleton::getInstance()->clearUndo();
+    UndoSingleton::getInstance()->clearRedo();
+    initCheckBoxMenu();
 }
 
 MdiChild *MainWindow::createMdiChild()
@@ -87,6 +121,7 @@ void MainWindow::openMap()
         if (child->openMap(fileName)) {
             statusBar()->showMessage(tr("File loaded"), 2000);
             child->show();
+            initCheckBoxMenu();
         } else {
             child->close();
         }
@@ -178,33 +213,36 @@ void MainWindow::saveAs()
     if (activeMdiChild() && activeMdiChild()->saveAs())
         statusBar()->showMessage(tr("File saved"), 2000);
 }
-void MainWindow::changeName()
+
+void MainWindow::changeDimension()
 {
     if (activeMdiChild())
-        activeMdiChild()->changeName();
+        activeMdiChild()->changeDimension();
 }
 
 void MainWindow::gridLayer(bool enable)
 {
     if (activeMdiChild())
         activeMdiChild()->gridLayer(enable);
+    saveActionMdi();
 }
 
 void MainWindow::createGroupButtons()
 {
     groupZoom.addAction(ui->actionZoom_1_1);
     groupZoom.addAction(ui->actionZoom_1_2);
+    connect(&groupZoom,SIGNAL(groupToggle()),this,SLOT(saveActionMdi()));
 
     groupLayers.addAction(ui->actionLawer_layer);
     groupLayers.addAction(ui->actionHigh_layer);
     groupLayers.addAction(ui->actionCollision_layer);
     groupLayers.addAction(ui->actionVisualization);
+    connect(&groupLayers,SIGNAL(groupToggle()),this,SLOT(saveActionMdi()));
 
     groupTools.addAction(ui->actionBrush);
-    groupTools.addAction(ui->actionCircle);
-    groupTools.addAction(ui->actionRectangle);
     groupTools.addAction(ui->actionPipette);
     groupTools.addAction(ui->actionPaint_pot);
+    connect(&groupTools,SIGNAL(groupToggle()),this,SLOT(saveActionMdi()));
 }
 
 void MainWindow::updateMenus()
@@ -257,11 +295,9 @@ void MainWindow::updateWindowMenu()
 
         QString text;
         if (i < 9) {
-            text = tr("&%1 %2").arg(i + 1)
-                               .arg(child->userFriendlyCurrentFile());
+            text = tr("&%1 %2").arg(i+1).arg(child->userFriendlyCurrentFile());
         } else {
-            text = tr("%1 %2").arg(i + 1)
-                              .arg(child->userFriendlyCurrentFile());
+            text = tr("%1 %2").arg(i+1).arg(child->userFriendlyCurrentFile());
         }
         QAction *action  = ui->menuWindow->addAction(text);
         action->setCheckable(true);
@@ -269,5 +305,36 @@ void MainWindow::updateWindowMenu()
 
         connect(action, SIGNAL(triggered()), windowMapper, SLOT(map()));
         windowMapper->setMapping(action, windows.at(i));
+    }
+}
+
+void MainWindow::saveActionMdi()
+{
+    if (activeMdiChild())
+    {
+        QList<bool> activeAction;
+        QList<QAction*> actions = this->getActionsCheckable();
+        QList<QAction*>::iterator it;
+        for(it=actions.begin();it!=actions.end();it++)
+        {
+            activeAction.push_back((*it)->isChecked());
+        }
+
+        activeMdiChild()->setListActions(activeAction);
+    }
+}
+
+void MainWindow::updateActionMdi()
+{
+    if (activeMdiChild()!=0)
+    {
+        QList<bool> activeAction = activeMdiChild()->getListactions();
+        QList<bool>::iterator itAct;
+        QList<QAction*> actions = this->getActionsCheckable();
+        QList<QAction*>::iterator it;
+        for(it=actions.begin(),itAct=activeAction.begin();it!=actions.end(),itAct!=activeAction.end();it++,itAct++)
+        {
+            (*it)->setChecked((*itAct));
+        }
     }
 }

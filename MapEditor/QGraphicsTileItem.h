@@ -6,6 +6,7 @@
 #include "Constantes.h"
 #include "Blocmap.h"
 #include <QPainter>
+#include "TileFactory.h"
 
 using namespace Model;
 
@@ -27,6 +28,7 @@ private:
     BlocMap* bloc;
     QPixmap chipset;
     int layer;
+    TileFactory factory;
 
 };
 

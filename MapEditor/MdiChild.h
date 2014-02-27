@@ -14,11 +14,12 @@
 #include "GridLayerStratgey.h"
 #include "ChangeChipsetCommand.h"
 #include "ClearMapCommand.h"
-#include "DialogChangeName.h"
+#include "DialogChangeDimension.h"
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QApplication>
+#include <QList>
 
 class MdiChild : public QGraphicsView
 {
@@ -31,32 +32,34 @@ public:
 
     bool saveMap(const QString &fileName);
 
+    QList<bool> getListactions()
+    {
+        return listActions;
+    }
+
+    void setListActions(QList<bool> list)
+    {
+        listActions = list;
+    }
+
 signals:
 
 public slots:
-
     void newMap();
     bool openMap(QString fileName);
-
     void lowerLayer();
     void higherLayer();
     void collisionLayer();
     void visuaLayer();
-
+    void changeDimension();
     void changeChipset();
     void clearMap();
-
     void brushTool();
     void paintPotTool();
     void pipetteTool();
-
     bool save();
     bool saveAs();
-
-    void changeName();
-
     void gridLayer(bool enable);
-
     void updateChipset();
 
 private:
@@ -80,6 +83,8 @@ private:
     BrushStrategy * brushStrategy;
     PaintPotStrategy * paintPotStrategy;
     PipetteStrategy * pipetteStrategy;
+
+    QList<bool> listActions;
 };
 
 #endif // MDICHILD_H

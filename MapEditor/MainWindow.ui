@@ -97,8 +97,6 @@
     <addaction name="actionBrush"/>
     <addaction name="actionPaint_pot"/>
     <addaction name="actionPipette"/>
-    <addaction name="actionRectangle"/>
-    <addaction name="actionCircle"/>
    </widget>
    <widget class="QMenu" name="menuEvents">
     <property name="title">
@@ -111,7 +109,6 @@
     </property>
     <addaction name="actionChange_dimension"/>
     <addaction name="actionChange_chipset"/>
-    <addaction name="actionChange_Name"/>
     <addaction name="actionClear_map"/>
    </widget>
    <widget class="QMenu" name="menu">
@@ -172,8 +169,6 @@
    <addaction name="actionBrush"/>
    <addaction name="actionPaint_pot"/>
    <addaction name="actionPipette"/>
-   <addaction name="actionRectangle"/>
-   <addaction name="actionCircle"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidget">
@@ -458,35 +453,6 @@
     <string>Show Grid</string>
    </property>
   </action>
-  <action name="actionRectangle">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/rectangle.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/rectangle.png</iconset>
-   </property>
-   <property name="text">
-    <string>Rectangle</string>
-   </property>
-  </action>
-  <action name="actionCircle">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/circle.png</normaloff>../../build-ZeldaV6-Desktop_Qt_5_2_1_GCC_32bit-Debug/Resources/images/mapEditor/circle.png</iconset>
-   </property>
-   <property name="text">
-    <string>Circle</string>
-   </property>
-  </action>
-  <action name="actionChange_Name">
-   <property name="text">
-    <string>Change Name</string>
-   </property>
-  </action>
   <action name="actionClose">
    <property name="text">
     <string>Close</string>
@@ -746,22 +712,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionChange_Name</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>changeName()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>449</x>
-     <y>222</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionNew</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
@@ -953,6 +903,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>mdiArea</sender>
+   <signal>subWindowActivated(QMdiSubWindow*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateActionMdi()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>587</x>
+     <y>240</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionChange_dimension</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>changeDimension()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>clearMap()</slot>
@@ -977,5 +959,7 @@
   <slot>updateMenus()</slot>
   <slot>updateChipset()</slot>
   <slot>updateWindowMenu()</slot>
+  <slot>updateActionMdi()</slot>
+  <slot>changeDimension()</slot>
  </slots>
 </ui>

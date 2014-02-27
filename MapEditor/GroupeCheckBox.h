@@ -14,6 +14,9 @@ public:
 
     void addAction(QAction * act);
 
+signals:
+    void groupToggle();
+
 private slots:
     void disableOther(QObject *i);
 

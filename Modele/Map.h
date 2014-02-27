@@ -74,7 +74,7 @@ public:
      */
     QSize getSize() const;
     void setSize(QSize &d);
-    void setSize(int,int);
+    void setSize(int w, int);
 
     /**
      * @brief manage
