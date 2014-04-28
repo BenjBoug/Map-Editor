@@ -20,7 +20,6 @@ void MapView::setMap(Model::Map *map)
     this->map = map;
     loadChipset(map->getChipset());
     this->setSceneRect(0,0,map->getSize().width()*BLOCSIZE,map->getSize().height()*BLOCSIZE);
-    displayBackground();
 }
 
 void MapView::loadChipset(QString f)

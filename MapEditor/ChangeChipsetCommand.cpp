@@ -14,6 +14,7 @@ void ChangeChipsetCommand::execute()
     chipsetView->loadChipset(file);
     mapView->loadChipset(file);
     mapView->displayMap();
+    mapView->displayBackground();
 }
 
 void ChangeChipsetCommand::undo()
@@ -22,4 +23,5 @@ void ChangeChipsetCommand::undo()
     chipsetView->loadChipset(fileMemento);
     mapView->loadChipset(fileMemento);
     mapView->displayMap();
+    mapView->displayBackground();
 }

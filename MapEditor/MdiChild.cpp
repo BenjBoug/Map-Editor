@@ -27,7 +27,7 @@ bool MdiChild::openMap(QString fileName)
     map = new Map();
     if (!map->load(fileName))
     {
-        QMessageBox::warning(this, tr("K1X"),
+        QMessageBox::warning(this, tr("K2X"),
                              tr("Cannot read file %.")
                              .arg(fileName));
         return false;
@@ -87,12 +87,7 @@ void MdiChild::changeDimension()
 
 void MdiChild::changeChipset()
 {
-    QString fichier = QFileDialog::getOpenFileName(this, "Load a chipset", QString(), "Chipset (*.bmp)");
-    if (fichier != "")
-    {
-        UndoSingleton::getInstance()->execute(new ChangeChipsetCommand(mapView,chipsetView,fichier));
-        ICommand::end();
-    }
+    updateChipset(QFileDialog::getOpenFileName(this, "Load a chipset", QString(), "Chipset (*.bmp)"));
 }
 
 void MdiChild::clearMap()
@@ -131,6 +126,15 @@ void MdiChild::gridLayer(bool enable)
 void MdiChild::updateChipset()
 {
     chipsetView->loadChipset(map->getChipset());
+}
+
+void MdiChild::updateChipset(QString file)
+{
+    if (file != "")
+    {
+        UndoSingleton::getInstance()->execute(new ChangeChipsetCommand(mapView,chipsetView,file));
+        ICommand::end();
+    }
 }
 
 bool MdiChild::save()

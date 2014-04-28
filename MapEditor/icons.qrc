@@ -1,3 +1,27 @@
 <RCC>
-    <qresource prefix="/"/>
+    <qresource prefix="/">
+        <file>Resources/Images/Icons/arriere-zoom-icone-5157-48.png</file>
+        <file>Resources/Images/Icons/circle.png</file>
+        <file>Resources/Images/Icons/couche1.png</file>
+        <file>Resources/Images/Icons/couche2.png</file>
+        <file>Resources/Images/Icons/coucheCollision.png</file>
+        <file>Resources/Images/Icons/couches-carte-icone-7284-128.png</file>
+        <file>Resources/Images/Icons/couleur-couleur-cueilleur-icone-6523-48.png</file>
+        <file>Resources/Images/Icons/defaire-icone-8681-48.png</file>
+        <file>Resources/Images/Icons/disque-sauvegardez-icone-4699-48.png</file>
+        <file>Resources/Images/Icons/dossier-icone-4159-48.png</file>
+        <file>Resources/Images/Icons/editer-editeur-papier-crayon-ecrivez-icone-6803-128.png</file>
+        <file>Resources/Images/Icons/fichier-une-page-nouvelle--icone-4740-48.png</file>
+        <file>Resources/Images/Icons/grid.png</file>
+        <file>Resources/Images/Icons/maximiser-icone-5962-48.png</file>
+        <file>Resources/Images/Icons/minimiser-icone-8625-48.png</file>
+        <file>Resources/Images/Icons/paintroller-icone-5978-128.png</file>
+        <file>Resources/Images/Icons/pinceau-icone-4100-128.png</file>
+        <file>Resources/Images/Icons/porte-sortie-icone-7442-48.png</file>
+        <file>Resources/Images/Icons/que-sauf-icone-5284-48.png</file>
+        <file>Resources/Images/Icons/rectangle.png</file>
+        <file>Resources/Images/Icons/redo-icone-7712-48.png</file>
+        <file>Resources/Images/Icons/telecharger-icone-9832-48.png</file>
+        <file>Resources/Images/Icons/zoom-icone-8273-48.png</file>
+    </qresource>
 </RCC>

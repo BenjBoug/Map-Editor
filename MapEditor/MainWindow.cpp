@@ -65,6 +65,11 @@ void MainWindow::initCheckBoxMenu()
     saveActionMdi();
 }
 
+QString MainWindow::getChipsetFileName()
+{
+    return QFileDialog::getOpenFileName(this, "Load a chipset", QString(), "Chipset (*.bmp)");
+}
+
 void MainWindow::setActiveSubWindow(QWidget *window)
 {
     if (!window)
@@ -91,13 +96,17 @@ QList<QAction*> MainWindow::getActionsCheckable()
 
 void MainWindow::newMap()
 {
-    MdiChild *child = createMdiChild();
-    child->newMap();
-    child->show();
-    changeChipset();
-    UndoSingleton::getInstance()->clearUndo();
-    UndoSingleton::getInstance()->clearRedo();
-    initCheckBoxMenu();
+    QString chipsetFile;
+    if ((chipsetFile=getChipsetFileName()) != "")
+    {
+        MdiChild *child = createMdiChild();
+        child->newMap();
+        child->updateChipset(chipsetFile);
+        child->show();
+        UndoSingleton::getInstance()->clearUndo();
+        UndoSingleton::getInstance()->clearRedo();
+        initCheckBoxMenu();
+    }
 }
 
 MdiChild *MainWindow::createMdiChild()

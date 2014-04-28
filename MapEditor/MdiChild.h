@@ -61,6 +61,7 @@ public slots:
     bool saveAs();
     void gridLayer(bool enable);
     void updateChipset();
+    void updateChipset(QString file);
 
 private:
     void initTool();

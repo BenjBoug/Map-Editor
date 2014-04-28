@@ -28,7 +28,9 @@ public:
     QMdiSubWindow *findMdiChild(const QString &fileName);
     void initCheckBoxMenu();
 
-public slots:
+    QString getChipsetFileName();
+
+private slots:
     void newMap();
     void openMap();
     void maximizeMap();
@@ -60,7 +62,7 @@ public slots:
     void updateActionMdi();
     void setActiveSubWindow(QWidget *window);
 
-    
+
 private:
     QList<QAction*> getActionsCheckable();
     void createGroupButtons();

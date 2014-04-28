@@ -149,7 +149,7 @@ void Map::display(IGui *gui, ICamera *cam)
                     position.setY((j*BLOCSIZE-y)+(centrageY*BLOCSIZE));
                     pos_objet.moveLeft((couche1%30)*BLOCSIZE);
                     pos_objet.moveTop((couche1/30)*BLOCSIZE);
-                    gui->blit(chipset,position,pos_objet);
+                    gui->draw(chipset,position,pos_objet);
                 }
 
                 if (couche2!=0)
@@ -158,7 +158,7 @@ void Map::display(IGui *gui, ICamera *cam)
                     position.setY((j*BLOCSIZE-y)+(centrageY*BLOCSIZE));
                     pos_objet.moveLeft((couche2%30)*BLOCSIZE);
                     pos_objet.moveTop((couche2/30)*BLOCSIZE);
-                    gui->blit(chipset,position,pos_objet);
+                    gui->draw(chipset,position,pos_objet);
                 }
             }
         }
