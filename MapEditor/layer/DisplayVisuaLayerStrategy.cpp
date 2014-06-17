@@ -21,5 +21,5 @@ void DisplayVisuaLayerStrategy::display()
 
 int DisplayVisuaLayerStrategy::getLayer()
 {
-    return 999;
+	return EVENT;
 }

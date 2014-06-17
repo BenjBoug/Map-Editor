@@ -5,19 +5,20 @@
 #include "MapView.h"
 #include "ChipsetView.h"
 #include <QString>
+#include <Map.h>
 
 class ChangeChipsetCommand : public ICommand
 {
 public:
-    ChangeChipsetCommand(MapView * mapView,ChipsetView * chipsetView, QString file);
+	ChangeChipsetCommand(Model::Map map, QString file);
 
     virtual void execute();
     virtual void undo();
 
 private:
-    MapView * mapView;
-    ChipsetView * chipsetView;
-    QString file, fileMemento;
+	Model::Map map;
+	QPixmap chipset;
+	QPixmap chipsetMemento;
 };
 
 #endif // CHANGECHIPSETCOMMAND_H

@@ -17,8 +17,7 @@ public:
 
 protected:
     MapView * mapView;
-    ChipsetView * chipsetView;
-    QGraphicsRectItem * rectItem;
+	ChipsetView * chipsetView;
 };
 
 #endif // PAINTSTRATEGY_H

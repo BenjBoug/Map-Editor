@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/maps">
+        <file>Resources/Maps/donjon.k2x</file>
+        <file>Resources/Maps/donjon2.k2x</file>
+        <file>Resources/Maps/houseTest.k2x</file>
+        <file>Resources/Maps/maison.k2x</file>
+        <file>Resources/Maps/map.k2x</file>
+    </qresource>
+</RCC>

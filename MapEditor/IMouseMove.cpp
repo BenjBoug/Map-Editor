@@ -8,6 +8,7 @@ IMouseMove::IMouseMove()
 
 void IMouseMove::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
+	UndoSingleton::getInstance()->beginGroup();
     if (mouseEvent->button()==Qt::LeftButton)
     {
         inSelectLeft=true;
@@ -58,8 +59,8 @@ void IMouseMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
     {
         inSelectRight=false;
         rightButtonReleaseEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
-    }
-    ICommand::end();
+	}
+	UndoSingleton::getInstance()->endGroup();
 }
 void IMouseMove::leftButtonReleaseEvent(int i, int j)
 {

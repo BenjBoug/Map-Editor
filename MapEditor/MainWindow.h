@@ -10,6 +10,7 @@
 #include "UndoSingleton.h"
 #include "MdiChild.h"
 #include <QMdiSubWindow>
+#include <QSettings>
 
 namespace Ui {
 class MainWindow;
@@ -30,6 +31,10 @@ public:
 
     QString getChipsetFileName();
 
+	void writeSettings();
+	void readSettings();
+	void closeEvent(QCloseEvent *event);
+
 private slots:
     void newMap();
     void openMap();
@@ -47,11 +52,15 @@ private slots:
     void brushTool();
     void paintPotTool();
     void pipetteTool();
+	void rectangleTool();
+	void circleTool();
 
     void save();
     void saveAs();
 
     void changeDimension();
+
+	void changeBackground();
 
     void gridLayer(bool enable);
 
@@ -67,9 +76,10 @@ private:
     QList<QAction*> getActionsCheckable();
     void createGroupButtons();
 
+	QList<QFile> recentFiles;
+
     GroupeCheckBox groupZoom,groupLayers,groupTools;
-    Ui::MainWindow *ui;
-    ChipsetView * chipsetView;
+	Ui::MainWindow *ui;
     QSignalMapper * windowMapper;
 };
 

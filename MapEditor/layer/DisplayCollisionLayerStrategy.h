@@ -3,7 +3,7 @@
 
 #include "MapView.h"
 #include <QFont>
-#include "CollideCommand.h"
+#include "command/CollideCommand.h"
 #include "UndoSingleton.h"
 
 class DisplayCollisionLayerStrategy : public LayerStrategy

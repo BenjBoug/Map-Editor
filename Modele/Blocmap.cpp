@@ -82,7 +82,7 @@ bool BlocMap::collision(Object* )
     return (collisionLayer==1);
 }
 
-int BlocMap::getLayer(int layer)
+int BlocMap::getAtLayer(int layer)
 {
     switch(layer)
     {

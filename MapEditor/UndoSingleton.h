@@ -3,7 +3,12 @@
 
 #include <QObject>
 #include <QStack>
-#include "ICommand.h"
+#include "command/ICommand.h"
+#include "command/GroupCommand.h"
+
+#define CMD_BEGIN() UndoSingleton::getInstance()->beginGroup()
+#define CMD_END() UndoSingleton::getInstance()->endGroup();
+#define EXECUTE_CMD(cmd) UndoSingleton::getInstance()->execute(cmd)
 
 class UndoSingleton : public QObject
 {
@@ -20,6 +25,9 @@ public:
 
     void execute(ICommand *cmd);
 
+	void beginGroup();
+	void endGroup();
+
     void clearUndo();
     void clearRedo();
 
@@ -31,11 +39,17 @@ public slots:
     void undo();
     void redo();
 
+protected:
+	void cmdExecuted(ICommand* cmd);
+	void cmdCanceled(ICommand* cmd);
+
 private:
-    UndoSingleton();
+	UndoSingleton();
     QStack<ICommand*> stackUndoCommand;
     QStack<ICommand*> stackRedoCommand;
-    static UndoSingleton * instance;
+	static UndoSingleton * instance;
+	GroupCommand * groupCmd;
+	bool inGroup;
 };
 
 

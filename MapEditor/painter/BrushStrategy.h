@@ -6,8 +6,8 @@
 #include <QDebug>
 #include "MapView.h"
 #include "ChipsetView.h"
-#include "EraseCommand.h"
-#include "BlitCommand.h"
+#include "command/EraseCommand.h"
+#include "command/BlitCommand.h"
 #include "UndoSingleton.h"
 
 class BrushStrategy : public PaintStrategy
@@ -23,6 +23,8 @@ public:
 
 
 private:
+
+	bool isntInBlitted(int x, int y, int w=1,int h=1) const;
 
     void blit(int x,int y);
     QRect blited;

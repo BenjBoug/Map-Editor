@@ -15,18 +15,14 @@ void BrushStrategy::leftButtonPressEvent(int i, int j)
 
 void BrushStrategy::rightButtonPressEvent(int i, int j)
 {
-    UndoSingleton::getInstance()->execute(new EraseCommand(mapView,i,j));
+	EXECUTE_CMD(new EraseCommand(mapView,i,j));
+	blited.setRect(i,j,1,1);
 }
 
 void BrushStrategy::leftButtonMoveEvent(int i, int j)
 {
     QVector<QVector<int> > selectedTile = chipsetView->getSelectedTile();
-    QRect newBlit;
-    newBlit.setX(i);
-    newBlit.setY(j);
-    newBlit.setWidth(selectedTile.size());
-    newBlit.setHeight(selectedTile[0].size());
-    if (!newBlit.intersects(blited))
+	if (isntInBlitted(i,j,selectedTile.size(),selectedTile[0].size()))
     {
         blit(i,j);
     }
@@ -34,14 +30,16 @@ void BrushStrategy::leftButtonMoveEvent(int i, int j)
 
 void BrushStrategy::rightButtonMoveEvent(int i, int j)
 {
-    QRect newBlit;
-    newBlit.setX(i);
-    newBlit.setY(j);
-    newBlit.setWidth(BLOCSIZE);
-    newBlit.setHeight(BLOCSIZE);
-    if (!newBlit.intersects(blited))
-        UndoSingleton::getInstance()->execute(new EraseCommand(mapView,i,j));
+	if (isntInBlitted(i,j))
+	{
+		EXECUTE_CMD(new EraseCommand(mapView,i,j));
+		blited.setRect(i,j,1,1);
+	}
+}
 
+bool BrushStrategy::isntInBlitted(int x, int y, int w, int h) const
+{
+	return !QRect(x,y,w,h).intersects(blited);
 }
 
 void BrushStrategy::blit(int x, int y)
@@ -53,7 +51,7 @@ void BrushStrategy::blit(int x, int y)
         for(int j=0;j<selectedTile[i].size();j++)
         {
             if (i+x<size.width() && j+y<size.height())
-                UndoSingleton::getInstance()->execute(new BlitCommand(mapView,i+x,j+y,selectedTile[i][j]));
+				EXECUTE_CMD(new BlitCommand(mapView->getMap(),i+x,j+y,mapView->getCurrentLayer()->getLayer(),selectedTile[i][j]));
         }
     }
     blited.setX(x);

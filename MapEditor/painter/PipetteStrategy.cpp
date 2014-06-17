@@ -7,10 +7,10 @@ PipetteStrategy::PipetteStrategy(MapView * mapView, ChipsetView * chipsetView)
 
 void PipetteStrategy::leftButtonPressEvent(int i, int j)
 {
-    chipsetView->selectTile(mapView->getMap()->getBloc(i,j)->getLayer(mapView->getCurrentLayer()->getLayer()));
+    chipsetView->selectTile(mapView->getMap()->getBloc(i,j)->getAtLayer(mapView->getCurrentLayer()->getLayer()));
 }
 
 void PipetteStrategy::leftButtonMoveEvent(int i, int j)
 {
-    chipsetView->selectTile(mapView->getMap()->getBloc(i,j)->getLayer(mapView->getCurrentLayer()->getLayer()));
+    chipsetView->selectTile(mapView->getMap()->getBloc(i,j)->getAtLayer(mapView->getCurrentLayer()->getLayer()));
 }

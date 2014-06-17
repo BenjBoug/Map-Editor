@@ -2,7 +2,7 @@
 #define DISPLAYLOWERLAYERSTRATEGY_H
 
 #include "MapView.h"
-#include "EraseCommand.h"
+#include "command/EraseCommand.h"
 
 class DisplayLowerLayerStrategy : public LayerStrategy
 {

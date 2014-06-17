@@ -21,7 +21,6 @@ DialogChangeDimension::~DialogChangeDimension()
 void DialogChangeDimension::accept()
 {
     QSize newSize(ui->widthEdit->value(),ui->heightEdit->value());
-    UndoSingleton::getInstance()->execute(new ChangeDimensionCommand(mapView,newSize));
-    ICommand::end();
+	EXECUTE_CMD(new ChangeDimensionCommand(mapView,newSize));
     QDialog::accept();
 }

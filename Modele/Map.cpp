@@ -78,9 +78,9 @@ void Map::setName(QString & name)
     emit nameChanged();
 }
 
-void Map::setChipset(QString & chipset)
+void Map::loadChipset(QString & chipsetfile)
 {
-    this->chipset = chipset;
+	this->chipset.load(chipsetfile);
     emit chipsetChanged();
 }
 
@@ -181,9 +181,14 @@ int Map::convert2Dto1D(int i, int j) const
 }
 
 
-QString Map::getChipset() const
+QPixmap Map::getChipset() const
 {
-    return chipset;
+	return chipset;
+}
+
+void Map::setChipset(QPixmap chipset)
+{
+	this->chipset=chipset;
 }
 
 QDataStream &Model::operator <<(QDataStream &out, const Map *v)

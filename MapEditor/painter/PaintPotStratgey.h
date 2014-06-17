@@ -5,8 +5,8 @@
 #include <QDebug>
 #include "MapView.h"
 #include "ChipsetView.h"
-#include "BlitCommand.h"
-#include "EraseCommand.h"
+#include "command/BlitCommand.h"
+#include "command/EraseCommand.h"
 #include "UndoSingleton.h"
 
 class PaintPotStrategy : public PaintStrategy

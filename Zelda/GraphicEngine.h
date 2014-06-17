@@ -4,7 +4,6 @@
 #include "GameEngine.h"
 #include "GuiSDL.h"
 #include "GuiOpenGL.h"
-#include "GuiSFML.h"
 
 class GraphicEngine : public IEngine
 {

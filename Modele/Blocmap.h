@@ -39,44 +39,44 @@ public:
     ~BlocMap();
     virtual bool collision(Object*);
     /**
-     * @brief getLayer get the value of the specific layer
+	 * @brief get the value of the specific layer
      * @param layer the layer
      * @return the value at the layer
      */
-    int getLayer(int layer);
+	int getAtLayer(int layer);
     /**
-     * @brief setLayer set the value at the specific layer
+	 * @brief set the value at the specific layer
      * @param layer the layer
      * @param newBloc the new value
      */
     void setLayer(int layer, int newBloc);
     /**
-     * @brief getLowLayer get the value at the LOW layer
+	 * @brief get the value at the LOW layer
      * @return the value
      */
     int getLowLayer() const;
     /**
-     * @brief setLowLayer set the value at the layer LOW
+	 * @brief set the value at the layer LOW
      * @param c the new value
      */
     void setLowLayer(int newValue);
     /**
-     * @brief getHighLayer get the layer at the HIGH layer
+	 * @brief get the layer at the HIGH layer
      * @return the value at the HIGH layer
      */
     int getHighLayer() const;
     /**
-     * @brief setHighLayer set the value at the HIGH layer
+	 * @brief set the value at the HIGH layer
      * @param newValue the new value
      */
     void setHighLayer(int newValue);
     /**
-     * @brief getCollisionLayer get the value at the layer COLLIDE
+	 * @brief get the value at the layer COLLIDE
      * @return
      */
     int getCollisionLayer() const;
     /**
-     * @brief setCollisionLayer set the value at the COLLIDE layer
+	 * @brief set the value at the COLLIDE layer
      * @param newValue
      */
     void setCollisionLayer(bool newValue);
@@ -86,25 +86,25 @@ public:
 
 signals:
     /**
-     * @brief blocModified this signal is emit when the bloc has been modified
+	 * @brief this signal is emit when the bloc has been modified
      */
     void blocModified();
     /**
-     * @brief blocLayerModified this signal is emit when the value at the specific layer has been modified
+	 * @brief this signal is emit when the value at the specific layer has been modified
      * @param layer the layer which has been modified
      */
     void blocLayerModified(int layer);
 protected:
     /**
-     * @brief lowLayer the value of the LOW layer
+	 * @brief the value of the LOW layer
      */
     int lowLayer;
     /**
-     * @brief highLayer the value at the HIGH layer
+	 * @brief the value at the HIGH layer
      */
     int highLayer;
     /**
-     * @brief collisionLayer the value at the COLLIDE layer
+	 * @brief the value at the COLLIDE layer
      */
     int collisionLayer;
 };

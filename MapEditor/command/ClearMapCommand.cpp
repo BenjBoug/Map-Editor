@@ -1,13 +1,12 @@
 #include "ClearMapCommand.h"
 
-ClearMapCommand::ClearMapCommand(MapView *mapView)
+ClearMapCommand::ClearMapCommand(Map *map)
 {
-    this->mapView = mapView;
+	this->map = map;
 }
 
 void ClearMapCommand::execute()
 {
-    Model::Map *map = mapView->getMap();
     mapMemento  = *map;
     for(int i=0;i<map->getSize().width();i++)
     {
@@ -22,7 +21,6 @@ void ClearMapCommand::execute()
 
 void ClearMapCommand::undo()
 {
-    Model::Map *map = mapView->getMap();
     for(int i=0;i<map->getSize().width();i++)
     {
         for(int j=0;j<map->getSize().height();j++)

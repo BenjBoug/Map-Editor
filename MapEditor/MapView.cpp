@@ -4,7 +4,8 @@ MapView::MapView():
     QGraphicsScene()
 {
     gridStrategy = NULL;
-    displayStrategy = NULL;
+	displayStrategy = NULL;
+	initCursor();
 }
 
 MapView::MapView(Model::Map * m) :
@@ -12,21 +13,30 @@ MapView::MapView(Model::Map * m) :
 {
     gridStrategy = NULL;
     displayStrategy = NULL;
-    setMap(m);
+	setMap(m);
+	initCursor();
 }
 
 void MapView::setMap(Model::Map *map)
 {
     this->map = map;
-    loadChipset(map->getChipset());
     this->setSceneRect(0,0,map->getSize().width()*BLOCSIZE,map->getSize().height()*BLOCSIZE);
+	this->chipset=map->getChipset();
+	QBitmap mask = this->chipset.createMaskFromColor(QColor(255, 103, 139));
+	this->chipset.setMask(mask);
 }
 
 void MapView::loadChipset(QString f)
 {
-    chipset.load(f);
-    QBitmap mask = chipset.createMaskFromColor(QColor(255, 103, 139));
-    chipset.setMask(mask);
+    if (chipset.load(f))
+    {
+        QBitmap mask = chipset.createMaskFromColor(QColor(255, 103, 139));
+        chipset.setMask(mask);
+    }
+    else
+    {
+        throw std::invalid_argument("chipset "+f.toStdString()+" does not exist.");
+    }
 }
 
 
@@ -147,12 +157,19 @@ void MapView::removeTile(int i, int j, int layer)
         this->removeItem(*it);
     }
 
-    //map->getBloc(i,j)->setLayer(layer,0);
+	//map->getBloc(i,j)->setLayer(layer,0);
 }
 
-void MapView::setCursorRect(QRect rect)
+void MapView::setCursorPos(int i, int j, int width, int height)
 {
-    cursorRect->setRect(rect);
+	cursorRect->setRect(i*BLOCSIZE,j*BLOCSIZE,width*BLOCSIZE,height*BLOCSIZE);
+}
+
+void MapView::initCursor()
+{
+	QPen pen(Qt::lightGray, 3, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
+	cursorRect = this->addRect(0,0,0,0,pen,QBrush());
+	cursorRect->setZValue(CURSOR);
 }
 
 void MapView::displayMap()

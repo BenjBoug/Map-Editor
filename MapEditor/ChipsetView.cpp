@@ -3,28 +3,33 @@
 ChipsetView::ChipsetView():
     QGraphicsScene()
 {
-    init();
+	init();
+}
+
+ChipsetView::ChipsetView(QPixmap chipset)
+{
+	this->chipset=chipset;
+	init();
 }
 
 ChipsetView::ChipsetView(QString chip) :
     QGraphicsScene()
 {
-    loadChipset(chip);
+	loadChipset(chip);
     init();
 }
 
 void ChipsetView::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    this->clearSelection();
+	setSelectionArea(QPainterPath());
     selection.setLeft((int)mouseEvent->scenePos().x()/BLOCSIZE*BLOCSIZE);
     selection.setTop((int)mouseEvent->scenePos().y()/BLOCSIZE*BLOCSIZE);
     selection.setWidth(BLOCSIZE);
-    selection.setHeight(BLOCSIZE);
-    itemRectSelected->setRect(selection);
-    setSelectedTile();
+	selection.setHeight(BLOCSIZE);
+	setSelectedTile();
 }
 
-void ChipsetView::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
+void ChipsetView::mouseMoveEvent(QGraphicsSceneMouseEvent *)
 {
     selection = selectionArea().boundingRect();
     selection.setLeft((int)selection.left()/BLOCSIZE*BLOCSIZE);
@@ -62,7 +67,7 @@ void ChipsetView::mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent)
         itemRectSelected->setRect(selection);
     }
     setSelectedTile();
-    QGraphicsScene::mouseReleaseEvent(mouseEvent);
+	QGraphicsScene::mouseReleaseEvent(mouseEvent);
 }
 
 QVector<QVector<int> > ChipsetView::getSelectedTile()
@@ -82,34 +87,41 @@ void ChipsetView::selectTile(int t)
     QList<QGraphicsView*>::iterator it;
     QList<QGraphicsView*> views = this->views();
     for(it=views.begin();it!=views.end();it++)
-        (*it)->ensureVisible(selection);
-    itemRectSelected->setRect(selection);
+		(*it)->ensureVisible(selection);
+	setSelectedTile();
+}
+
+void ChipsetView::setChipset(QPixmap chipset)
+{
+	this->chipset=chipset;
 }
 
 void ChipsetView::init()
 {
+	QGraphicsPixmapItem * chipsetItem = this->addPixmap(chipset);
+	chipsetItem->setZValue(0);
+	setSceneRect(chipsetItem->sceneBoundingRect());
+
     selectedTile.resize(1);
     selectedTile[0].resize(1);
     selectedTile[0][0] = 0;
     selection.setX(0);
     selection.setY(0);
     selection.setWidth(BLOCSIZE);
-    selection.setHeight(BLOCSIZE);
+	selection.setHeight(BLOCSIZE);
+	itemRectSelected = this->addRect(selection,QPen(Qt::lightGray, 3, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
+	itemRectSelected->setZValue(100);
+	setSelectedTile();
 }
 
 void ChipsetView::loadChipset(QString chip)
 {
-    chipset.load(chip);
-    QGraphicsPixmapItem * chipsetItem = this->addPixmap(chipset);
-    chipsetItem->setZValue(0);
-    setSceneRect(chipsetItem->sceneBoundingRect());
-    itemRectSelected = this->addRect(selection);
-    itemRectSelected->setZValue(100);
-    init();
+	chipset.load(chip);
 }
 
 void ChipsetView::setSelectedTile()
 {
+	itemRectSelected->setRect(selection);
     selectedTile.clear();
     for(int i=0;i<(selection.right()/BLOCSIZE)-(selection.left()/BLOCSIZE);i++)
     {

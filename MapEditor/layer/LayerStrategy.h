@@ -3,7 +3,7 @@
 
 #include <QPixmap>
 #include <QGraphicsSceneMouseEvent>
-#include "ICommand.h"
+#include "command/ICommand.h"
 #include "IMouseMove.h"
 class MapView;
 

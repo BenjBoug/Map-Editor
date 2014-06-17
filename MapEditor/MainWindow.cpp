@@ -6,10 +6,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->showMaximized();
+	this->showMaximized();
 
-    chipsetView = new ChipsetView();
-    ui->graphicsViewChipset->setScene(chipsetView);
 
     createGroupButtons();
 
@@ -27,10 +25,52 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    delete ui;
-    delete chipsetView;
+	delete ui;
 }
 
+/**
+ * @brief Saves the settings of the window
+ */
+void MainWindow::writeSettings() {
+	QSettings settings;
+
+	settings.beginGroup("MainWindow");
+	settings.setValue("size", size());
+	settings.setValue("pos", pos());
+
+	//settings.setValue("");
+
+	settings.endGroup();
+}
+
+/**
+ * @brief Read and set the settings of the window
+ */
+void MainWindow::readSettings() {
+	QSettings settings;
+
+	settings.beginGroup("MainWindow");
+	resize(settings.value("size", QSize(400, 400)).toSize());
+	move(settings.value("pos", QPoint(200, 200)).toPoint());
+
+
+	settings.endGroup();
+}
+
+/**
+ * @brief Event called when the application is closed.
+ * It saves the settings
+ * @param event
+ */
+void MainWindow::closeEvent(QCloseEvent *event) {
+	Q_UNUSED(event);
+	writeSettings();
+}
+
+/**
+ * @brief Return the current MdiChild or 0 if no MdiChild is opened.
+ * @return the current MDIChild
+ */
 MdiChild *MainWindow::activeMdiChild()
 {
     if (QMdiSubWindow *activeSubWindow = ui->mdiArea->activeSubWindow())
@@ -38,6 +78,11 @@ MdiChild *MainWindow::activeMdiChild()
     return 0;
 }
 
+/**
+ * @brief Find a MdiChild with the filename of the map
+ * @param fileName the filenae of the map
+ * @return the MdiChild of the given filename
+ */
 QMdiSubWindow *MainWindow::findMdiChild(const QString &fileName)
 {
     QString canonicalFilePath = QFileInfo(fileName).canonicalFilePath();
@@ -94,27 +139,29 @@ QList<QAction*> MainWindow::getActionsCheckable()
     return actions;
 }
 
-void MainWindow::newMap()
-{
-    QString chipsetFile;
-    if ((chipsetFile=getChipsetFileName()) != "")
-    {
-        MdiChild *child = createMdiChild();
-        child->newMap();
-        child->updateChipset(chipsetFile);
-        child->show();
-        UndoSingleton::getInstance()->clearUndo();
-        UndoSingleton::getInstance()->clearRedo();
-        initCheckBoxMenu();
-    }
-}
-
 MdiChild *MainWindow::createMdiChild()
 {
-    MdiChild *child = new MdiChild(chipsetView);
+	MdiChild *child = new MdiChild();
     ui->mdiArea->addSubWindow(child);
     return child;
 }
+
+void MainWindow::newMap()
+{
+	QString chipsetFile;
+	if ((chipsetFile=getChipsetFileName()) != "")
+	{
+		MdiChild *child = createMdiChild();
+		child->newMap();
+		child->updateChipset(chipsetFile);
+		child->show();
+		UndoSingleton::getInstance()->clearUndo();
+		UndoSingleton::getInstance()->clearRedo();
+		initCheckBoxMenu();
+		updateWindowMenu();
+	}
+}
+
 void MainWindow::openMap()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "Open a map", QString(), "Map Zelda (*.k2x)");
@@ -134,6 +181,7 @@ void MainWindow::openMap()
         } else {
             child->close();
         }
+		updateWindowMenu();
     }
 }
 
@@ -208,7 +256,19 @@ void MainWindow::paintPotTool()
 void MainWindow::pipetteTool()
 {
     if (activeMdiChild())
-        activeMdiChild()->pipetteTool();
+		activeMdiChild()->pipetteTool();
+}
+
+void MainWindow::rectangleTool()
+{
+	if (activeMdiChild())
+		activeMdiChild()->rectangleTool();
+}
+
+void MainWindow::circleTool()
+{
+	if (activeMdiChild())
+		activeMdiChild()->circleTool();
 }
 
 void MainWindow::save()
@@ -226,7 +286,13 @@ void MainWindow::saveAs()
 void MainWindow::changeDimension()
 {
     if (activeMdiChild())
-        activeMdiChild()->changeDimension();
+		activeMdiChild()->changeDimension();
+}
+
+void MainWindow::changeBackground()
+{
+	if (activeMdiChild())
+		activeMdiChild()->changeBackground();
 }
 
 void MainWindow::gridLayer(bool enable)
@@ -251,6 +317,8 @@ void MainWindow::createGroupButtons()
     groupTools.addAction(ui->actionBrush);
     groupTools.addAction(ui->actionPipette);
     groupTools.addAction(ui->actionPaint_pot);
+	groupTools.addAction(ui->actionRectangle);
+	groupTools.addAction(ui->actionCircle);
     connect(&groupTools,SIGNAL(groupToggle()),this,SLOT(saveActionMdi()));
 }
 
@@ -275,12 +343,14 @@ void MainWindow::updateMenus()
     ui->actionShow_Grid->setEnabled(hasMdiChild);
     ui->actionZoom_1_1->setEnabled(hasMdiChild);
     ui->actionZoom_1_2->setEnabled(hasMdiChild);
+	ui->actionRectangle->setEnabled(hasMdiChild);
+	ui->actionCircle->setEnabled(hasMdiChild);
 }
 
 void MainWindow::updateChipset()
 {
     if (activeMdiChild())
-        activeMdiChild()->updateChipset();
+		ui->graphicsViewChipset->setScene(activeMdiChild()->getChipsetView());
 }
 
 void MainWindow::updateWindowMenu()

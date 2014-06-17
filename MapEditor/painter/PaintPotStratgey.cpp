@@ -9,19 +9,19 @@ PaintPotStrategy::PaintPotStrategy(MapView * mapView, ChipsetView * chipsetView)
 
 void PaintPotStrategy::leftButtonPressEvent(int i, int j)
 {
-    int blocRef = mapView->getMap()->getBloc(i,j)->getLayer(mapView->getCurrentLayer()->getLayer());
+	int blocRef = mapView->getMap()->getBloc(i,j)->getAtLayer(mapView->getCurrentLayer()->getLayer());
     paintPot(i,j,blocRef);
 }
 
 void PaintPotStrategy::rightButtonPressEvent(int i, int j)
 {
-    int blocRef = mapView->getMap()->getBloc(i,j)->getLayer(mapView->getCurrentLayer()->getLayer());
+	int blocRef = mapView->getMap()->getBloc(i,j)->getAtLayer(mapView->getCurrentLayer()->getLayer());
     erase(i,j,blocRef);
 }
 
 void PaintPotStrategy::paintPot(int i, int j, int blocRef)
 {
-    if (mapView->getMap()->getBloc(i,j)->getLayer(mapView->getCurrentLayer()->getLayer())==blocRef)
+    if (mapView->getMap()->getBloc(i,j)->getAtLayer(mapView->getCurrentLayer()->getLayer())==blocRef)
     {
         QVector<QVector<int> > selectedTile = chipsetView->getSelectedTile();
         QSize size = mapView->getMap()->getSize();
@@ -30,7 +30,7 @@ void PaintPotStrategy::paintPot(int i, int j, int blocRef)
             for(int y=0;y<selectedTile[x].size();y++)
             {
                 if (i+x<size.width() && j+y<size.height())
-                    UndoSingleton::getInstance()->execute(new BlitCommand(mapView,i+x,j+y,selectedTile[x][y]));
+					EXECUTE_CMD(new BlitCommand(mapView->getMap(),i+x,j+y,mapView->getCurrentLayer()->getLayer(), selectedTile[x][y]));
             }
         }
 
@@ -50,9 +50,9 @@ void PaintPotStrategy::paintPot(int i, int j, int blocRef)
 
 void PaintPotStrategy::erase(int i, int j, int blocRef)
 {
-    if (mapView->getMap()->getBloc(i,j)->getLayer(mapView->getCurrentLayer()->getLayer())==blocRef)
+	if (mapView->getMap()->getBloc(i,j)->getAtLayer(mapView->getCurrentLayer()->getLayer())==blocRef)
     {
-        UndoSingleton::getInstance()->execute(new EraseCommand(mapView,i,j));
+		EXECUTE_CMD(new EraseCommand(mapView,i,j));
 
         if (i-1>=0)
             erase(i-1,j,blocRef);

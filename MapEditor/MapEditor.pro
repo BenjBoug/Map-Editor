@@ -14,60 +14,69 @@ TEMPLATE = app
 SOURCES += main.cpp\
         MainWindow.cpp \
     ChipsetView.cpp \
-    MapView.cpp \
-    BrushStrategy.cpp \
-    PaintPotStratgey.cpp \
-    DisplayLowerLayerStrategy.cpp \
-    DisplayHigherLayerStrategy.cpp \
-    DisplayVisuaLayerStrategy.cpp \
-    DisplayCollisionLayerStrategy.cpp \
-    GridLayerStratgey.cpp \
-    LayerStrategy.cpp \
-    PaintStrategy.cpp \
-    GroupeCheckBox.cpp \
-    BlitCommand.cpp \
-    EraseCommand.cpp \
-    QGraphicsTileItem.cpp \
-    ICommand.cpp \
-    PipetteStrategy.cpp \
-    CollideCommand.cpp \
+	MapView.cpp \
+	GroupeCheckBox.cpp \
+	QGraphicsTileItem.cpp \
     IMouseMove.cpp \
-    UndoSingleton.cpp \
-    ClearMapCommand.cpp \
-    ChangeDimensionCommand.cpp \
-    ChangeChipsetCommand.cpp \
+	UndoSingleton.cpp \
     MdiChild.cpp \
     TileFactory.cpp \
-    DialogChangeDimension.cpp
+    DialogChangeDimension.cpp \
+\
+	layer/DisplayLowerLayerStrategy.cpp \
+	layer/DisplayHigherLayerStrategy.cpp \
+	layer/DisplayVisuaLayerStrategy.cpp \
+	layer/DisplayCollisionLayerStrategy.cpp \
+	layer/GridLayerStratgey.cpp \
+	layer/LayerStrategy.cpp \
+\
+	painter/BrushStrategy.cpp \
+	painter/PaintPotStratgey.cpp \
+	painter/PipetteStrategy.cpp \
+	painter/PaintStrategy.cpp \
+	painter/RectangleStrategy.cpp \
+\
+	command/CollideCommand.cpp \
+	command/ClearMapCommand.cpp \
+	command/ChangeDimensionCommand.cpp \
+	command/ChangeChipsetCommand.cpp \
+	command/BlitCommand.cpp \
+	command/EraseCommand.cpp \
+	command/GroupCommand.cpp
 
 HEADERS  += MainWindow.h \
     ChipsetView.h \
-    MapView.h \
-    ICommand.h \
-    IStrategy.h \
-    BrushStrategy.h \
-    PaintPotStratgey.h \
-    DisplayLowerLayerStrategy.h \
-    DisplayHigherLayerStrategy.h \
-    DisplayVisuaLayerStrategy.h \
-    DisplayCollisionLayerStrategy.h \
-    GridLayerStratgey.h \
-    LayerStrategy.h \
-    PaintStrategy.h \
-    GroupeCheckBox.h \
-    BlitCommand.h \
-    EraseCommand.h \
-    QGraphicsTileItem.h \
-    PipetteStrategy.h \
-    CollideCommand.h \
+	MapView.h \
+	IStrategy.h \
+	GroupeCheckBox.h \
+	QGraphicsTileItem.h \
     IMouseMove.h \
-    UndoSingleton.h \
-    ClearMapCommand.h \
-    ChangeDimensionCommand.h \
-    ChangeChipsetCommand.h \
+	UndoSingleton.h \
     MdiChild.h \
     TileFactory.h \
-    DialogChangeDimension.h
+    DialogChangeDimension.h \
+\
+	layer/DisplayLowerLayerStrategy.h \
+	layer/DisplayHigherLayerStrategy.h \
+	layer/DisplayVisuaLayerStrategy.h \
+	layer/DisplayCollisionLayerStrategy.h \
+	layer/GridLayerStratgey.h \
+	layer/LayerStrategy.h \
+\
+	painter/PipetteStrategy.h \
+	painter/BrushStrategy.h \
+	painter/PaintPotStratgey.h \
+	painter/PaintStrategy.h \
+	painter/RectangleStrategy.h \
+\
+	command/ICommand.h \
+	command/BlitCommand.h \
+	command/EraseCommand.h \
+	command/CollideCommand.h \
+	command/ClearMapCommand.h \
+	command/ChangeDimensionCommand.h \
+	command/ChangeChipsetCommand.h \
+	command/GroupCommand.h
 
 FORMS    += MainWindow.ui \
     DialogChangeDimension.ui
@@ -84,4 +93,6 @@ else:win32:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Modele/d
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../Modele/libZelda_Model.a
 
 RESOURCES += \
-    icons.qrc
+    icons.qrc \
+    maps.qrc \
+    chipsets.qrc

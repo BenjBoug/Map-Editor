@@ -2,18 +2,20 @@
 #define BLITCOMMAND_H
 
 #include "ICommand.h"
-#include "MapView.h"
+#include "Map.h"
+
+using namespace Model;
 
 class BlitCommand : public ICommand
 {
 public:
-    BlitCommand(MapView * mapView, int i, int j, int bloc);
+	BlitCommand(Map * map, int i, int j,int layer, int bloc);
     virtual void execute();
     virtual void undo();
 
 
 private:
-    MapView * mapView;
+	Map * map;
     int i,j,bloc;
     int layerMemento;
     int blocMemento;

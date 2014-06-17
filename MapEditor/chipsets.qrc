@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/chipsets">
+        <file>Resources/Chipsets/donjon.bmp</file>
+        <file>Resources/Chipsets/grotte.bmp</file>
+        <file>Resources/Chipsets/maison.bmp</file>
+        <file>Resources/Chipsets/map.bmp</file>
+    </qresource>
+</RCC>

@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>445</height>
+    <width>984</width>
+    <height>578</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Zelda Map Editor</string>
+   <string>Map Editor</string>
   </property>
   <property name="windowIcon">
    <iconset resource="icons.qrc">
@@ -54,7 +54,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>900</width>
+     <width>984</width>
      <height>20</height>
     </rect>
    </property>
@@ -62,8 +62,15 @@
     <property name="title">
      <string>File</string>
     </property>
+    <widget class="QMenu" name="menuRecent_files">
+     <property name="title">
+      <string>Recent files...</string>
+     </property>
+     <addaction name="separator"/>
+    </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
+    <addaction name="menuRecent_files"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
     <addaction name="actionExit"/>
@@ -97,6 +104,8 @@
     <addaction name="actionBrush"/>
     <addaction name="actionPaint_pot"/>
     <addaction name="actionPipette"/>
+    <addaction name="actionRectangle"/>
+    <addaction name="actionCircle"/>
    </widget>
    <widget class="QMenu" name="menuEvents">
     <property name="title">
@@ -110,6 +119,7 @@
     <addaction name="actionChange_dimension"/>
     <addaction name="actionChange_chipset"/>
     <addaction name="actionClear_map"/>
+    <addaction name="actionBackground"/>
    </widget>
    <widget class="QMenu" name="menu">
     <property name="title">
@@ -169,6 +179,8 @@
    <addaction name="actionBrush"/>
    <addaction name="actionPaint_pot"/>
    <addaction name="actionPipette"/>
+   <addaction name="actionRectangle"/>
+   <addaction name="actionCircle"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidget">
@@ -423,12 +435,12 @@
   </action>
   <action name="actionChange_dimension">
    <property name="text">
-    <string>Change dimension</string>
+    <string>Dimension</string>
    </property>
   </action>
   <action name="actionChange_chipset">
    <property name="text">
-    <string>Change chipset</string>
+    <string>Chipset</string>
    </property>
   </action>
   <action name="actionClear_map">
@@ -481,6 +493,35 @@
   <action name="actionPrevious">
    <property name="text">
     <string>Previous</string>
+   </property>
+  </action>
+  <action name="actionBackground">
+   <property name="text">
+    <string>Background</string>
+   </property>
+  </action>
+  <action name="actionRectangle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Resources/Images/Icons/rectangle.png</normaloff>:/Resources/Images/Icons/rectangle.png</iconset>
+   </property>
+   <property name="text">
+    <string>Rectangle</string>
+   </property>
+  </action>
+  <action name="actionCircle">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Resources/Images/Icons/circle.png</normaloff>:/Resources/Images/Icons/circle.png</iconset>
+   </property>
+   <property name="text">
+    <string>Circle</string>
    </property>
   </action>
  </widget>
@@ -890,22 +931,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>menuWindow</sender>
-   <signal>aboutToShow()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>updateWindowMenu()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>86</x>
-     <y>94</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>449</x>
-     <y>222</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>mdiArea</sender>
    <signal>subWindowActivated(QMdiSubWindow*)</signal>
    <receiver>MainWindow</receiver>
@@ -937,6 +962,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionBackground</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>changeBackground()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>288</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mdiArea</sender>
+   <signal>subWindowActivated(QMdiSubWindow*)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>updateWindowMenu()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>629</x>
+     <y>307</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>288</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>clearMap()</slot>
@@ -963,5 +1020,6 @@
   <slot>updateWindowMenu()</slot>
   <slot>updateActionMdi()</slot>
   <slot>changeDimension()</slot>
+  <slot>changeBackground()</slot>
  </slots>
 </ui>

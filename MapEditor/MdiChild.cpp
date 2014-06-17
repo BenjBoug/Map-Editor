@@ -1,48 +1,63 @@
 #include "MdiChild.h"
 
-MdiChild::MdiChild(ChipsetView *chipsetView, QWidget *parent) :
+MdiChild::MdiChild(QWidget *parent) :
     QGraphicsView(parent)
 {
-    this->chipsetView=chipsetView;
+	this->chipsetView=new ChipsetView();
     this->setMouseTracking(true);
     this->setBackgroundBrush(Qt::lightGray);
-    isUntitled = true;
+	isUntitled = true;
+	mapView = new MapView();
+	this->setScene(mapView);
+	initTool();
+	map = new Map();
 }
 
 void MdiChild::newMap()
 {
-    map = new Map();
-    mapView = new MapView();
-    initTool();
-    mapView->setDisplayStrategy(lowLayerStrategy);
-    mapView->setPaintStrategy(brushStrategy);
-    mapView->setMap(map);
-    this->setScene(mapView);
+	initTool();
+	try
+	{
+		mapView->setMap(map);
+	}
+	catch (std::exception & )
+	{
+
+	}
+
     this->setWindowTitle(map->getName());
     isUntitled = true;
 }
 
 bool MdiChild::openMap(QString fileName)
 {
-    map = new Map();
     if (!map->load(fileName))
     {
         QMessageBox::warning(this, tr("K2X"),
                              tr("Cannot read file %.")
                              .arg(fileName));
         return false;
+	}
+
+    try
+    {
+        mapView->setMap(map);
     }
-    mapView = new MapView();
-
-    initTool();
-
-    mapView->setDisplayStrategy(lowLayerStrategy);
-    mapView->setPaintStrategy(brushStrategy);
-    mapView->setMap(map);
+    catch(std::exception & e)
+    {
+        QString chipsetFile = QFileDialog::getOpenFileName(this, "Load a chipset", QString(), "Chipset (*.bmp)");
+        if (chipsetFile!="")
+        {
+			map->loadChipset(chipsetFile);
+            mapView->setMap(map);
+        }
+        else
+            return false;
+    }
+	mapView->displayBackground();
     mapView->displayMap();
 
-    this->setScene(mapView);
-    this->chipsetView->loadChipset(map->getChipset());
+	this->chipsetView->setChipset(map->getChipset());
     this->setWindowTitle(map->getName());
 
     setCurrentFile(fileName);
@@ -92,8 +107,7 @@ void MdiChild::changeChipset()
 
 void MdiChild::clearMap()
 {
-    UndoSingleton::getInstance()->execute(new ClearMapCommand(mapView));
-    ICommand::end();
+	EXECUTE_CMD(new ClearMapCommand(mapView));
 }
 
 void MdiChild::brushTool()
@@ -108,8 +122,17 @@ void MdiChild::paintPotTool()
 
 void MdiChild::pipetteTool()
 {
-    mapView->setPaintStrategy(pipetteStrategy);
+	mapView->setPaintStrategy(pipetteStrategy);
 }
+
+void MdiChild::rectangleTool()
+{
+}
+
+void MdiChild::circleTool()
+{
+}
+
 void MdiChild::gridLayer(bool enable)
 {
     if(enable)
@@ -125,16 +148,20 @@ void MdiChild::gridLayer(bool enable)
 
 void MdiChild::updateChipset()
 {
-    chipsetView->loadChipset(map->getChipset());
+	chipsetView->setChipset(map->getChipset());
 }
 
 void MdiChild::updateChipset(QString file)
 {
     if (file != "")
     {
-        UndoSingleton::getInstance()->execute(new ChangeChipsetCommand(mapView,chipsetView,file));
-        ICommand::end();
-    }
+		EXECUTE_CMD(new ChangeChipsetCommand(mapView,chipsetView,file));
+	}
+}
+
+void MdiChild::changeBackground()
+{
+
 }
 
 bool MdiChild::save()
@@ -173,7 +200,12 @@ bool MdiChild::saveMap(const QString &fileName)
     QApplication::restoreOverrideCursor();
 
     setCurrentFile(fileName);
-    return true;
+	return true;
+}
+
+ChipsetView *MdiChild::getChipsetView() const
+{
+	return chipsetView;
 }
 
 
@@ -188,6 +220,10 @@ void MdiChild::initTool()
     brushStrategy = new BrushStrategy(mapView,chipsetView);
     paintPotStrategy = new PaintPotStrategy(mapView,chipsetView);
     pipetteStrategy = new PipetteStrategy(mapView,chipsetView);
+
+
+	mapView->setDisplayStrategy(lowLayerStrategy);
+	mapView->setPaintStrategy(brushStrategy);
 
 }
 

@@ -34,20 +34,20 @@ int DisplayCollisionLayerStrategy::getLayer()
 
 void DisplayCollisionLayerStrategy::leftButtonPressEvent(int i, int j)
 {
-    UndoSingleton::getInstance()->execute(new CollideCommand(mapView,i,j,1));
+	EXECUTE_CMD(new CollideCommand(mapView,i,j,1));
 }
 
 void DisplayCollisionLayerStrategy::rightButtonPressEvent(int i, int j)
 {
-    UndoSingleton::getInstance()->execute(new CollideCommand(mapView,i,j,0));
+	EXECUTE_CMD(new CollideCommand(mapView,i,j,0));
 }
 
 void DisplayCollisionLayerStrategy::leftButtonMoveEvent(int i, int j)
 {
-    UndoSingleton::getInstance()->execute(new CollideCommand(mapView,i,j,1));
+	EXECUTE_CMD(new CollideCommand(mapView,i,j,1));
 }
 
 void DisplayCollisionLayerStrategy::rightButtonMoveEvent(int i, int j)
 {
-    UndoSingleton::getInstance()->execute(new CollideCommand(mapView,i,j,0));
+	EXECUTE_CMD(new CollideCommand(mapView,i,j,0));
 }

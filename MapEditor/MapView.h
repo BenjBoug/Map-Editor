@@ -12,13 +12,13 @@
 #include <QBrush>
 #include <QBitmap>
 #include "IStrategy.h"
-#include "LayerStrategy.h"
-#include "PaintStrategy.h"
-#include "ICommand.h"
+#include "layer/LayerStrategy.h"
+#include "painter/PaintStrategy.h"
+#include "command/ICommand.h"
 #include "QGraphicsTileItem.h"
 #include <QStack>
 #include "Blocmap.h"
-
+#include <stdexcept>
 
 class MapView : public QGraphicsScene
 {
@@ -42,11 +42,15 @@ public:
     void removeLayer(ZIndex index);
     QList<QGraphicsItem *> getLayer(int zindex);
     QList<QGraphicsItem*> getLayer(QList<QGraphicsItem*> list,int layer);
+
     void blitTile(int i, int j, int bl, int layer, float opacity=1);
     void blitTile(int i,int j, Model::BlocMap * bloc,int layer, float opacity=1);
+
     void removeTile(int i,int j,int layer);
 
-    void setCursorRect(QRect rect);
+	void setCursorPos(int i, int j, int width=1, int height=1);
+
+	void initCursor();
 
     
 public slots:
@@ -58,9 +62,11 @@ public slots:
 private:
     Model::Map * map;
     QPixmap chipset;
+
     PaintStrategy * paintStrategy;
     LayerStrategy * displayStrategy;
     IStrategy * gridStrategy;
+
     QGraphicsRectItem * cursorRect;
 };
 

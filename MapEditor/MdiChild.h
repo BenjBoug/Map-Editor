@@ -4,28 +4,30 @@
 #include <QGraphicsView>
 #include "MapView.h"
 #include "ChipsetView.h"
-#include "BrushStrategy.h"
-#include "PaintPotStratgey.h"
-#include "PipetteStrategy.h"
-#include "DisplayLowerLayerStrategy.h"
-#include "DisplayHigherLayerStrategy.h"
-#include "DisplayVisuaLayerStrategy.h"
-#include "DisplayCollisionLayerStrategy.h"
-#include "GridLayerStratgey.h"
-#include "ChangeChipsetCommand.h"
-#include "ClearMapCommand.h"
+#include "painter/BrushStrategy.h"
+#include "painter/PaintPotStratgey.h"
+#include "painter/PipetteStrategy.h"
+#include "layer/DisplayLowerLayerStrategy.h"
+#include "layer/DisplayHigherLayerStrategy.h"
+#include "layer/DisplayVisuaLayerStrategy.h"
+#include "layer/DisplayCollisionLayerStrategy.h"
+#include "layer/GridLayerStratgey.h"
+#include "command/ChangeChipsetCommand.h"
+#include "command/ClearMapCommand.h"
 #include "DialogChangeDimension.h"
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QApplication>
 #include <QList>
+#include <exception>
+#include <QDebug>
 
 class MdiChild : public QGraphicsView
 {
     Q_OBJECT
 public:
-    explicit MdiChild(ChipsetView * chipsetView,QWidget *parent = 0);
+	explicit MdiChild(QWidget *parent = 0);
 
     QString currentFile() { return curFile; }
     QString userFriendlyCurrentFile();
@@ -42,6 +44,8 @@ public:
         listActions = list;
     }
 
+	ChipsetView * getChipsetView() const;
+
 signals:
 
 public slots:
@@ -57,11 +61,14 @@ public slots:
     void brushTool();
     void paintPotTool();
     void pipetteTool();
+	void rectangleTool();
+	void circleTool();
     bool save();
     bool saveAs();
     void gridLayer(bool enable);
     void updateChipset();
     void updateChipset(QString file);
+	void changeBackground();
 
 private:
     void initTool();

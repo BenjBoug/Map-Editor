@@ -2,7 +2,8 @@
 #define IMOUSEMOVE_H
 
 #include <QGraphicsSceneMouseEvent>
-#include "ICommand.h"
+#include "command/ICommand.h"
+#include "UndoSingleton.h"
 #include "Constantes.h"
 
 class IMouseMove
@@ -26,6 +27,7 @@ public:
 
 private:
     bool inSelectLeft,inSelectRight;
+	QRect blited;
 };
 
 #endif // IMOUSEMOVE_H

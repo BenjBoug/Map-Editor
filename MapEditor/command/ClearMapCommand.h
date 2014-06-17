@@ -8,13 +8,13 @@
 class ClearMapCommand : public ICommand
 {
 public:
-    ClearMapCommand(MapView* mapView);
+	ClearMapCommand(Model::Map * map);
 
     void execute();
     void undo();
 
 private:
-    MapView * mapView;
+	Model::Map * map;
     Model::Map mapMemento;
 };
 

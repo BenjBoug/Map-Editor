@@ -10,7 +10,7 @@ EraseCommand::EraseCommand(MapView *mapView, int i, int j)
 
 void EraseCommand::execute()
 {
-    blocMemento=mapView->getMap()->getBloc(i,j)->getLayer(layerMemento);
+    blocMemento=mapView->getMap()->getBloc(i,j)->getAtLayer(layerMemento);
     mapView->getMap()->getBloc(i,j)->setLayer(layerMemento,0);
 }
 

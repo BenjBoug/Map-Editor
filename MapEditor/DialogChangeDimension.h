@@ -4,7 +4,7 @@
 #include <QDialog>
 
 #include "UndoSingleton.h"
-#include "ChangeDimensionCommand.h"
+#include "command/ChangeDimensionCommand.h"
 #include "MapView.h"
 #include "Constantes.h"
 

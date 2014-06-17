@@ -12,6 +12,7 @@
 #include <QVariant>
 #include <QFile>
 #include <QDebug>
+#include <QPixmap>
 #include "Ennemi.h"
 
 namespace Model
@@ -52,12 +53,14 @@ public:
      * @brief setChipset set the filename of the chipset
      * @param chipset the filename
      */
-    void setChipset(QString &chipset);
+	void loadChipset(QString &chipsetfile);
     /**
      * @brief getChipset get the filename of the chipset
      * @return the filename
      */
-    QString getChipset() const;
+	QPixmap getChipset() const;
+
+	void setChipset(QPixmap chipset);
 
     /**
      * @brief getBloc get the bloc at the specific coordonnates
@@ -93,7 +96,7 @@ public:
 
 signals:
     /**
-     * @brief mapChanged emit when of the bloc is modified
+	 * @brief mapChanged emit when one of the bloc is modified
      */
     void mapChanged();
     /**
@@ -124,7 +127,7 @@ protected:
     /**
      * @brief chipset the filename of the chipset
      */
-    QString chipset;
+	QPixmap chipset;
 };
 
 QDataStream & operator << (QDataStream & out, const Map * Valeur);

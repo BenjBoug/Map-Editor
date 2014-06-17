@@ -20,6 +20,7 @@ class ChipsetView : public QGraphicsScene
     Q_OBJECT
 public:
     explicit ChipsetView();
+	explicit ChipsetView(QPixmap chipset);
     explicit ChipsetView(QString chip);
 
     void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
@@ -29,6 +30,8 @@ public:
     QVector< QVector<int> > getSelectedTile();
 
     void selectTile(int t);
+
+	void setChipset(QPixmap chipset);
 
 protected:
     void init();

@@ -8,14 +8,12 @@ SOURCES += main.cpp \
     GuiOpenGL.cpp \
     SDLSurfaceFactory.cpp \
     sdlglutils.cpp \
-    OpenGLTextureFactory.cpp \
-    GuiSFML.cpp \
-    SFMLSpriteFactory.cpp \
+	OpenGLTextureFactory.cpp \
     Input.cpp \
     GuiSDL.cpp \
     GuiQT.cpp
 
-LIBS += -lSDL -lSDL_gfx -lGL -lGLU -lSDL_image -lsfml-graphics -lsfml-window -lsfml-system
+LIBS += -lSDL -lSDL_gfx -lGL -lGLU -lSDL_image
 
 HEADERS += \
     GraphicEngine.h \
@@ -24,9 +22,7 @@ HEADERS += \
     GuiOpenGL.h \
     SDLSurfaceFactory.h \
     sdlglutils.h \
-    OpenGLTextureFactory.h \
-    GuiSFML.h \
-    SFMLSpriteFactory.h \
+	OpenGLTextureFactory.h \
     Input.h \
     GuiSDL.h \
     GuiQT.h
