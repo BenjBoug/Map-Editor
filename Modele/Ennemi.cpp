@@ -3,7 +3,11 @@
 using namespace Model;
 Ennemi::Ennemi()
 {
-    character = new Character();
+	character = new Character();
+}
+
+Ennemi::~Ennemi()
+{
 }
 
 void Ennemi::onKeySpace(IGame *)
@@ -15,7 +19,7 @@ void Ennemi::onKeyX(IGame *)
 {
 }
 
-void Ennemi::onEvent(IGame *h)
+void Ennemi::onEvent(IGame *)
 {
 }
 

@@ -15,7 +15,7 @@ void BrushStrategy::leftButtonPressEvent(int i, int j)
 
 void BrushStrategy::rightButtonPressEvent(int i, int j)
 {
-	EXECUTE_CMD(new EraseCommand(mapView,i,j));
+	EXECUTE_CMD(new EraseCommand(mapView->getMap(),i,j, mapView->getCurrentLayer()));
 	blited.setRect(i,j,1,1);
 }
 
@@ -32,7 +32,7 @@ void BrushStrategy::rightButtonMoveEvent(int i, int j)
 {
 	if (isntInBlitted(i,j))
 	{
-		EXECUTE_CMD(new EraseCommand(mapView,i,j));
+		EXECUTE_CMD(new EraseCommand(mapView->getMap(),i,j, mapView->getCurrentLayer()));
 		blited.setRect(i,j,1,1);
 	}
 }
@@ -50,8 +50,8 @@ void BrushStrategy::blit(int x, int y)
     {
         for(int j=0;j<selectedTile[i].size();j++)
         {
-            if (i+x<size.width() && j+y<size.height())
-				EXECUTE_CMD(new BlitCommand(mapView->getMap(),i+x,j+y,mapView->getCurrentLayer()->getLayer(),selectedTile[i][j]));
+			if (i+x<size.width() && j+y<size.height())
+				EXECUTE_CMD(new BlitCommand(mapView->getMap(),i+x,j+y,mapView->getCurrentLayer(),selectedTile[i][j]));
         }
     }
     blited.setX(x);

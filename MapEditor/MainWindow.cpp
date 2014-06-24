@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(windowMapper, SIGNAL(mapped(QWidget*)),this, SLOT(setActiveSubWindow(QWidget*)));
 
     updateMenus();
+	readSettings();
 }
 
 MainWindow::~MainWindow()
@@ -107,12 +108,18 @@ void MainWindow::initCheckBoxMenu()
     ui->actionBrush->setChecked(true);
     ui->actionPaint_pot->setChecked(false);
     ui->actionPipette->setChecked(false);
+	ui->actionRectangle->setChecked(false);
+	ui->actionCircle->setChecked(false);
+	ui->actionSelection->setChecked(false);
     saveActionMdi();
 }
 
 QString MainWindow::getChipsetFileName()
 {
-    return QFileDialog::getOpenFileName(this, "Load a chipset", QString(), "Chipset (*.bmp)");
+	QSettings settings;
+	QString file = QFileDialog::getOpenFileName(this, "Load a chipset", settings.value("chipsetDir",QString()).toString(), "Chipset (*.bmp)");
+	settings.setValue("chipsetDir",file);
+	return file;
 }
 
 void MainWindow::setActiveSubWindow(QWidget *window)
@@ -135,6 +142,9 @@ QList<QAction*> MainWindow::getActionsCheckable()
     actions.push_back(ui->actionBrush);
     actions.push_back(ui->actionPaint_pot);
     actions.push_back(ui->actionPipette);
+	actions.push_back(ui->actionRectangle);
+	actions.push_back(ui->actionCircle);
+	actions.push_back(ui->actionSelection);
 
     return actions;
 }
@@ -142,46 +152,50 @@ QList<QAction*> MainWindow::getActionsCheckable()
 MdiChild *MainWindow::createMdiChild()
 {
 	MdiChild *child = new MdiChild();
-    ui->mdiArea->addSubWindow(child);
     return child;
 }
 
 void MainWindow::newMap()
 {
-	QString chipsetFile;
-	if ((chipsetFile=getChipsetFileName()) != "")
+	MdiChild *child = createMdiChild();
+	if (child->newMap())
 	{
-		MdiChild *child = createMdiChild();
-		child->newMap();
-		child->updateChipset(chipsetFile);
+		ui->mdiArea->addSubWindow(child);
 		child->show();
 		UndoSingleton::getInstance()->clearUndo();
 		UndoSingleton::getInstance()->clearRedo();
 		initCheckBoxMenu();
 		updateWindowMenu();
+	} else {
+		child->close();
 	}
 }
 
 void MainWindow::openMap()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Open a map", QString(), "Map Zelda (*.k2x)");
-    if (!fileName.isEmpty()) {
+	QStringList fileNames = QFileDialog::getOpenFileNames(this, "Open map", QSettings().value("mapDir",QString()).toString(), "Map (*.k2x)");
+	if (!fileNames.isEmpty()) {
+		QSettings().setValue("mapDir",QFileInfo(fileNames.first()).absoluteDir().absolutePath());
 
-        QMdiSubWindow *existing = findMdiChild(fileName);
-        if (existing) {
-            ui->mdiArea->setActiveSubWindow(existing);
-            return;
-        }
+		foreach(QString fileName, fileNames)
+		{
+			QMdiSubWindow *existing = findMdiChild(fileName);
+			if (existing) {
+				ui->mdiArea->setActiveSubWindow(existing);
+				return;
+			}
 
-        MdiChild *child = createMdiChild();
-        if (child->openMap(fileName)) {
-            statusBar()->showMessage(tr("File loaded"), 2000);
-            child->show();
-            initCheckBoxMenu();
-        } else {
-            child->close();
-        }
-		updateWindowMenu();
+			MdiChild *child = createMdiChild();
+			if (child->openMap(fileName)) {
+				ui->mdiArea->addSubWindow(child);
+				statusBar()->showMessage(tr("File loaded"), 2000);
+				child->show();
+				initCheckBoxMenu();
+			} else {
+				child->close();
+			}
+			updateWindowMenu();
+		}
     }
 }
 
@@ -271,6 +285,30 @@ void MainWindow::circleTool()
 		activeMdiChild()->circleTool();
 }
 
+void MainWindow::selectionTool()
+{
+	if (activeMdiChild())
+		activeMdiChild()->selectionTool();
+}
+
+void MainWindow::copy()
+{
+	if (activeMdiChild())
+		activeMdiChild()->copy();
+}
+
+void MainWindow::cut()
+{
+	if (activeMdiChild())
+		activeMdiChild()->cut();
+}
+
+void MainWindow::paste()
+{
+	if (activeMdiChild())
+		activeMdiChild()->paste();
+}
+
 void MainWindow::save()
 {
     if (activeMdiChild() && activeMdiChild()->save())
@@ -298,8 +336,7 @@ void MainWindow::changeBackground()
 void MainWindow::gridLayer(bool enable)
 {
     if (activeMdiChild())
-        activeMdiChild()->gridLayer(enable);
-    saveActionMdi();
+		activeMdiChild()->gridLayer(enable);
 }
 
 void MainWindow::createGroupButtons()
@@ -315,10 +352,12 @@ void MainWindow::createGroupButtons()
     connect(&groupLayers,SIGNAL(groupToggle()),this,SLOT(saveActionMdi()));
 
     groupTools.addAction(ui->actionBrush);
+	groupTools.addAction(ui->actionEraser);
     groupTools.addAction(ui->actionPipette);
     groupTools.addAction(ui->actionPaint_pot);
 	groupTools.addAction(ui->actionRectangle);
 	groupTools.addAction(ui->actionCircle);
+	groupTools.addAction(ui->actionSelection);
     connect(&groupTools,SIGNAL(groupToggle()),this,SLOT(saveActionMdi()));
 }
 
@@ -338,6 +377,7 @@ void MainWindow::updateMenus()
     ui->actionCollision_layer->setEnabled(hasMdiChild);
     ui->actionVisualization->setEnabled(hasMdiChild);
     ui->actionBrush->setEnabled(hasMdiChild);
+	ui->actionEraser->setEnabled(hasMdiChild);
     ui->actionPaint_pot->setEnabled(hasMdiChild);
     ui->actionPipette->setEnabled(hasMdiChild);
     ui->actionShow_Grid->setEnabled(hasMdiChild);
@@ -345,6 +385,8 @@ void MainWindow::updateMenus()
     ui->actionZoom_1_2->setEnabled(hasMdiChild);
 	ui->actionRectangle->setEnabled(hasMdiChild);
 	ui->actionCircle->setEnabled(hasMdiChild);
+	ui->actionSelection->setEnabled(hasMdiChild);
+	ui->actionPlay->setEnabled(hasMdiChild);
 }
 
 void MainWindow::updateChipset()
@@ -392,11 +434,10 @@ void MainWindow::saveActionMdi()
     if (activeMdiChild())
     {
         QList<bool> activeAction;
-        QList<QAction*> actions = this->getActionsCheckable();
-        QList<QAction*>::iterator it;
-        for(it=actions.begin();it!=actions.end();it++)
+		QList<QAction*> actions = this->getActionsCheckable();
+		foreach(QAction * act, actions)
         {
-            activeAction.push_back((*it)->isChecked());
+			activeAction.push_back(act->isChecked());
         }
 
         activeMdiChild()->setListActions(activeAction);

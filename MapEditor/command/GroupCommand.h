@@ -7,11 +7,14 @@ class GroupCommand : public ICommand
 {
 public:
 	GroupCommand();
+	~GroupCommand();
 
 	virtual void execute();
 	virtual void undo();
 
 	void storeCommand(ICommand*);
+
+	int getNbCommand() const;
 
 private:
 	QList<ICommand*> storedCommand;

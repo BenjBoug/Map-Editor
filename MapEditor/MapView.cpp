@@ -5,7 +5,9 @@ MapView::MapView():
 {
     gridStrategy = NULL;
 	displayStrategy = NULL;
+	paintStrategy = NULL;
 	initCursor();
+	modified = false;
 }
 
 MapView::MapView(Model::Map * m) :
@@ -13,67 +15,90 @@ MapView::MapView(Model::Map * m) :
 {
     gridStrategy = NULL;
     displayStrategy = NULL;
+	paintStrategy = NULL;
 	setMap(m);
 	initCursor();
+	modified = false;
 }
 
+/**
+ * @brief Getter of the map
+ * @return the Map object
+ */
+Model::Map *MapView::getMap()
+{
+	return map;
+}
+
+/**
+ * @brief Setter for the map
+ * @param map the map to display
+ */
 void MapView::setMap(Model::Map *map)
 {
     this->map = map;
+
     this->setSceneRect(0,0,map->getSize().width()*BLOCSIZE,map->getSize().height()*BLOCSIZE);
-	this->chipset=map->getChipset();
+	this->chipset = map->getChipset();
 	QBitmap mask = this->chipset.createMaskFromColor(QColor(255, 103, 139));
 	this->chipset.setMask(mask);
-}
 
-void MapView::loadChipset(QString f)
-{
-    if (chipset.load(f))
-    {
-        QBitmap mask = chipset.createMaskFromColor(QColor(255, 103, 139));
-        chipset.setMask(mask);
-    }
-    else
-    {
-        throw std::invalid_argument("chipset "+f.toStdString()+" does not exist.");
-    }
-}
+	connect(this->map,SIGNAL(chipsetChanged(QPixmap)),this,SLOT(chipsetChanged(QPixmap)));
+	connect(this->map,SIGNAL(sizeChanged(QSize)),this,SLOT(mapResized(QSize)));
+	connect(this->map,SIGNAL(mapChanged()),this,SLOT(mapModified()));
+	connect(this->map,SIGNAL(mapChanged()),this,SIGNAL(contensChanged()));
 
+
+	modified = false;
+
+}
 
 void MapView::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    if (this->sceneRect().contains(mouseEvent->scenePos()))
+	if (this->sceneRect().contains(mouseEvent->scenePos()))
         displayStrategy->mousePressEvent(mouseEvent);
 }
 
 void MapView::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    if (this->sceneRect().contains(mouseEvent->scenePos()))
+	if (this->sceneRect().contains(mouseEvent->scenePos()))
         displayStrategy->mouseMoveEvent(mouseEvent);
 }
 
 void MapView::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    if (this->sceneRect().contains(mouseEvent->scenePos()))
+	if (this->sceneRect().contains(mouseEvent->scenePos()))
         displayStrategy->mouseReleaseEvent(mouseEvent);
 }
 
 void MapView::contextMenuEvent(QGraphicsSceneContextMenuEvent *contextMenuEvent)
 {
-    if (this->sceneRect().contains(contextMenuEvent->scenePos()))
-        displayStrategy->contextMenuEvent(contextMenuEvent);
+	if (this->sceneRect().contains(contextMenuEvent->scenePos()))
+		displayStrategy->contextMenuEvent(contextMenuEvent);
 }
-
+/**
+ * @brief Setter of the PaintStrategy
+ * @param stra
+ */
 void MapView::setPaintStrategy(PaintStrategy *stra)
 {
+	if (paintStrategy!=NULL)
+		paintStrategy->restore();
     paintStrategy=stra;
+	paintStrategy->init();
 }
-
+/**
+ * @brief Setter of the LayerStrategy
+ * @param stra
+ */
 void MapView::setDisplayStrategy(LayerStrategy *stra)
 {
     displayStrategy = stra;
 }
-
+/**
+ * @brief Setter of the GridStrategy, if NULL is given, nothing is displyed.
+ * @param stra
+ */
 void MapView::setGridStrategy(IStrategy *stra)
 {
     gridStrategy = stra;
@@ -83,26 +108,27 @@ void MapView::setGridStrategy(IStrategy *stra)
     }
 }
 
-QPixmap MapView::getChipset()
+LayerStrategy *MapView::getCurrentLayerStrategy()
 {
-    return chipset;
+	return displayStrategy;
 }
-
-Model::Map *MapView::getMap()
+/**
+ * @brief Get the number of the current layer
+ * @return
+ */
+int MapView::getCurrentLayer()
 {
-    return map;
-}
-
-LayerStrategy *MapView::getCurrentLayer()
-{
-    return displayStrategy;
+	return displayStrategy->getLayer();
 }
 
 PaintStrategy *MapView::getCurrentPaint()
 {
     return paintStrategy;
 }
-
+/**
+ * @brief Remove all the tile at the specified layer.
+ * @param index
+ */
 void MapView::removeLayer(ZIndex index)
 {
     QList<QGraphicsItem *>::iterator it;
@@ -111,7 +137,33 @@ void MapView::removeLayer(ZIndex index)
     for(it=layer.begin();it!=layer.end();it++)
     {
         this->removeItem(*it);
-    }
+	}
+}
+
+void MapView::removeLayer(int index)
+{
+	this->removeLayer(ZIndex(index));
+}
+/**
+ * @brief Get all the tile at the specified layer
+ * @param list
+ * @param layer
+ * @return a list with all the tile
+ */
+QList<QGraphicsItem *> MapView::getLayer(int zindex)
+{
+	QList<QGraphicsItem *>itemsRes =  this->items();
+	QList<QGraphicsItem *>::iterator it = itemsRes.begin();
+
+	for(;it!=itemsRes.end();)
+	{
+		if ((*it)->zValue() != zindex)
+			it = itemsRes.erase(it);
+		else
+			it++;
+	}
+
+	return itemsRes;
 }
 
 QList<QGraphicsItem *> MapView::getLayer(QList<QGraphicsItem *> list, int layer)
@@ -129,7 +181,14 @@ QList<QGraphicsItem *> MapView::getLayer(QList<QGraphicsItem *> list, int layer)
 
     return res;
 }
-
+/**
+ * @brief MapView::blitTile
+ * @param i
+ * @param j
+ * @param bl
+ * @param layer
+ * @param opacity
+ */
 void MapView::blitTile(int i, int j, int bl, int layer, float opacity)
 {
     QPixmap tile = chipset.copy((bl%(chipset.width()/BLOCSIZE))*BLOCSIZE,(bl/(chipset.width()/BLOCSIZE))*BLOCSIZE,BLOCSIZE,BLOCSIZE);
@@ -155,14 +214,53 @@ void MapView::removeTile(int i, int j, int layer)
     for(it=item.begin();it!=item.end();it++)
     {
         this->removeItem(*it);
-    }
-
-	//map->getBloc(i,j)->setLayer(layer,0);
+	}
 }
 
 void MapView::setCursorPos(int i, int j, int width, int height)
 {
 	cursorRect->setRect(i*BLOCSIZE,j*BLOCSIZE,width*BLOCSIZE,height*BLOCSIZE);
+}
+
+bool MapView::isModified()
+{
+	return modified;
+}
+
+void MapView::setModified(bool modified)
+{
+	this->modified=modified;
+}
+
+QPixmap MapView::getPixmap(QRect rect)
+{
+
+	QSize size = this->getMap()->getSize()*BLOCSIZE;
+	if (rect != QRect())
+	{
+		size = rect.size();
+	}
+	QPixmap collaspe(size);
+	QPainter painter;
+
+	painter.begin(&collaspe);
+	this->render(&painter,QRect(),rect);
+	painter.end();
+
+	return collaspe;
+}
+
+void MapView::setEnableCursor(bool ena)
+{
+	if (ena)
+	{
+		removeLayer(CURSOR);
+		initCursor();
+	}
+	else
+	{
+		removeLayer(CURSOR);
+	}
 }
 
 void MapView::initCursor()
@@ -198,21 +296,24 @@ void MapView::clearMap()
 {
     removeLayer(LOW);
     removeLayer(HIGH);
-    removeLayer(COLLIDE);
+	removeLayer(COLLIDE);
 }
 
-QList<QGraphicsItem *> MapView::getLayer(int zindex)
+void MapView::mapResized(QSize size)
 {
-    QList<QGraphicsItem *>itemsRes =  this->items();
-    QList<QGraphicsItem *>::iterator it = itemsRes.begin();
+	displayBackground();
+	displayMap();
+}
 
-    for(;it!=itemsRes.end();)
-    {
-        if ((*it)->zValue() != zindex)
-            it = itemsRes.erase(it);
-        else
-            it++;
-    }
+void MapView::chipsetChanged(QPixmap pix)
+{
+	this->chipset = pix;
+	QBitmap mask = this->chipset.createMaskFromColor(QColor(255, 103, 139));
+	this->chipset.setMask(mask);
+	this->displayMap();
+}
 
-    return itemsRes;
+void MapView::mapModified()
+{
+	setModified(true);
 }

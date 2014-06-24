@@ -1,35 +1,33 @@
 #include "ChangeDimensionCommand.h"
 
-ChangeDimensionCommand::ChangeDimensionCommand(MapView *mapView, QSize newSize)
+ChangeDimensionCommand::ChangeDimensionCommand(Model::Map * map, QSize newSize)
 {
     this->newSize=newSize;
-    this->mapView=mapView;
+	this->map=map;
 }
 
 void ChangeDimensionCommand::execute()
 {
-    Model::Map *map = mapView->getMap();
+	//save the map
     mapMemento  = *map;
-
-    sizeMemento = mapView->getMap()->getSize();
-    mapView->getMap()->setSize(newSize);
-    mapView->displayBackground();
-    mapView->displayMap();
+	//sav the previous size
+	sizeMemento = map->getSize();
+	//set the size of the map
+	map->setSize(newSize);
 }
 
 void ChangeDimensionCommand::undo()
 {
-    Model::Map *map = mapView->getMap();
+	//set the size with the memento
     map->setSize(sizeMemento);
-    for(int i=0;i<map->getSize().width();i++)
+	//restore the map
+	for(int i=0;i<map->getSize().width();i++)
     {
-        for(int j=0;j<map->getSize().height();j++)
+		for(int j=0;j<map->getSize().height();j++)
         {
             map->getBloc(i,j)->setLowLayer(mapMemento.getBloc(i,j)->getLowLayer());
             map->getBloc(i,j)->setHighLayer(mapMemento.getBloc(i,j)->getHighLayer());
             map->getBloc(i,j)->setCollisionLayer(mapMemento.getBloc(i,j)->getCollisionLayer());
         }
-    }
-    mapView->displayBackground();
-    mapView->displayMap();
+	}
 }

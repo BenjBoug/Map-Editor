@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       -= gui
+QT += gui
 QT += core
 
 TARGET = Zelda_Model

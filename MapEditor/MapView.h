@@ -27,19 +27,19 @@ public:
     explicit MapView();
     explicit MapView(Model::Map *);
 
-    void setMap(Model::Map * map);
-    void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    void contextMenuEvent ( QGraphicsSceneContextMenuEvent * contextMenuEvent );
+	Model::Map* getMap();
+	void setMap(Model::Map * map);
+
     void setPaintStrategy(PaintStrategy * stra);
     void setDisplayStrategy(LayerStrategy * stra);
     void setGridStrategy(IStrategy * stra);
-    QPixmap getChipset();
-    Model::Map* getMap();
-    LayerStrategy* getCurrentLayer();
+
+	LayerStrategy* getCurrentLayerStrategy();
+	int getCurrentLayer();
     PaintStrategy *getCurrentPaint();
+
     void removeLayer(ZIndex index);
+	void removeLayer(int index);
     QList<QGraphicsItem *> getLayer(int zindex);
     QList<QGraphicsItem*> getLayer(QList<QGraphicsItem*> list,int layer);
 
@@ -49,24 +49,41 @@ public:
     void removeTile(int i,int j,int layer);
 
 	void setCursorPos(int i, int j, int width=1, int height=1);
+	void setEnableCursor(bool ena);
 
+	bool isModified();
+	void setModified(bool modified);
+
+	QPixmap getPixmap(QRect rect=QRect());
+
+
+protected:
 	void initCursor();
 
+	void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
+	void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
+	void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
+	void contextMenuEvent ( QGraphicsSceneContextMenuEvent * contextMenuEvent );
+
+signals:
+	void contensChanged();
     
 public slots:
+	void mapModified();
     void displayMap();
     void displayBackground();
-    void clearMap();
-    void loadChipset(QString f);
+	void clearMap();
+
+	void mapResized(QSize size);
+	void chipsetChanged(QPixmap  pix);
 
 private:
-    Model::Map * map;
-    QPixmap chipset;
-
+	bool modified;
+	Model::Map * map;
+	QPixmap chipset;
     PaintStrategy * paintStrategy;
     LayerStrategy * displayStrategy;
     IStrategy * gridStrategy;
-
     QGraphicsRectItem * cursorRect;
 };
 

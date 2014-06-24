@@ -4,6 +4,12 @@ GroupCommand::GroupCommand()
 {
 }
 
+GroupCommand::~GroupCommand()
+{
+	foreach(ICommand * cmd, storedCommand)
+		delete cmd;
+}
+
 void GroupCommand::execute()
 {
 	foreach(ICommand* cmd, storedCommand)
@@ -23,4 +29,9 @@ void GroupCommand::undo()
 void GroupCommand::storeCommand(ICommand * cmd)
 {
 	storedCommand.append(cmd);
+}
+
+int GroupCommand::getNbCommand() const
+{
+	return storedCommand.size();
 }

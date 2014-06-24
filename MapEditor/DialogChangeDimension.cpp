@@ -1,16 +1,16 @@
 #include "DialogChangeDimension.h"
 #include "ui_DialogChangeDimension.h"
 
-DialogChangeDimension::DialogChangeDimension(MapView * mapView,QWidget *parent) :
+DialogChangeDimension::DialogChangeDimension(Model::Map * map,QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DialogChangeDimension)
 {
-    this->mapView=mapView;
+	this->map=map;
     ui->setupUi(this);
-    ui->widthEdit->setMinimum(NB_BLOCS_LARGEUR);
-    ui->heightEdit->setMinimum(NB_BLOCS_HAUTEUR);
-    ui->widthEdit->setValue(mapView->getMap()->getSize().width());
-    ui->heightEdit->setValue(mapView->getMap()->getSize().height());
+	ui->widthEdit->setMinimum(1);
+	ui->heightEdit->setMinimum(1);
+	ui->widthEdit->setValue(map->getSize().width());
+	ui->heightEdit->setValue(map->getSize().height());
 }
 
 DialogChangeDimension::~DialogChangeDimension()
@@ -20,7 +20,6 @@ DialogChangeDimension::~DialogChangeDimension()
 
 void DialogChangeDimension::accept()
 {
-    QSize newSize(ui->widthEdit->value(),ui->heightEdit->value());
-	EXECUTE_CMD(new ChangeDimensionCommand(mapView,newSize));
+	EXECUTE_CMD(new ChangeDimensionCommand(map,QSize(ui->widthEdit->value(),ui->heightEdit->value())));
     QDialog::accept();
 }

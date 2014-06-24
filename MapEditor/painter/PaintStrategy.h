@@ -12,6 +12,8 @@ class PaintStrategy : public IMouseMove
 public:
     PaintStrategy(MapView * mapView,ChipsetView * chipsetView);
 
+	virtual void init();
+	virtual void restore();
 
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent);
 

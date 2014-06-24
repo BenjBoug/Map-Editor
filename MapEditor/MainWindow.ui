@@ -71,8 +71,11 @@
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
     <addaction name="menuRecent_files"/>
+    <addaction name="separator"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
+    <addaction name="actionSave_all"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
@@ -82,16 +85,20 @@
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
     <addaction name="separator"/>
-    <addaction name="actionLawer_layer"/>
-    <addaction name="actionHigh_layer"/>
-    <addaction name="actionCollision_layer"/>
-    <addaction name="separator"/>
-    <addaction name="actionVisualization"/>
+    <addaction name="actionCut"/>
+    <addaction name="actionCopy"/>
+    <addaction name="actionPaste"/>
+    <addaction name="actionDelete"/>
    </widget>
    <widget class="QMenu" name="menuDisplay">
     <property name="title">
      <string>Display</string>
     </property>
+    <addaction name="actionLawer_layer"/>
+    <addaction name="actionHigh_layer"/>
+    <addaction name="actionCollision_layer"/>
+    <addaction name="actionVisualization"/>
+    <addaction name="separator"/>
     <addaction name="actionZoom_1_1"/>
     <addaction name="actionZoom_1_2"/>
     <addaction name="separator"/>
@@ -102,15 +109,12 @@
      <string>Tools</string>
     </property>
     <addaction name="actionBrush"/>
+    <addaction name="actionEraser"/>
     <addaction name="actionPaint_pot"/>
     <addaction name="actionPipette"/>
     <addaction name="actionRectangle"/>
     <addaction name="actionCircle"/>
-   </widget>
-   <widget class="QMenu" name="menuEvents">
-    <property name="title">
-     <string>Events</string>
-    </property>
+    <addaction name="actionSelection"/>
    </widget>
    <widget class="QMenu" name="menuMap">
     <property name="title">
@@ -120,6 +124,7 @@
     <addaction name="actionChange_chipset"/>
     <addaction name="actionClear_map"/>
     <addaction name="actionBackground"/>
+    <addaction name="actionBloc_size"/>
    </widget>
    <widget class="QMenu" name="menu">
     <property name="title">
@@ -146,7 +151,6 @@
    <addaction name="menuDisplay"/>
    <addaction name="menuTools"/>
    <addaction name="menuWindow"/>
-   <addaction name="menuEvents"/>
    <addaction name="menuMap"/>
    <addaction name="menu"/>
   </widget>
@@ -160,11 +164,14 @@
    <addaction name="actionNew"/>
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
-   <addaction name="actionSave_as"/>
-   <addaction name="actionExit"/>
    <addaction name="separator"/>
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
+   <addaction name="separator"/>
+   <addaction name="actionCut"/>
+   <addaction name="actionCopy"/>
+   <addaction name="actionPaste"/>
+   <addaction name="actionDelete"/>
    <addaction name="separator"/>
    <addaction name="actionLawer_layer"/>
    <addaction name="actionHigh_layer"/>
@@ -177,10 +184,14 @@
    <addaction name="actionZoom_1_2"/>
    <addaction name="separator"/>
    <addaction name="actionBrush"/>
+   <addaction name="actionEraser"/>
    <addaction name="actionPaint_pot"/>
    <addaction name="actionPipette"/>
    <addaction name="actionRectangle"/>
    <addaction name="actionCircle"/>
+   <addaction name="actionSelection"/>
+   <addaction name="separator"/>
+   <addaction name="actionPlay"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="dockWidget">
@@ -248,10 +259,6 @@
    </property>
   </action>
   <action name="actionSave_as">
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/Resources/Images/Icons/que-sauf-icone-5284-48.png</normaloff>:/Resources/Images/Icons/que-sauf-icone-5284-48.png</iconset>
-   </property>
    <property name="text">
     <string>Save as ...</string>
    </property>
@@ -522,6 +529,101 @@
    </property>
    <property name="text">
     <string>Circle</string>
+   </property>
+  </action>
+  <action name="actionSave_all">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Resources/Images/Icons/que-sauf-icone-5284-48.png</normaloff>:/Resources/Images/Icons/que-sauf-icone-5284-48.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save all</string>
+   </property>
+  </action>
+  <action name="actionSelection">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Resources/Images/Icons/1403154978_Selection.png</normaloff>:/Resources/Images/Icons/1403154978_Selection.png</iconset>
+   </property>
+   <property name="text">
+    <string>Selection</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/cut</normaloff>:/cut</iconset>
+   </property>
+   <property name="text">
+    <string>Cut</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/copy</normaloff>:/copy</iconset>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/paste</normaloff>:/paste</iconset>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+  </action>
+  <action name="actionDelete">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Resources/Images/Icons/1403580031_f-cross_256.png</normaloff>:/Resources/Images/Icons/1403580031_f-cross_256.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+  </action>
+  <action name="actionBloc_size">
+   <property name="text">
+    <string>Bloc size</string>
+   </property>
+  </action>
+  <action name="actionEraser">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Resources/Images/Icons/1403580326_draft.png</normaloff>:/Resources/Images/Icons/1403580326_draft.png</iconset>
+   </property>
+   <property name="text">
+    <string>Eraser</string>
+   </property>
+  </action>
+  <action name="actionPlay">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/Resources/Images/Icons/1403621461_play_green_controls.png</normaloff>:/Resources/Images/Icons/1403621461_play_green_controls.png</iconset>
+   </property>
+   <property name="text">
+    <string>play</string>
    </property>
   </action>
  </widget>
@@ -994,6 +1096,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionRectangle</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>rectangleTool()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>288</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionCircle</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>circleTool()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>288</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSelection</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>selectionTool()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>491</x>
+     <y>288</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>clearMap()</slot>
@@ -1021,5 +1171,11 @@
   <slot>updateActionMdi()</slot>
   <slot>changeDimension()</slot>
   <slot>changeBackground()</slot>
+  <slot>rectangleTool()</slot>
+  <slot>circleTool()</slot>
+  <slot>selectionTool()</slot>
+  <slot>cut()</slot>
+  <slot>copy()</slot>
+  <slot>paste()</slot>
  </slots>
 </ui>

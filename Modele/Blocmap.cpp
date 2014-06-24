@@ -10,7 +10,7 @@ BlocMap::BlocMap()
     collisionLayer=0;
 }
 
-BlocMap::BlocMap(const BlocMap & b)
+BlocMap::BlocMap(const BlocMap & b) : QObject()
 {
     lowLayer=b.getLowLayer();
     highLayer=b.getHighLayer();

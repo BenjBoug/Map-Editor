@@ -23,18 +23,3 @@ int DisplayHigherLayerStrategy::getLayer()
 {
     return HIGH;
 }
-
-void DisplayHigherLayerStrategy::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-    mapView->getCurrentPaint()->mousePressEvent(mouseEvent);
-}
-
-void DisplayHigherLayerStrategy::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-    mapView->getCurrentPaint()->mouseMoveEvent(mouseEvent);
-}
-
-void DisplayHigherLayerStrategy::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
-{
-    mapView->getCurrentPaint()->mouseReleaseEvent(mouseEvent);
-}

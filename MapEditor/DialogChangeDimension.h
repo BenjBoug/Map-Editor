@@ -5,7 +5,7 @@
 
 #include "UndoSingleton.h"
 #include "command/ChangeDimensionCommand.h"
-#include "MapView.h"
+#include "Map.h"
 #include "Constantes.h"
 
 namespace Ui {
@@ -17,7 +17,7 @@ class DialogChangeDimension : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogChangeDimension(MapView * mapView,QWidget *parent = 0);
+	explicit DialogChangeDimension(Model::Map * map,QWidget *parent = 0);
     ~DialogChangeDimension();
 
 public slots:
@@ -26,7 +26,7 @@ public slots:
 private:
     Ui::DialogChangeDimension *ui;
 
-    MapView * mapView;
+	Model::Map * map;
 };
 
 #endif // DIALOGCHANGEDIMENSION_H

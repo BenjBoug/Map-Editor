@@ -7,14 +7,21 @@
 #include "painter/BrushStrategy.h"
 #include "painter/PaintPotStratgey.h"
 #include "painter/PipetteStrategy.h"
+#include "painter/RectangleStrategy.h"
+#include "painter/CircleStrategy.h"
+#include "painter/SelectionStrategy.h"
 #include "layer/DisplayLowerLayerStrategy.h"
 #include "layer/DisplayHigherLayerStrategy.h"
 #include "layer/DisplayVisuaLayerStrategy.h"
 #include "layer/DisplayCollisionLayerStrategy.h"
 #include "layer/GridLayerStratgey.h"
+#include "ClipBoardSingleton.h"
 #include "command/ChangeChipsetCommand.h"
 #include "command/ClearMapCommand.h"
+#include "command/CutCommand.h"
+#include "command/PasteCommand.h"
 #include "DialogChangeDimension.h"
+#include "DialogNewMap.h"
 #include <QMessageBox>
 #include <QFileInfo>
 #include <QFileDialog>
@@ -29,6 +36,8 @@ class MdiChild : public QGraphicsView
 public:
 	explicit MdiChild(QWidget *parent = 0);
 
+	void closeEvent(QCloseEvent *event);
+	bool maybeSave();
     QString currentFile() { return curFile; }
     QString userFriendlyCurrentFile();
 
@@ -49,7 +58,7 @@ public:
 signals:
 
 public slots:
-    void newMap();
+	bool newMap();
     bool openMap(QString fileName);
     void lowerLayer();
     void higherLayer();
@@ -63,12 +72,18 @@ public slots:
     void pipetteTool();
 	void rectangleTool();
 	void circleTool();
+	void selectionTool();
+
+	void copy();
+	void cut();
+	void paste();
+
     bool save();
     bool saveAs();
-    void gridLayer(bool enable);
-    void updateChipset();
-    void updateChipset(QString file);
+	void gridLayer(bool enable);
 	void changeBackground();
+
+	void mapWasModified();
 
 private:
     void initTool();
@@ -91,6 +106,9 @@ private:
     BrushStrategy * brushStrategy;
     PaintPotStrategy * paintPotStrategy;
     PipetteStrategy * pipetteStrategy;
+	RectangleStrategy * rectangleStrategy;
+	CircleStrategy * circleStrategy;
+	SelectionStrategy * selectionStrategy;
 
     QList<bool> listActions;
 };

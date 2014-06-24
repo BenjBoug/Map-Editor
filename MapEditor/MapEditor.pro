@@ -42,7 +42,13 @@ SOURCES += main.cpp\
 	command/ChangeChipsetCommand.cpp \
 	command/BlitCommand.cpp \
 	command/EraseCommand.cpp \
-	command/GroupCommand.cpp
+	command/GroupCommand.cpp \
+    painter/CircleStrategy.cpp \
+    painter/SelectionStrategy.cpp \
+    ClipBoardSingleton.cpp \
+    command/CutCommand.cpp \
+    command/PasteCommand.cpp \
+    DialogNewMap.cpp
 
 HEADERS  += MainWindow.h \
     ChipsetView.h \
@@ -76,10 +82,17 @@ HEADERS  += MainWindow.h \
 	command/ClearMapCommand.h \
 	command/ChangeDimensionCommand.h \
 	command/ChangeChipsetCommand.h \
-	command/GroupCommand.h
+	command/GroupCommand.h \
+    painter/CircleStrategy.h \
+    painter/SelectionStrategy.h \
+    ClipBoardSingleton.h \
+    command/CutCommand.h \
+    command/PasteCommand.h \
+    DialogNewMap.h
 
 FORMS    += MainWindow.ui \
-    DialogChangeDimension.ui
+    DialogChangeDimension.ui \
+    DialogNewMap.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../Modele/release/ -lZelda_Model
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../Modele/debug/ -lZelda_Model

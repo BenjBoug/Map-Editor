@@ -9,32 +9,29 @@ UndoSingleton * UndoSingleton::instance = NULL;
 void UndoSingleton::execute(ICommand * cmd)
 {
     cmd->execute();
-	if (!inGroup)
+	if (groupsCmd.isEmpty())
 	{
 		cmdExecuted(cmd);
 	}
 	else
 	{
-		groupCmd->storeCommand(cmd);
+		groupsCmd.top()->storeCommand(cmd);
 	}
 }
 
 void UndoSingleton::beginGroup()
 {
-	if (!inGroup)
-	{
-		groupCmd=new GroupCommand();
-		inGroup=true;
-	}
+	groupsCmd.push(new GroupCommand());
 }
 
 void UndoSingleton::endGroup()
 {
-	if (groupCmd!=NULL && inGroup)
+	if (!groupsCmd.isEmpty())
 	{
-		cmdExecuted(groupCmd);
-		groupCmd=NULL;
-		inGroup=false;
+		if (groupsCmd.top()->getNbCommand())
+			cmdExecuted(groupsCmd.pop());
+		else
+			delete groupsCmd.pop();
 	}
 }
 
@@ -80,6 +77,4 @@ void UndoSingleton::cmdCanceled(ICommand *cmd)
 
 UndoSingleton::UndoSingleton()
 {
-	groupCmd=NULL;
-	inGroup = false;
 }

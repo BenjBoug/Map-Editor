@@ -14,11 +14,9 @@ public:
     virtual void display();
     virtual int getLayer();
 
-    virtual void leftButtonPressEvent(int i, int j);
-    virtual void rightButtonPressEvent(int i, int j);
+	virtual void leftButtonPressEvent(int i, int j);
 
-    virtual void leftButtonMoveEvent(int i, int j);
-    virtual void rightButtonMoveEvent(int i, int j);
+	virtual void leftButtonMoveEvent(int i, int j);
 
 
 private:

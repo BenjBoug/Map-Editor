@@ -91,11 +91,6 @@ void ChipsetView::selectTile(int t)
 	setSelectedTile();
 }
 
-void ChipsetView::setChipset(QPixmap chipset)
-{
-	this->chipset=chipset;
-}
-
 void ChipsetView::init()
 {
 	QGraphicsPixmapItem * chipsetItem = this->addPixmap(chipset);
@@ -118,6 +113,15 @@ void ChipsetView::loadChipset(QString chip)
 {
 	chipset.load(chip);
 }
+
+
+void ChipsetView::setChipset(QPixmap chipset)
+{
+	this->chipset = chipset;
+	this->clear();
+	init();
+}
+
 
 void ChipsetView::setSelectedTile()
 {

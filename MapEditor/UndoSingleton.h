@@ -48,8 +48,7 @@ private:
     QStack<ICommand*> stackUndoCommand;
     QStack<ICommand*> stackRedoCommand;
 	static UndoSingleton * instance;
-	GroupCommand * groupCmd;
-	bool inGroup;
+	QStack<GroupCommand *> groupsCmd;
 };
 
 

@@ -2,72 +2,53 @@
 
 IMouseMove::IMouseMove()
 {
-    inSelectLeft=false;
-    inSelectRight=false;
+	inSelect=false;
 }
 
 void IMouseMove::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-	UndoSingleton::getInstance()->beginGroup();
     if (mouseEvent->button()==Qt::LeftButton)
     {
-        inSelectLeft=true;
+		UndoSingleton::getInstance()->beginGroup();
+		inSelect=true;
         leftButtonPressEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
-    }
-
-    if (mouseEvent->button()==Qt::RightButton)
-    {
-        inSelectRight=true;
-        rightButtonPressEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
-    }
+		current = QPoint(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
+	}
 }
-void IMouseMove::leftButtonPressEvent(int i, int j)
+void IMouseMove::leftButtonPressEvent(int,int)
 {
 
 }
 
-void IMouseMove::rightButtonPressEvent(int i, int j)
-{
-
-}
 
 void IMouseMove::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
-    if (inSelectLeft)
-        leftButtonMoveEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
-    if (inSelectRight)
-        rightButtonMoveEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
+	QPoint tmp = QPoint(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
+	if (tmp!=current)
+	{
+		if (inSelect)
+		{
+			leftButtonMoveEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
+			current = QPoint(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
+		}
+	}
 }
-void IMouseMove::leftButtonMoveEvent(int i, int j)
+void IMouseMove::leftButtonMoveEvent(int,int)
 {
 
 }
 
-void IMouseMove::rightButtonMoveEvent(int i, int j)
-{
-
-}
 
 void IMouseMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     if (mouseEvent->button()==Qt::LeftButton)
     {
-        inSelectLeft=false;
+		inSelect=false;
         leftButtonReleaseEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
-    }
-    if (mouseEvent->button()==Qt::RightButton)
-    {
-        inSelectRight=false;
-        rightButtonReleaseEvent(mouseEvent->scenePos().x()/BLOCSIZE,mouseEvent->scenePos().y()/BLOCSIZE);
+		UndoSingleton::getInstance()->endGroup();
 	}
-	UndoSingleton::getInstance()->endGroup();
 }
-void IMouseMove::leftButtonReleaseEvent(int i, int j)
-{
-
-}
-
-void IMouseMove::rightButtonReleaseEvent(int i, int j)
+void IMouseMove::leftButtonReleaseEvent(int,int)
 {
 
 }

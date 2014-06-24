@@ -1,20 +1,20 @@
 #include "EraseCommand.h"
 
-EraseCommand::EraseCommand(MapView *mapView, int i, int j)
+EraseCommand::EraseCommand(Model::Map *map, int i, int j, int layer)
 {
-    this->mapView = mapView;
+	this->map = map;
     this->i=i;
     this->j=j;
-    layerMemento = mapView->getCurrentLayer()->getLayer();
+	this->layer = layer;
 }
 
 void EraseCommand::execute()
 {
-    blocMemento=mapView->getMap()->getBloc(i,j)->getAtLayer(layerMemento);
-    mapView->getMap()->getBloc(i,j)->setLayer(layerMemento,0);
+	blocMemento=map->getBloc(i,j)->getAtLayer(layer);
+	map->getBloc(i,j)->setLayer(layer,0);
 }
 
 void EraseCommand::undo()
 {
-    mapView->getMap()->getBloc(i,j)->setLayer(layerMemento,blocMemento);
+	map->getBloc(i,j)->setLayer(layer,blocMemento);
 }

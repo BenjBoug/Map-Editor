@@ -10,10 +10,7 @@ public:
     DisplayLowerLayerStrategy(MapView * mapView);
 
     virtual void display();
-    virtual int getLayer();
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * mouseEvent);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * mouseEvent);
+	virtual int getLayer();
 
 private:
 };

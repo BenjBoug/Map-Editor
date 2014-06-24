@@ -2,18 +2,18 @@
 #define CHANGEDIMENSIONCOMMAND_H
 
 #include "ICommand.h"
-#include "MapView.h"
+#include "Map.h"
 
 class ChangeDimensionCommand : public ICommand
 {
 public:
-    ChangeDimensionCommand(MapView * mapView, QSize newSize);
+	ChangeDimensionCommand(Model::Map * map, QSize newSize);
 
     virtual void execute();
     virtual void undo();
 
 private:
-    MapView * mapView;
+	Model::Map * map;
     Model::Map mapMemento;
     QSize newSize;
     QSize sizeMemento;

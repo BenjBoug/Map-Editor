@@ -3,34 +3,84 @@
 MdiChild::MdiChild(QWidget *parent) :
     QGraphicsView(parent)
 {
-	this->chipsetView=new ChipsetView();
     this->setMouseTracking(true);
     this->setBackgroundBrush(Qt::lightGray);
+
 	isUntitled = true;
-	mapView = new MapView();
+
+	this->chipsetView=new ChipsetView();
+	this->mapView = new MapView();
+	this->map = new Map();
+
+	connect(this->map,SIGNAL(chipsetChanged(QPixmap)),this->chipsetView,SLOT(setChipset(QPixmap)));
+
+	connect(this->mapView,SIGNAL(contensChanged()),this,SLOT(mapWasModified()));
+
 	this->setScene(mapView);
+
 	initTool();
-	map = new Map();
 }
 
-void MdiChild::newMap()
+void MdiChild::closeEvent(QCloseEvent *event)
 {
-	initTool();
-	try
+	if (maybeSave()) {
+		event->accept();
+	} else {
+		event->ignore();
+	}
+}
+bool MdiChild::maybeSave()
+{
+ if (mapView->isModified()) {
+	 QMessageBox::StandardButton ret;
+	 ret = QMessageBox::warning(this, tr("MDI"),
+				  tr("'%1' has been modified.\n"
+					 "Do you want to save your changes?")
+				  .arg(userFriendlyCurrentFile()),
+				  QMessageBox::Save | QMessageBox::Discard
+				  | QMessageBox::Cancel);
+	 if (ret == QMessageBox::Save)
+		 return save();
+	 else if (ret == QMessageBox::Cancel)
+		 return false;
+ }
+ return true;
+}
+void MdiChild::setCurrentFile(const QString &fileName)
+{
+	curFile = QFileInfo(fileName).canonicalFilePath();
+	isUntitled = false;
+	mapView->setModified(false);
+	setWindowModified(false);
+	setWindowTitle(userFriendlyCurrentFile() + "[*]");
+}
+bool MdiChild::newMap()
+{
+	DialogNewMap *fen = new DialogNewMap(map,this);
+	if (fen->exec() == QDialog::Accepted)
 	{
+		//set the mapView with the new map
 		mapView->setMap(map);
-	}
-	catch (std::exception & )
-	{
 
-	}
+		//set the chipsetView with the chipset of the new map
+		chipsetView->setChipset(map->getChipset());
 
-    this->setWindowTitle(map->getName());
-    isUntitled = true;
+		//display the map
+		mapView->displayBackground();
+		mapView->displayMap();
+
+		this->setWindowTitle(map->getName());
+		isUntitled = true;
+
+		return true;
+	}
+	else
+		return false;
 }
 
 bool MdiChild::openMap(QString fileName)
 {
+	//load the map from the file
     if (!map->load(fileName))
     {
         QMessageBox::warning(this, tr("K2X"),
@@ -39,25 +89,15 @@ bool MdiChild::openMap(QString fileName)
         return false;
 	}
 
-    try
-    {
-        mapView->setMap(map);
-    }
-    catch(std::exception & e)
-    {
-        QString chipsetFile = QFileDialog::getOpenFileName(this, "Load a chipset", QString(), "Chipset (*.bmp)");
-        if (chipsetFile!="")
-        {
-			map->loadChipset(chipsetFile);
-            mapView->setMap(map);
-        }
-        else
-            return false;
-    }
+	//init the mapView with the map
+	mapView->setMap(map);
+
+	chipsetView->setChipset(map->getChipset());
+	//display the map
 	mapView->displayBackground();
     mapView->displayMap();
 
-	this->chipsetView->setChipset(map->getChipset());
+
     this->setWindowTitle(map->getName());
 
     setCurrentFile(fileName);
@@ -96,18 +136,22 @@ void MdiChild::visuaLayer()
 
 void MdiChild::changeDimension()
 {
-    DialogChangeDimension * fen = new DialogChangeDimension(mapView,this);
+	DialogChangeDimension * fen = new DialogChangeDimension(map,this);
     fen->show();
 }
 
 void MdiChild::changeChipset()
 {
-    updateChipset(QFileDialog::getOpenFileName(this, "Load a chipset", QString(), "Chipset (*.bmp)"));
+	QString file = QFileDialog::getOpenFileName(this, "Load a chipset", QString(), "Chipset (*.bmp)");
+	if (file != "")
+	{
+		EXECUTE_CMD(new ChangeChipsetCommand(map,file));
+	}
 }
 
 void MdiChild::clearMap()
 {
-	EXECUTE_CMD(new ClearMapCommand(mapView));
+	EXECUTE_CMD(new ClearMapCommand(map));
 }
 
 void MdiChild::brushTool()
@@ -127,10 +171,35 @@ void MdiChild::pipetteTool()
 
 void MdiChild::rectangleTool()
 {
+	mapView->setPaintStrategy(rectangleStrategy);
 }
 
 void MdiChild::circleTool()
 {
+	mapView->setPaintStrategy(circleStrategy);
+}
+
+void MdiChild::selectionTool()
+{
+	mapView->setPaintStrategy(selectionStrategy);
+}
+
+void MdiChild::copy()
+{
+
+}
+
+void MdiChild::cut()
+{
+	if (mapView->getCurrentPaint()==selectionStrategy)
+	{
+
+	}
+}
+
+void MdiChild::paste()
+{
+
 }
 
 void MdiChild::gridLayer(bool enable)
@@ -146,22 +215,15 @@ void MdiChild::gridLayer(bool enable)
     mapView->displayMap();
 }
 
-void MdiChild::updateChipset()
-{
-	chipsetView->setChipset(map->getChipset());
-}
-
-void MdiChild::updateChipset(QString file)
-{
-    if (file != "")
-    {
-		EXECUTE_CMD(new ChangeChipsetCommand(mapView,chipsetView,file));
-	}
-}
 
 void MdiChild::changeBackground()
 {
 
+}
+
+void MdiChild::mapWasModified()
+{
+	setWindowModified(mapView->isModified());
 }
 
 bool MdiChild::save()
@@ -220,19 +282,30 @@ void MdiChild::initTool()
     brushStrategy = new BrushStrategy(mapView,chipsetView);
     paintPotStrategy = new PaintPotStrategy(mapView,chipsetView);
     pipetteStrategy = new PipetteStrategy(mapView,chipsetView);
+	rectangleStrategy = new RectangleStrategy(mapView,chipsetView);
+	circleStrategy = new CircleStrategy(mapView,chipsetView);
+	selectionStrategy = new SelectionStrategy(mapView,chipsetView);
+
+	lowLayerStrategy->addAllowedTool(brushStrategy);
+	lowLayerStrategy->addAllowedTool(paintPotStrategy);
+	lowLayerStrategy->addAllowedTool(pipetteStrategy);
+	lowLayerStrategy->addAllowedTool(rectangleStrategy);
+	lowLayerStrategy->addAllowedTool(circleStrategy);
+	lowLayerStrategy->addAllowedTool(selectionStrategy);
+
+	highLayerStrategy->addAllowedTool(brushStrategy);
+	highLayerStrategy->addAllowedTool(paintPotStrategy);
+	highLayerStrategy->addAllowedTool(pipetteStrategy);
+	highLayerStrategy->addAllowedTool(rectangleStrategy);
+	highLayerStrategy->addAllowedTool(circleStrategy);
+	highLayerStrategy->addAllowedTool(selectionStrategy);
+
+	collideLayerStrategy->addAllowedTool(brushStrategy);
 
 
 	mapView->setDisplayStrategy(lowLayerStrategy);
 	mapView->setPaintStrategy(brushStrategy);
 
-}
-
-void MdiChild::setCurrentFile(const QString &fileName)
-{
-    curFile = QFileInfo(fileName).canonicalFilePath();
-    isUntitled = false;
-    setWindowModified(false);
-    setWindowTitle(strippedName(curFile) + "[*]");
 }
 
 QString MdiChild::strippedName(const QString &fullFileName)

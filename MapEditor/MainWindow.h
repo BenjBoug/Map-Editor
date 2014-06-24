@@ -10,6 +10,7 @@
 #include "UndoSingleton.h"
 #include "MdiChild.h"
 #include <QMdiSubWindow>
+#include <QFileInfo>
 #include <QSettings>
 
 namespace Ui {
@@ -54,6 +55,11 @@ private slots:
     void pipetteTool();
 	void rectangleTool();
 	void circleTool();
+	void selectionTool();
+
+	void copy();
+	void cut();
+	void paste();
 
     void save();
     void saveAs();

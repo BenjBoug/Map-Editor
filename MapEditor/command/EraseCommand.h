@@ -2,19 +2,19 @@
 #define ERASECOMMAND_H
 
 #include "ICommand.h"
-#include "MapView.h"
+#include "Map.h"
 
 class EraseCommand : public ICommand
 {
 public:
-    EraseCommand(MapView * mapView, int i, int j);
+	EraseCommand(Model::Map *map, int i, int j, int layer);
     virtual void execute();
     virtual void undo();
 
 private:
-    MapView * mapView;
+	Model::Map *map;
     int i,j;
-    int blocMemento, layerMemento;
+	int blocMemento, layer;
 };
 
 #endif // ERASECOMMAND_H

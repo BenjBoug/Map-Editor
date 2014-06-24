@@ -31,16 +31,13 @@ public:
 
     void selectTile(int t);
 
-	void setChipset(QPixmap chipset);
 
 protected:
     void init();
     
-signals:
-    void newSelection(QVector<QVector<int> >);
-    
 public slots:
-    void loadChipset(QString chip);
+	void loadChipset(QString chip);
+	void setChipset(QPixmap chipset);
 
 private:
 

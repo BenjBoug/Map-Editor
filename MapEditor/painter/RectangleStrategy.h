@@ -2,6 +2,11 @@
 #define RECTANGLESTRATEGY_H
 
 #include "PaintStrategy.h"
+#include "MapView.h"
+#include "ChipsetView.h"
+#include "QPoint"
+#include "command/EraseCommand.h"
+#include "command/BlitCommand.h"
 
 class RectangleStrategy : public PaintStrategy
 {
@@ -19,7 +24,9 @@ protected:
 	virtual void rightButtonReleaseEvent(int i,int j);
 
 private:
-	QRect rect;
+	void blit(int i, int j, int bloc);
+	QPoint deb,fin;
+	int layer;
 };
 
 #endif // RECTANGLESTRATEGY_H

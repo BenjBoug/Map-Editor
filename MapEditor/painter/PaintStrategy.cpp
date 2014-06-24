@@ -8,6 +8,14 @@ PaintStrategy::PaintStrategy(MapView *mapView, ChipsetView *chipsetView)
 	this->chipsetView=chipsetView;
 }
 
+void PaintStrategy::init()
+{
+}
+
+void PaintStrategy::restore()
+{
+}
+
 void PaintStrategy::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
 	QVector<QVector<int> > selectedTile = chipsetView->getSelectedTile();

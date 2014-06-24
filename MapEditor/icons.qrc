@@ -24,5 +24,12 @@
         <file>Resources/Images/Icons/telecharger-icone-9832-48.png</file>
         <file>Resources/Images/Icons/zoom-icone-8273-48.png</file>
         <file>Resources/Images/Icons/1402957665_circle_backup_time_history_recent_time-machine.png</file>
+        <file alias="paste">Resources/Images/Icons/1403155223_Paste.png</file>
+        <file alias="cut">Resources/Images/Icons/1403155228_edit-cut.png</file>
+        <file alias="copy">Resources/Images/Icons/1403155230_edit-copy.png</file>
+        <file>Resources/Images/Icons/1403154978_Selection.png</file>
+        <file>Resources/Images/Icons/1403580031_f-cross_256.png</file>
+        <file>Resources/Images/Icons/1403580326_draft.png</file>
+        <file>Resources/Images/Icons/1403621461_play_green_controls.png</file>
     </qresource>
 </RCC>

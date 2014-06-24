@@ -10,10 +10,11 @@ class Ennemi : public IEvent, public IDisplayable
 {
 public:
     Ennemi();
+	virtual ~Ennemi();
 
     virtual void onKeySpace(IGame*);
     virtual void onKeyX(IGame*);
-    virtual void onEvent(IGame* h);
+	virtual void onEvent(IGame*);
     virtual void manage(const IGame *game);
     virtual void display(IGui* gui,ICamera* cam);
 

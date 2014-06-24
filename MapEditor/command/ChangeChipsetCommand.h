@@ -10,13 +10,13 @@
 class ChangeChipsetCommand : public ICommand
 {
 public:
-	ChangeChipsetCommand(Model::Map map, QString file);
+	ChangeChipsetCommand(Model::Map* map, QString file);
 
     virtual void execute();
     virtual void undo();
 
 private:
-	Model::Map map;
+	Model::Map* map;
 	QPixmap chipset;
 	QPixmap chipsetMemento;
 };
